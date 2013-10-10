@@ -3,6 +3,6 @@
 
 int main(void)
 {
-
+    Server myserver;
     return 0;
 }

@@ -1,9 +1,10 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <QTcpSocket>
 #include "channel.h"
 
-class Client
+class Client : public  QTcpSocket
 {
 public:
     Client();
