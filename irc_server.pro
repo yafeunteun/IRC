@@ -4,6 +4,8 @@ SOURCES += \
     client.cpp \
     channel.cpp
 
+QT += network
+
 HEADERS += \
     server.h \
     client.h \
