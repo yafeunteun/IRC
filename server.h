@@ -22,10 +22,12 @@ class Server : public QTcpServer
 {
 private:
     fd_set m_fdset;
-    std::list<Client> m_listClients;
+    std::list<Client*> m_listClients;
     struct timeval m_tv;
     unsigned int m_time;
     unsigned int m_fdsMax;
+    std::string MOTD;
+
 public:
 /*!
 *  \brief Constructor
