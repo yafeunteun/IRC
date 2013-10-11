@@ -9,7 +9,7 @@ Server::Server(qint16 port, int numConnections, const QHostAddress & address) : 
 
     if (!(this->listen(address, port)))
     {
-        bdPlatformLog::bdLogMessage(_ERROR, "err/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Cannot start server on port %u.", port);
+        bdPlatformLog::bdLogMessage(_ERROR, "err/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s: %d", this->errorString(), this->serverError());
     }
 
     this->setMaxPendingConnections(numConnections);

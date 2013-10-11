@@ -1,31 +1,9 @@
-//========================================================
-//
-// File: bdPlatformLog.cpp
-// Initial Author: Molle Victorien
-// Date: 30 Sept 2013
-//
-// Component: Call of Duty World at War - Dedicated server
-// Sub-component: DemonWare SDK
-//
-// Purpose: A (nice) logging class
-//
-//========================================================
-
 #include "bdPlatformLog.h"
 
-///Constructor
 bdPlatformLog::bdPlatformLog()
 {
 }
 
-///Publish a message
-///Params:
-///LogLevel logLevel: the log level (NONE, WARNING, ERROR)
-///const char *channel: unknown
-///const char *pathtofile: the path to the file where the function was called
-///const char *method: the method/function which called this method
-///int line: the line of the file where the function was called
-///const char *message: the message to log
 void bdPlatformLog::publish( _LogLevel logLevel, const char *channel, const char *pathtofile, const char *method, int line, const char *message )
 {
 	char buffer[0x800];
@@ -62,14 +40,6 @@ void bdPlatformLog::publish( _LogLevel logLevel, const char *channel, const char
 	}
 }
 
-///Log a message
-///Params:
-///LogLevel logLevel: the log level (NONE, WARNING, ERROR)
-///const char *channel: unknown
-///const char *pathtofile: the path to the file where the function was called
-///const char *method: the method/function which called this method
-///int line: the line of the file where the function was called
-///...: the others parameters, always starting with the format of the output message
 void bdPlatformLog::bdLogMessage( _LogLevel logLevel, const char *level, const char *channel, const char *pathtofile, const char *method, int line, ... )
 {
 	char message[0x100], channelName[0x100];
