@@ -11,28 +11,28 @@ void bdPlatformLog::publish( _LogLevel logLevel, const char *channel, const char
 	switch (logLevel)
 	{
 		case _WARNING:
-			if (sprintf(buffer, "[%s]%s(%u): %s - %s\n", "WARNING", pathtofile, line, method, message) > 0x800)
+            if (sprintf(buffer, "\033[1;33m[%s]%s(%u): %s - %s\033[0m", "WARNING", pathtofile, line, method, message) > 0x800)
                 bdLogMessage(_WARNING, "warn/", "bdPlatformLog", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Log message truncated.");
 
             puts(buffer);
 			break;
 
 		case _ERROR:
-			if (sprintf(buffer, "[%s]%s(%u): %s - %s\n", "ERROR", pathtofile, line, method, message) > 0x800)
+            if (sprintf(buffer, "\033[1;31m[%s]%s(%u): %s - %s\n\033[0m", "ERROR", pathtofile, line, method, message) > 0x800)
                 bdLogMessage(_WARNING, "warn/", "bdPlatformLog", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Log message truncated.");
 
             fputs(buffer, stderr);
 			break;
 
 		case _DEBUG:
-			if (sprintf(buffer, "[%s]%s(%u): %s - %s\n", "DEBUG", pathtofile, line, method, message) > 0x800)
+            if (sprintf(buffer, "\033[1;34m[%s]%s(%u): %s - %s\033[0m", "DEBUG", pathtofile, line, method, message) > 0x800)
                 bdLogMessage(_WARNING, "warn/", "bdPlatformLog", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Log message truncated.");
 
             puts(buffer);
 			break;
 
 		default:
-			if (sprintf(buffer, "%s(%u): %s - %s\n", pathtofile, line, method, message) > 0x800)
+            if (sprintf(buffer, "%s(%u): %s - %s", pathtofile, line, method, message) > 0x800)
                 bdLogMessage(_WARNING, "warn/", "bdPlatformLog", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Log message truncated.");
 
             puts(buffer);
