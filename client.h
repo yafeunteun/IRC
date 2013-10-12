@@ -3,19 +3,19 @@
 
 #include <QTcpSocket>
 #include "channel.h"
-#include <iostream>
 
-class Client : public  QTcpSocket
+class Client
 {
 private:
-    QTcpSocket *address;
-    std::string nick;
+    QTcpSocket *m_socket;
+    QString m_nickname;
+    bool m_state;
 
 public:
-    Client( QTcpSocket *remoteHost );
+    Client( QTcpSocket *socket);
     ~Client();
 
-    void setNick( const std::string& _nick );
+    void setNickname(QString nickname );
 };
 
 #endif // CLIENT_H

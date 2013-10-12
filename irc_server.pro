@@ -5,7 +5,7 @@ SOURCES += \
     channel.cpp \
     bdPlatformLog.cpp
 
-QT += network
+QT = network widgets
 
 HEADERS += \
     server.h \

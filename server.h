@@ -18,17 +18,19 @@
 /*! \class Server
   * \brief Class defining the Server
   */
-class Server : public QTcpServer
+class Server : public QObject
 {
+    Q_OBJECT
 private:
     static Server* _instance;
+    QTcpServer *m_tcpServer;
     std::list<Client*> m_listClients;
 protected:
-    Server();
+    Server(QObject *parent = 0);
 public:
     static Server* Instance();
-    //Server(qint16 port = 1234, int numConnections = 30, const QHostAddress & address = QHostAddress::Any);
-
+public slots:
+    void onNewConnection(void);
 };
 
 #endif // SERVER_H

@@ -1,17 +1,17 @@
 #include "client.h"
 
-using namespace std;
 
-Client::Client( QTcpSocket *remoteHost): address(remoteHost)
+Client::Client( QTcpSocket* socket)
 {
+    m_socket = socket;
+    m_state = 0;
 }
 
 Client::~Client()
 {
-    cout << "Client " << nick << " disconnected." << endl;
 }
 
-void Client::setNick( const std::string& _nick )
+void Client::setNickname( QString nickname )
 {
-    nick = _nick;
+    m_nickname = nickname;
 }
