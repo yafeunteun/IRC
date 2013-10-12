@@ -21,23 +21,14 @@
 class Server : public QTcpServer
 {
 private:
-    fd_set m_fdset;
+    static Server* _instance;
     std::list<Client*> m_listClients;
-    struct timeval m_tv;
-    unsigned int m_time;
-    unsigned int m_fdsMax;
-    std::string MOTD;
-
+protected:
+    Server();
 public:
-/*!
-*  \brief Constructor
-*  \param port : Tells the server to listen for incoming connections on port given
-*  \param numConnections : Sets the maximum number of pending accepted connections to numConnections
-*  \param address : Tells the server to listen for incoming connections on address given
-*/
-    Server(qint16 port = 1234, int numConnections = 30, const QHostAddress & address = QHostAddress::Any);
-    void init();
-    void execute(void);
+    static Server* Instance();
+    //Server(qint16 port = 1234, int numConnections = 30, const QHostAddress & address = QHostAddress::Any);
+
 };
 
 #endif // SERVER_H
