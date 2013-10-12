@@ -16,7 +16,9 @@
 
 
 /*! \class Server
-  * \brief Class defining the Server
+  * \brief Class defining the Server.
+  * This class inherits from QObjet to use slots and signals.
+  * This class uses the pattern Singleton.
   */
 class Server : public QObject
 {
@@ -28,7 +30,9 @@ private:
 protected:
     Server(QObject *parent = 0);
 public:
+    ~Server();
     static Server* Instance();
+    void delClient(Client* c);
 public slots:
     void onNewConnection(void);
 };

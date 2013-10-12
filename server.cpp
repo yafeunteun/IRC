@@ -1,6 +1,10 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 
+
+/********************
+ *  STATIC MEMBERS  *
+ ********************/
 Server* Server::_instance = 0;
 
 Server* Server::Instance() {
@@ -11,7 +15,9 @@ Server* Server::Instance() {
     return _instance;
 }
 
-
+/********************
+ *    CONSTRUCTOR   *
+ ********************/
 Server::Server(QObject* parent) : QObject(parent)
 {
     qint16 port = 3074;
@@ -26,17 +32,27 @@ Server::Server(QObject* parent) : QObject(parent)
     QObject::connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 }
 
+/********************
+ *    DESTRUCTOR    *
+ ********************/
+Server::~Server()
+{
+}
 
+/********************
+ *    SLOTS         *
+ ********************/
 void Server::onNewConnection(void)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "new client tries to join !");
-
-
      QTcpSocket* socket = m_tcpServer->nextPendingConnection();
 
-     Client* c = new Client(socket);
+     Client* c = new Client(socket, this);
      m_listClients.push_back(c);
 
-     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "new client added successfully !");
+     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "new client [%d] added successfully !", c->getSocket()->socketDescriptor());
+}
 
+void Server::delClient(Client* c)
+{
+    m_listClients.remove(c);
 }
