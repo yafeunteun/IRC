@@ -12,6 +12,7 @@ Client::Client(QTcpSocket *socket, QObject *parent) : QObject(parent)
     m_state = 0;
     QObject::connect(m_socket, SIGNAL(disconnected()), this, SLOT(onDisconnection()));
     QObject::connect(m_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    QObject::connect(m_socket, SIGNAL(readyRead()), this, SLOT(onDataReady()));
 }
 
 /********************
@@ -30,6 +31,12 @@ void Client::onDisconnection()
 {
     Server* s = Server::Instance();
     s->delClient(this);
+}
+
+void Client::onDataReady(void)
+{
+    Server* s = Server::Instance();
+    s->readData(this);
 }
 
 /********************

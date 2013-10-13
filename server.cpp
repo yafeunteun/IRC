@@ -52,7 +52,18 @@ void Server::onNewConnection(void)
      bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "new client [%d] added successfully !", c->getSocket()->socketDescriptor());
 }
 
+
+/********************
+ *    MEMBER         *
+ ********************/
 void Server::delClient(Client* c)
 {
     m_listClients.remove(c);
 }
+
+void Server::readData(Client *c)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent data !", c->getSocket()->socketDescriptor());
+}
+
+

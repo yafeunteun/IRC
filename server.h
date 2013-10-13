@@ -33,8 +33,10 @@ public:
     ~Server();
     static Server* Instance();
     void delClient(Client* c);
+    void readData(Client *c);
 public slots:
     void onNewConnection(void);
+
 };
 
 #endif // SERVER_H
