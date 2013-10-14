@@ -64,6 +64,14 @@ void Server::delClient(Client* c)
 void Server::readData(Client *c)
 {
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent data !", c->getSocket()->socketDescriptor());
+
+    QString line = QString::fromUtf8(c->getSocket()->readLine()).trimmed();
+
+    if(line.at(0) == '/'){
+        bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent a command !", c->getSocket()->socketDescriptor());
+        // get the command
+    }
+
 }
 
 

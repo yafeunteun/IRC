@@ -24,7 +24,7 @@ public:
 
 public slots :
     void onDisconnection(void);                         // slot connected to SIGNAL disconnected of the QTcpSocket member of instance.
-    void onDataReady(void);                             // slot connected to SIGNAL readyRead of the QTcpSocket member of instance.
+    void onDataReady();                             // slot connected to SIGNAL readyRead of the QTcpSocket member of instance.
 
 };
 

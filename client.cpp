@@ -33,8 +33,9 @@ void Client::onDisconnection()
     s->delClient(this);
 }
 
-void Client::onDataReady(void)
+void Client::onDataReady()
 {
+
     Server* s = Server::Instance();
     s->readData(this);
 }
