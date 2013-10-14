@@ -1,6 +1,12 @@
 #include "server.h"
 #include "bdPlatformLog.h"
+#include <iostream>
 
+/* remove the followinf includes when the project is close (they are here for debugging) */
+// strings and c-strings
+#include <iostream>
+#include <cstring>
+#include <string>
 
 /********************
  *  STATIC MEMBERS  *
@@ -71,6 +77,11 @@ void Server::readData(Client *c)
         bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent a command !", c->getSocket()->socketDescriptor());
         // get the command
     }
+
+    // debug section erase the following 3 lines later
+    char * cstr = new char [line.toStdString().length()+1];
+    std::strcpy (cstr, line.toStdString().c_str());
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent : %s", c->getSocket()->socketDescriptor(), cstr);
 
 }
 
