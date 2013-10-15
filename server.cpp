@@ -75,7 +75,15 @@ void Server::readData(Client *c)
 
     if(line.at(0) == '/'){
         bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent a command !", c->getSocket()->socketDescriptor());
-        // get the command
+        QString command = line.mid(1, 4);
+        if(command!=NULL)
+        {
+           // debug section erase the following 3 lines later
+                char * sstr = new char [command.toStdString().length()+1];
+                std::strcpy (sstr, command.toStdString().c_str());
+            bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent command %s ", c->getSocket()->socketDescriptor(), sstr);
+        }
+
     }
 
     // debug section erase the following 3 lines later
