@@ -47,7 +47,7 @@ void Client::onDataReady()
     codeCmd = 1;
     switch(codeCmd){
     case 1:
-        nickCommand cmd(this, "toto");
+        nickCommand cmd(this, "to//*");
         quint8 ret_val = cmd.execute();
         if(ret_val == 0 )
             bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");

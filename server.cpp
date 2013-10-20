@@ -80,7 +80,7 @@ quint8 Server::nick(Client* c, QString& nickname)
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Server has received request to change nickname !!! ");
 
     QRegularExpression reg;
-    reg.setPattern("toto");
+    reg.setPattern("[a-z]\\S{2,8}");
     reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     if(!reg.isValid())
         bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Pattern for regex is invalid !");
