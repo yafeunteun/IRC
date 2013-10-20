@@ -1,12 +1,14 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include <iostream>
+#include <QRegularExpression>
 
 /* remove the followinf includes when the project is close (they are here for debugging) */
 // strings and c-strings
 #include <iostream>
 #include <cstring>
 #include <string>
+
 
 /********************
  *  STATIC MEMBERS  *
@@ -67,30 +69,38 @@ void Server::delClient(Client* c)
     m_listClients.remove(c);
 }
 
-void Server::readData(Client *c)
+
+
+
+/*********************************************
+ *    IMPLEMENTATION OF THE COMMANDS         *
+ *********************************************/
+quint8 Server::nick(Client* c, QString& nickname)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent data !", c->getSocket()->socketDescriptor());
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Server has received request to change nickname !!! ");
 
-    QString line = QString::fromUtf8(c->getSocket()->readLine()).trimmed();
+    QRegularExpression reg;
+    reg.setPattern("toto");
+    reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    if(!reg.isValid())
+        bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Pattern for regex is invalid !");
+    if(!(reg.match(nickname).hasMatch())){
+        bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Invalid nickname !");
 
-    if(line.at(0) == '/'){
-        bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent a command !", c->getSocket()->socketDescriptor());
-        QString command = line.mid(1, 4);
-        if(command!=NULL)
-        {
-           // debug section erase the following 3 lines later
-                char * sstr = new char [command.toStdString().length()+1];
-                std::strcpy (sstr, command.toStdString().c_str());
-            bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent command %s ", c->getSocket()->socketDescriptor(), sstr);
-        }
-
+        return 3;        // Invalid nickname !
     }
 
-    // debug section erase the following 3 lines later
-    char * cstr = new char [line.toStdString().length()+1];
-    std::strcpy (cstr, line.toStdString().c_str());
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Client [%d] has sent : %s", c->getSocket()->socketDescriptor(), cstr);
+    for(std::list<Client*>::iterator it = m_listClients.begin(); it!=m_listClients.end(); ++it)
+    {
+        if((*it)->getNickname() == nickname){
+            bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname already used !");
+            return 2;
+        }
+    }
 
+    c->setNickname(nickname);
+    return 0;
 }
+
 
 

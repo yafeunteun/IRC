@@ -15,6 +15,16 @@
 #include "channel.h"
 
 
+namespace CMD {
+
+    enum ACTION_LIST
+    {
+
+    };
+
+}
+
+
 /*! \class Server
   * \brief Class defining the Server.
   * This class inherits from QObjet to use slots and signals.
@@ -33,7 +43,7 @@ public:
     ~Server();
     static Server* Instance();
     void delClient(Client* c);
-    void readData(Client *c);
+    quint8 nick(Client* c, QString& nickname);
 public slots:
     void onNewConnection(void);
 
