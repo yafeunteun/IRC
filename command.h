@@ -5,8 +5,34 @@
 #include <QStringList>
 #include <server.h>
 
+namespace CMD {
+
+    enum ACTION_LIST
+    {
+        UNK_CMD,
+        CLMSGCL_CMD, //Private message to a client
+        CLMSGCH_CMD, //Message to a channel
+        WHOG_CMD, //General WHO
+        WHOC_CMD, //Channel WHO
+        LIST_CMD,
+        TOPIC_CMD,
+        KICK_CMD,
+        BAN_CMD,
+        OP_CMD,
+        DEOP_CMD,
+        JOIN_CMD,
+        NICK_CMD,
+        LEAVE_CMD,
+        UNBAN_CMD,
+        BANLST_CMD
+    };
+
+}
+
+
 class Command
 {
+
 public:
     virtual ~Command() {}
 

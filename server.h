@@ -15,15 +15,6 @@
 #include "channel.h"
 
 
-namespace CMD {
-
-    enum ACTION_LIST
-    {
-
-    };
-
-}
-
 
 /*! \class Server
   * \brief Class defining the Server.

@@ -3,6 +3,7 @@
 #include "bdPlatformLog.h"
 #include "command.h"
 
+using namespace CMD;
 
 /********************
  *    CONSTRUCTOR   *
@@ -37,16 +38,14 @@ void Client::onDisconnection()
 void Client::onDataReady()
 {
     QString data = QString::fromUtf8(this->getSocket()->readAll());
-    quint8 codeCmd;
     //codeCmd = data[4];
 
     /*********************
     * test case         **
     *********************/
-
-    codeCmd = 1;
-    switch(codeCmd){
-    case 1:
+    quint8 cmd = NICK_CMD;
+    switch(cmd){
+    case NICK_CMD:
         nickCommand cmd(this, "to//*");
         quint8 ret_val = cmd.execute();
         if(ret_val == 0 )

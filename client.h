@@ -10,7 +10,7 @@ class Client : public QObject       // this class inherits from QObjet to use sl
 private:
     QTcpSocket *m_socket;       // TCP socket of the client
     QString m_nickname;         // nickname of the client
-    bool m_state;               // 0 the client has not set his nickname yet; 1 he did
+    bool m_state;               // 0 the client has not set his nickname yet; 1 else
 
 public:
     Client(QTcpSocket* socket, QObject *parent);       // constrtuctor
