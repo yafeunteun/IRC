@@ -39,11 +39,13 @@ void Client::onDisconnection()
 void Client::onDataReady()
 {
     QString data = QString::fromUtf8(this->getSocket()->readAll());
-    quint8 codeCmd = QFrame::getCmdCode(data);
+    quint8 codeCmd = QFrame::getCmdCode(data), ret_val;
+
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Frame size : %u ", QFrame::getFrameSize(data));
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command ID : %u", QFrame::getCmdId(data));
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command code : %u", QFrame::getCmdCode(data));
 
+<<<<<<< HEAD
     switch(codeCmd){
     case NICK_CMD:
         nickCommand cmd(this, QFrame::getArg(data, 0, 0));
@@ -53,6 +55,50 @@ void Client::onDataReady()
         break;
     }
 
+=======
+    switch(codeCmd)
+    {
+        case NICK_CMD:
+        {
+            nickCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute();
+            if(ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");
+            break;
+        }
+        case CLMSGCL_CMD:
+        {
+            pmCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
+            ret_val = cmd.execute();
+            if(ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully sent private message!");
+            break;
+        }
+        case CLMSGCH_CMD:
+        {
+            chCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
+            ret_val = cmd.execute();
+            if(ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully sent message to the channel!");
+            break;
+        }
+        case JOIN_CMD:
+        {
+            joinCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute();
+            if(ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully joined channel!");
+            if(ret_val == 1)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully created channel!");
+            break;
+        }
+        default:
+        {
+            bdPlatformLog::bdLogMessage(_WARNING, "warn/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Received unknown command ident %u.", codeCmd);
+            break;
+        }
+    }
+>>>>>>> a5413e8edfb943ee1bf45b0d957082ddd401f865
 }
 
 /********************

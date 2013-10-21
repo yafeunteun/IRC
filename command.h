@@ -54,6 +54,37 @@ public:
 };
 
 
+class pmCommand : public Command
+{
+private:
+    Client* m_sender;
+    Server* m_receiver;
+    QString dest_nickname, message;
+public:
+    pmCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_nickname(args[0]), message(_args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 execute() { return m_receiver->privateMessage(m_sender, dest_nickname, message); }
+};
 
+class chCommand : public Command
+{
+private:
+    Client* m_sender;
+    Server* m_receiver;
+    QString dest_channel, message;
+public:
+    chCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_channel(args[0]), message(_args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 execute() { return m_receiver->channelMessage(m_sender, dest_channel, message); }
+};
+
+class joinCommand : public Command
+{
+private:
+    Client* m_sender;
+    Server* m_receiver;
+    QString dest_channel;
+public:
+    joinCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 execute() { return m_receiver->joinChannel(m_sender, dest_channel); }
+};
 
 #endif // COMMAND_H

@@ -5,19 +5,24 @@
 #include <iostream>
 #include "client.h"
 
+class Client;
+
 class Channel
 {
 private:
     std::list<Client*> clientList;
     std::list<Client*> operatorList;
-    std::string topic;
+    QString topic, channel_name;
 
 public:
-    Channel();
+    Channel( const QString& name );
     ~Channel();
 
-    void setTopic( const std::string& _topic );
-    std::string getTopic( void );
+    void setTopic(const QString &_topic );
+    QString& getTopic( void );
+    QString& getChannelName( void );
+    std::list<Client*>& getClientList( void );
+    void addClient( Client *c );
 };
 
 #endif // CHANNEL_H

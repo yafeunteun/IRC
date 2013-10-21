@@ -28,13 +28,18 @@ private:
     static Server* _instance;
     QTcpServer *m_tcpServer;
     std::list<Client*> m_listClients;
+    std::list<Channel*> m_listChannels;
 protected:
     Server(QObject *parent = 0);
+    void broadCast(Channel *chan, Client *sender, QString& message);
 public:
     ~Server();
     static Server* Instance();
     void delClient(Client* c);
     quint8 nick(Client* c, QString& nickname);
+    quint8 privateMessage(Client* c, QString& dest, QString& message);
+    quint8 channelMessage(Client* c, QString& dest, QString& message);
+    quint8 joinChannel(Client* c, QString& dest);
 public slots:
     void onNewConnection(void);
 
