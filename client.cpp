@@ -44,9 +44,6 @@ void Client::onDataReady()
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command ID : %u", QFrame::getCmdId(data));
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command code : %u", QFrame::getCmdCode(data));
 
-
-
-/*
     switch(codeCmd){
     case NICK_CMD:
         nickCommand cmd(this, QFrame::getArg(data, 0, 0));
@@ -55,7 +52,7 @@ void Client::onDataReady()
             bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");
         break;
     }
-*/
+
 }
 
 /********************
