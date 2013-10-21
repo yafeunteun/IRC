@@ -8,6 +8,8 @@ SOURCES += \
     qframe.cpp
 
 QT = network widgets
+QT += gui
+QT += core
 
 HEADERS += \
     server.h \

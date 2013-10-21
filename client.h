@@ -4,6 +4,8 @@
 #include <QTcpSocket>
 #include "channel.h"
 
+class Channel;
+
 class Client : public QObject       // this class inherits from QObjet to use slots and signals
 {
     Q_OBJECT

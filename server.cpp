@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QRegularExpression>
 
-/* remove the followinf includes when the project is close (they are here for debugging) */
+/* remove the following includes when the project is closed (they are here for debugging) */
 // strings and c-strings
 #include <iostream>
 #include <cstring>
@@ -69,7 +69,16 @@ void Server::delClient(Client* c)
     m_listClients.remove(c);
 }
 
+void Server::broadCast(Channel *chan, Client *sender, QString& message)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Broadcasting message (%s) on #%s.", message.toStdString().c_str(), chan->getChannelName().toStdString().c_str());
 
+    for(std::list<Client*>::iterator it = chan->getClientList().begin(); it != chan->getClientList().end(); ++it)
+    {
+        if ((*it)->getNickname().compare(sender->getNickname()) != 0)
+            (*it)->getSocket()->write(message.toStdString().c_str(), message.length());
+    }
+}
 
 
 /*********************************************
@@ -90,9 +99,9 @@ quint8 Server::nick(Client* c, QString& nickname)
         return 3;        // Invalid nickname !
     }
 
-    for(std::list<Client*>::iterator it = m_listClients.begin(); it!=m_listClients.end(); ++it)
+    for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
-        if((*it)->getNickname() == nickname){
+        if((*it)->getNickname().compare(nickname) == 0){
             bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname already used !");
             return 2;
         }
@@ -102,5 +111,60 @@ quint8 Server::nick(Client* c, QString& nickname)
     return 0;
 }
 
+quint8 Server::privateMessage(Client* c, QString& dest, QString& message)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is sending a private message to %s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
+
+    for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+    {
+        if((*it)->getNickname().compare(dest) == 0)
+        {
+            QTcpSocket *sock = (*it)->getSocket();
+            sock->write(message.toStdString().c_str(), message.length());
+            return 0;
+        }
+    }
+
+    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The user '%s' does not exist.", dest.toStdString().c_str());
+    return 2;
+}
+
+quint8 Server::channelMessage(Client* c, QString& dest, QString& message)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is sending a message to #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
+
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if((*it)->getChannelName().compare(dest) == 0)
+        {
+            broadCast(*it, c, message);
+            return 0;
+        }
+    }
+
+    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist.", dest.toStdString().c_str());
+    return 2;
+}
 
 
+quint8 Server::joinChannel(Client* c, QString& dest)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is joining #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
+
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if((*it)->getChannelName().compare(dest) == 0)
+        {
+            (*it)->addClient(c);
+            return 0;
+        }
+    }
+
+    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist, creating it.", dest.toStdString().c_str());
+    Channel *chan = new Channel(dest);
+    m_listChannels.push_front(chan);
+
+    //TODO: The new client MUST be OPed
+
+    return 1;
+}
