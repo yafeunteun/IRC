@@ -76,7 +76,7 @@ void Server::broadCast(Channel *chan, Client *sender, QString& message)
     for(std::list<Client*>::iterator it = chan->getClientList().begin(); it != chan->getClientList().end(); ++it)
     {
         if ((*it)->getNickname().compare(sender->getNickname()) != 0)
-            (*it)->getSocket()->write(message.toStdString().c_str(), message.length());
+            (*it)->getSocket()->write(message.toStdString().c_str(), message.length());     // we should format it as TTIICAAAAAAAAAA later
     }
 }
 
@@ -120,7 +120,7 @@ quint8 Server::privateMessage(Client* c, QString& dest, QString& message)
         if((*it)->getNickname().compare(dest) == 0)
         {
             QTcpSocket *sock = (*it)->getSocket();
-            sock->write(message.toStdString().c_str(), message.length());
+            sock->write(message.toStdString().c_str(), message.length());    // we should format it as TTIICAAAAAAAAAA later
             return 0;
         }
     }
