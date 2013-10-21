@@ -8,8 +8,8 @@
 class Channel
 {
 private:
-    //std::list<Client*> clientList;
-    //std::list<Client*> operatorList;
+    std::list<Client*> clientList;
+    std::list<Client*> operatorList;
     std::string topic;
 
 public:
