@@ -4,7 +4,8 @@ SOURCES += \
     client.cpp \
     channel.cpp \
     bdPlatformLog.cpp \
-    command.cpp
+    command.cpp \
+    qframe.cpp
 
 QT = network widgets
 
@@ -13,4 +14,5 @@ HEADERS += \
     client.h \
     channel.h \
     bdPlatformLog.h \
-    command.h
+    command.h \
+    qframe.h

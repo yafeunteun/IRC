@@ -49,7 +49,7 @@ private:
     Server* m_receiver;
     QString m_nickname;
 public:
-    nickCommand(Client* sender, QString nickname) : m_sender(sender), m_nickname(nickname){ m_receiver = Server::Instance();}
+    nickCommand(Client* sender, QStringList args) : m_sender(sender), m_nickname(args[0]){ m_receiver = Server::Instance();}
     virtual quint8 execute() { return m_receiver->nick(m_sender, m_nickname); }
 };
 

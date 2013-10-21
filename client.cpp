@@ -2,6 +2,7 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include "command.h"
+#include "qframe.h"
 
 using namespace CMD;
 
@@ -38,20 +39,23 @@ void Client::onDisconnection()
 void Client::onDataReady()
 {
     QString data = QString::fromUtf8(this->getSocket()->readAll());
-    //codeCmd = data[4];
+    quint8 codeCmd = QFrame::getCmdCode(data);
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Frame size : %u ", QFrame::getFrameSize(data));
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command ID : %u", QFrame::getCmdId(data));
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command code : %u", QFrame::getCmdCode(data));
 
-    /*********************
-    * test case         **
-    *********************/
-    quint8 cmd = NICK_CMD;
-    switch(cmd){
+
+
+/*
+    switch(codeCmd){
     case NICK_CMD:
-        nickCommand cmd(this, "to//*");
+        nickCommand cmd(this, QFrame::getArg(data, 0, 0));
         quint8 ret_val = cmd.execute();
         if(ret_val == 0 )
             bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");
         break;
     }
+*/
 }
 
 /********************
