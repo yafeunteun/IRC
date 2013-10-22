@@ -21,7 +21,7 @@ quint8 QFrame::getCmdCode(QString const &data)
     return cmdCode.toUInt();
 }
 
-QStringList QFrame::getArg(QString const &data, qint8 start, qint8 end)
+QStringList QFrame::getArg(QString  &data, qint8 start, qint8 end)
 {
     data = data.replace("\n", " ").trimmed();
     QString args = data.mid(5);

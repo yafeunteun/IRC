@@ -45,7 +45,7 @@ void Client::onDataReady()
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command ID : %u", QFrame::getCmdId(data));
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command code : %u", QFrame::getCmdCode(data));
 
-<<<<<<< HEAD
+
     switch(codeCmd){
     case NICK_CMD:
         nickCommand cmd(this, QFrame::getArg(data, 0, 0));
@@ -55,7 +55,8 @@ void Client::onDataReady()
         break;
     }
 
-=======
+  // This part has been commented to compile and run properly
+/*
     switch(codeCmd)
     {
         case NICK_CMD:
@@ -98,7 +99,7 @@ void Client::onDataReady()
             break;
         }
     }
->>>>>>> a5413e8edfb943ee1bf45b0d957082ddd401f865
+ */
 }
 
 /********************

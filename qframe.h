@@ -13,7 +13,7 @@ public:
     static quint16 getFrameSize(QString const &data);
     static quint16 getCmdId(QString const &data);
     static quint8 getCmdCode(QString const &data);
-    static QStringList getArg(QString const &data, qint8 start, qint8 end = -1);
+    static QStringList getArg(QString &data, qint8 start, qint8 end = -1);
 };
 
 #endif // QFRAME_H
