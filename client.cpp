@@ -81,6 +81,20 @@ void Client::onDataReady()
                 bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully created channel!");
             break;
         }
+        case LEAVE_CMD:
+        {
+            leaveCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute();
+            if(ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully left channel!");
+            break;
+        }
+        case LIST_CMD:
+        {
+            listCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute(); //This operation never fails
+            break;
+        }
         default:
         {
             bdPlatformLog::bdLogMessage(_WARNING, "warn/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Received unknown command ident %u.", codeCmd);

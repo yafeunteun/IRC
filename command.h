@@ -87,4 +87,26 @@ public:
     virtual quint8 execute() { return m_receiver->joinChannel(m_sender, dest_channel); }
 };
 
+class leaveCommand : public Command
+{
+private:
+    Client* m_sender;
+    Server* m_receiver;
+    QString dest_channel;
+public:
+    leaveCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 execute() { return m_receiver->leaveChannel(m_sender, dest_channel); }
+};
+
+class listCommand : public Command
+{
+private:
+    Client* m_sender;
+    Server* m_receiver;
+    QString filter;
+public:
+    listCommand(Client* sender, QStringList args) : m_sender(sender), filter(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 execute() { return m_receiver->listChannel(m_sender, filter); }
+};
+
 #endif // COMMAND_H

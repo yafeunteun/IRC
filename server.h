@@ -40,6 +40,8 @@ public:
     quint8 privateMessage(Client* c, QString& dest, QString& message);
     quint8 channelMessage(Client* c, QString& dest, QString& message);
     quint8 joinChannel(Client* c, QString& dest);
+    quint8 leaveChannel(Client* c, QString& dest);
+    quint8 listChannel(Client* c, QString& filter);
 public slots:
     void onNewConnection(void);
 

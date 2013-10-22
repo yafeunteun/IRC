@@ -1,7 +1,7 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include <iostream>
-#include <QRegularExpression>
+//#include <QRegularExpression>
 
 /* remove the following includes when the project is closed (they are here for debugging) */
 // strings and c-strings
@@ -88,7 +88,7 @@ quint8 Server::nick(Client* c, QString& nickname)
 {
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Server has received request to change nickname !!! ");
 
-    QRegularExpression reg;
+    /*QRegularExpression reg;
     reg.setPattern("[a-z]\\S{2,8}");
     reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     if(!reg.isValid())
@@ -97,11 +97,12 @@ quint8 Server::nick(Client* c, QString& nickname)
         bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Invalid nickname !");
 
         return 3;        // Invalid nickname !
-    }
+    }*/
 
     for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
-        if((*it)->getNickname().compare(nickname) == 0){
+        if((*it)->getNickname().compare(nickname) == 0)
+        {
             bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname already used !");
             return 2;
         }
@@ -167,4 +168,56 @@ quint8 Server::joinChannel(Client* c, QString& dest)
     //TODO: The new client MUST be OPed
 
     return 1;
+}
+
+quint8 Server::leaveChannel(Client* c, QString& dest)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is leaving #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
+
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if((*it)->getChannelName().compare(dest) == 0)
+        {
+            std::list<Client*>::iterator _it = (*it)->getClientList().begin();
+            for (; _it != (*it)->getClientList().end(); ++_it)
+            {
+                if (c->getNickname().compare((*_it)->getNickname()))
+                    break;
+            }
+            (*it)->getClientList().remove(*_it);
+            return 0;
+        }
+    }
+
+    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist, hax?!", dest.toStdString().c_str());
+
+    //Remarks: If the client who leaves is the current OP, rights should not be transfered to another Client
+
+    return 1;
+}
+
+quint8 Server::listChannel(Client* c, QString& filter)
+{
+    QString message("");
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s wants the channel list containing word '%s'.", c->getNickname().toStdString().c_str(), filter.toStdString().c_str());
+
+    if (filter.compare("*") == 0)
+    {
+        for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+        {
+            message += "#" + (*it)->getChannelName() + " " + (*it)->getTopic() + "\n";
+        }
+        c->getSocket()->write(message.toStdString().c_str(), message.length());
+    }
+    else
+    {
+        for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+        {
+            if ((*it)->getChannelName().contains(filter, Qt::CaseSensitive) || (*it)->getTopic().contains(filter, Qt::CaseSensitive))
+                message += "#" + (*it)->getChannelName() + " " + (*it)->getTopic() + "\n";
+        }
+        c->getSocket()->write(message.toStdString().c_str(), message.length());
+    }
+
+    return 0;
 }
