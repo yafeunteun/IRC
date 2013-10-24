@@ -107,6 +107,26 @@ void Client::onDataReady()
             ret_val = cmd.execute(); //This operation never fails
             break;
         }
+        case TOPIC_CMD:
+        {
+            topicCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
+            ret_val = cmd.execute();
+            if (ret_val == 0)
+                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully modified topic!");
+               break;
+        }
+        case WHOG_CMD:
+        {
+            whoGCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute(); //This command should never fail
+            break;
+        }
+        case WHOC_CMD:
+        {
+            whoCCommand cmd(this, QFrame::getArg(data, 0, 0));
+            ret_val = cmd.execute(); //This command should never fail
+            break;
+        }
         default:
         {
             bdPlatformLog::bdLogMessage(_WARNING, "warn/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Received unknown command ident %u.", codeCmd);

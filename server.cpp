@@ -199,7 +199,7 @@ quint8 Server::leaveChannel(Client* c, QString& dest)
 quint8 Server::listChannel(Client* c, QString& filter)
 {
     QString message("");
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s wants the channel list containing word '%s'.", c->getNickname().toStdString().c_str(), filter.toStdString().c_str());
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s wants the channel list containing word '%s'.", c->getNickname().toStdString().c_str(), filter.toStdString().c_str());
 
     if (filter.compare("*") == 0)
     {
@@ -217,6 +217,63 @@ quint8 Server::listChannel(Client* c, QString& filter)
                 message += "#" + (*it)->getChannelName() + " " + (*it)->getTopic() + "\n";
         }
         c->getSocket()->write(message.toStdString().c_str(), message.length());
+    }
+
+    return 0;
+}
+
+quint8 Server::setTopic(Client* c, QString& dest_channel, QString& topic)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is changing the topic for the channel #%s by %s.", c->getNickname().toStdString().c_str(), dest_channel.toStdString().c_str(), topic.toStdString().c_str());
+
+    //TODO: check if the client has enough rights to change the topic
+    for (std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if ((*it)->getChannelName().compare(dest_channel) == 0)//The specified channel exists
+        {
+            if (topic.isEmpty())
+                c->getSocket()->write((*it)->getTopic().toStdString().c_str());
+            else
+                (*it)->setTopic(topic);
+
+            return 0;
+        }
+    }
+
+    bdPlatformLog::bdLogMessage(_ERROR, "err/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The requested channel (#%s) does not exist. Hax?", dest_channel.toStdString().c_str());
+
+    return 1;
+}
+
+quint8 Server::whoGeneral(Client* c, QString& filter)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is getting client list.", c->getNickname().toStdString().c_str());
+    QString response("");
+
+    for (std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+    {
+        //TODO: Build the regex and...
+        //if (regex == ok)
+            response += (*it)->getNickname() + "\n";
+    }
+
+    return 0;
+}
+
+quint8 Server::whoChannel(Client* c, QString& dest_channel)
+{
+    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is getting client list from #%s.", c->getNickname().toStdString().c_str(), dest_channel.toStdString().c_str());
+    QString response("");
+
+    for (std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if ((*it)->getChannelName().compare(dest_channel) == 0)
+        {
+            for (std::list<Client*>::iterator _it = (*it)->getClientList().begin(); _it != (*it)->getClientList().end(); ++_it)
+                    response += (*_it)->getNickname() + "\n";
+
+            break;
+        }
     }
 
     return 0;
