@@ -2,9 +2,11 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include "command.h"
-#include "qframe.h"
+#include "frame.h"
+#include <iostream>
 
-using namespace CMD;
+
+//using namespace CMD;
 
 /********************
  *    CONSTRUCTOR   *
@@ -38,102 +40,28 @@ void Client::onDisconnection()
 
 void Client::onDataReady()
 {
-    QString data = QString::fromUtf8(this->getSocket()->readAll());
-    quint8 codeCmd = QFrame::getCmdCode(data), ret_val;
 
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Frame size : %u ", QFrame::getFrameSize(data));
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command ID : %u", QFrame::getCmdId(data));
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Command code : %u", QFrame::getCmdCode(data));
+    QByteArray data = this->getSocket()->readAll();
 
+    Frame frame = (data);
 
-    switch(codeCmd){
-    case NICK_CMD:
-        nickCommand cmd(this, QFrame::getArg(data, 0, 0));
-        quint8 ret_val = cmd.execute();
-        if(ret_val == 0 )
-            bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");
-        break;
-    }
+    frame.debug();
 
-  // This part has been commented to compile and run properly
-/*
-    switch(codeCmd)
-    {
-        case NICK_CMD:
-        {
-            nickCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute();
-            if(ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname has been changed successfully !!! ");
-            break;
-        }
-        case CLMSGCL_CMD:
-        {
-            pmCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
-            ret_val = cmd.execute();
-            if(ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully sent private message!");
-            break;
-        }
-        case CLMSGCH_CMD:
-        {
-            chCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
-            ret_val = cmd.execute();
-            if(ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully sent message to the channel!");
-            break;
-        }
-        case JOIN_CMD:
-        {
-            joinCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute();
-            if(ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully joined channel!");
-            if(ret_val == 1)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully created channel!");
-            break;
-        }
-        case LEAVE_CMD:
-        {
-            leaveCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute();
-            if(ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully left channel!");
-            break;
-        }
-        case LIST_CMD:
-        {
-            listCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute(); //This operation never fails
-            break;
-        }
-        case TOPIC_CMD:
-        {
-            topicCommand cmd(this, QFrame::getArg(data, 0, 0), QFrame::getArg(data, 1));
-            ret_val = cmd.execute();
-            if (ret_val == 0)
-                bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Successfully modified topic!");
-               break;
-        }
-        case WHOG_CMD:
-        {
-            whoGCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute(); //This command should never fail
-            break;
-        }
-        case WHOC_CMD:
-        {
-            whoCCommand cmd(this, QFrame::getArg(data, 0, 0));
-            ret_val = cmd.execute(); //This command should never fail
-            break;
-        }
-        default:
-        {
-            bdPlatformLog::bdLogMessage(_WARNING, "warn/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Received unknown command ident %u.", codeCmd);
-            break;
-        }
-    }
- */
+    quint8 ret_val = 0;
+
+    Command* command = Command::getCommand(this, frame);
+
+    if(command == NULL)
+        return;
+
+    ret_val = command->verify();
+
+    if(ret_val == ERROR::esuccess)
+        ret_val = command->execute();
+
+    QByteArray response = Frame::getReadyToSendFrame("", frame.getId(), ret_val);
+    this->getSocket()->write(response);
+
 }
 
 /********************
