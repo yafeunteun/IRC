@@ -57,6 +57,14 @@ void Channel::addClient(Client *c , status s)
     }
 }
 
+void Channel::removeClient(Client *c)
+{
+    if(isStatus(c, OPERATOR))
+        m_operatorList.remove(c);
+    m_clientList.remove(c);
+}
+
+
  bool Channel::isStatus(Client * c, status s)
  {
      switch (s) {
