@@ -21,7 +21,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
     switch(frame.getCode())
     {
         case(C_PRIVMSG): return new privmsg(c, frame); break;
-        //case(C_PUBMSG): return new pubmsg(c, frame); break;
+        case(C_PUBMSG): return new pubmsg(c, frame); break;
         //case(C_GWHO): return new gwho(c, frame); break;
         //case(C_CWHO): return new cwho(c, frame); break;
         //case(C_LIST): return new list(c, frame); break;
@@ -126,5 +126,32 @@ quint8 join::verify()
     }
 
 
+    return ERROR::esuccess;
+}
+
+pubmsg::pubmsg(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+    {
+        m_dest_channel = "";
+        m_message = "";
+    }
+    else if(frame.getNbArg() < 2)
+    {
+        m_message = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_message = frame.getArgList()[1];
+    }
+}
+
+quint8 pubmsg::verify()
+{
+    if(m_dest_channel.isEmpty() || m_message.isEmpty())
+        return ERROR::eMissingArg;
     return ERROR::esuccess;
 }

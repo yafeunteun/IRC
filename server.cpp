@@ -72,14 +72,20 @@ void Server::delClient(Client* c)
     m_listClients.remove(c);
 }
 
+
+
 void Server::broadCast(Channel *chan, Client *sender, QString& message)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Broadcasting message (%s) on #%s.", message.toStdString().c_str(), chan->getChannelName().toStdString().c_str());
-
-    for(std::list<Client*>::iterator it = chan->getClientList().begin(); it != chan->getClientList().end(); ++it)
+    QByteArray response = Frame::getReadyToSendFrame(chan->getChannelName() + "\n" + sender->getNickname() + "\n" + message, 255, 128);
+    for(std::list<Client*>::iterator it = chan->getClientList(REGULAR).begin(); it != chan->getClientList(REGULAR).end(); ++it)
     {
         if ((*it)->getNickname().compare(sender->getNickname()) != 0)
-            (*it)->getSocket()->write(message.toStdString().c_str(), message.length());     // we should format it as TTIICAAAAAAAAAA later
+        {
+            bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "sending response");
+
+            QTcpSocket *sock = (*it)->getSocket();
+            sock->write(response);
+        }
     }
 }
 
@@ -112,7 +118,7 @@ quint8 Server::privmsg(Client* c, QString& dest, QString& message)
             return ERROR::esuccess;
         }
     }
-    return 254;
+    return ERROR::eNotExist;
 }
 
 
@@ -123,7 +129,7 @@ quint8 Server::join(Client* c, QString& dest)
     {
         if((*it)->getChannelName().compare(dest) == 0)
         {
-            if((*it)->isBanned(c) == true)
+            if((*it)->isStatus(c, BANNED) == true)
                 return ERROR::eNotAuthorised;
 
             (*it)->addClient(c, REGULAR)  ;
@@ -141,21 +147,25 @@ quint8 Server::join(Client* c, QString& dest)
 
 
 
-quint8 Server::channelMessage(Client* c, QString& dest, QString& message)
+quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is sending a message to #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
 
     for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
         if((*it)->getChannelName().compare(dest) == 0)
         {
+            if((*it)->isStatus(c, BANNED) == true)
+                return ERROR::eNotAuthorised;
+
+            if((*it)->isStatus(c, REGULAR) == false)
+                return ERROR::eNotAuthorised;
+
             broadCast(*it, c, message);
-            return 0;
+            return ERROR::esuccess;
         }
     }
 
-    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist.", dest.toStdString().c_str());
-    return 2;
+    return ERROR::eNotExist;
 }
 
 

@@ -85,16 +85,16 @@ public:
     virtual quint8 execute() { return m_receiver->privmsg(m_sender, m_dest_nickname, m_message); }
 };
 
-class chCommand : public Command
+class pubmsg : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString dest_channel, message;
+    QString m_dest_channel, m_message;
 public:
-    chCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ args.pop_front(); message = args.join(" "); m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->channelMessage(m_sender, dest_channel, message); }
+    pubmsg(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->pubmsg(m_sender, m_dest_channel, m_message); }
 };
 
 class join : public Command
