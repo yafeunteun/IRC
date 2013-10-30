@@ -48,6 +48,7 @@ void Channel::addClient(Client *c , status s)
         m_clientList.push_front(c);
         break;
     case OPERATOR:
+        m_clientList.push_front(c);
         m_operatorList.push_front(c);
         break;
     default:
@@ -56,13 +57,40 @@ void Channel::addClient(Client *c , status s)
     }
 }
 
- bool Channel::isBanned(Client * c)
+ bool Channel::isStatus(Client * c, status s)
  {
-     for(std::list<Client*>::iterator it = m_banList.begin(); it != m_banList.end(); ++it)
-     {
-         if((*it)->getNickname() == c->getNickname())
-             return true;
+     switch (s) {
+     case BANNED:
+         for(std::list<Client*>::iterator it = m_banList.begin(); it != m_banList.end(); ++it)
+         {
+             if((*it)->getNickname() == c->getNickname())
+                 return true;
+         }
+         return false;
+         break;
+     case REGULAR:
+         for(std::list<Client*>::iterator it = m_clientList.begin(); it != m_clientList.end(); ++it)
+         {
+             if((*it)->getNickname() == c->getNickname())
+                 return true;
+         }
+         return false;
+         break;
+     case OPERATOR:
+         for(std::list<Client*>::iterator it = m_operatorList.begin(); it != m_operatorList.end(); ++it)
+         {
+             if((*it)->getNickname() == c->getNickname())
+                 return true;
+         }
+         return false;
+         break;
+     default:
+         bdPlatformLog::bdLogMessage(_ERROR, "fatal_error/", "channel", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Couldn't evaluate second argument wich must be of type status (see channel.h)");
+         exit(-1);
      }
 
-     return false;
+
+
+
+
  }
