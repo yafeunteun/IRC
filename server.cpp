@@ -1,13 +1,14 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include <iostream>
-//#include <QRegularExpression>
+#include <QRegularExpression>
 
 /* remove the following includes when the project is closed (they are here for debugging) */
 // strings and c-strings
 #include <iostream>
 #include <cstring>
 #include <string>
+#include "command.h"
 
 
 /********************
@@ -35,9 +36,10 @@ Server::Server(QObject* parent) : QObject(parent)
     m_tcpServer->listen(QHostAddress::Any, port);
     m_tcpServer->setMaxPendingConnections(numConnections);
 
+    QObject::connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+
     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Sole instance of server has been created successfully !");
 
-    QObject::connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 }
 
 /********************
@@ -52,6 +54,7 @@ Server::~Server()
  ********************/
 void Server::onNewConnection(void)
 {
+
      QTcpSocket* socket = m_tcpServer->nextPendingConnection();
 
      Client* c = new Client(socket, this);
@@ -86,49 +89,57 @@ void Server::broadCast(Channel *chan, Client *sender, QString& message)
  *********************************************/
 quint8 Server::nick(Client* c, QString& nickname)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Server has received request to change nickname !!! ");
-
-    /*QRegularExpression reg;
-    reg.setPattern("[a-z]\\S{2,8}");
-    reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    if(!reg.isValid())
-        bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Pattern for regex is invalid !");
-    if(!(reg.match(nickname).hasMatch())){
-        bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Invalid nickname !");
-
-        return 3;        // Invalid nickname !
-    }*/
-
     for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
         if((*it)->getNickname().compare(nickname) == 0)
         {
-            bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Nickname already used !");
-            return 2;
+            return ERROR::eNickCollision;
         }
     }
-
     c->setNickname(nickname);
-    return 0;
+    return ERROR::esuccess;
 }
 
-quint8 Server::privateMessage(Client* c, QString& dest, QString& message)
+quint8 Server::privmsg(Client* c, QString& dest, QString& message)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is sending a private message to %s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
-
     for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
         if((*it)->getNickname().compare(dest) == 0)
         {
             QTcpSocket *sock = (*it)->getSocket();
-            sock->write(message.toStdString().c_str(), message.length());    // we should format it as TTIICAAAAAAAAAA later
-            return 0;
+            QByteArray response = Frame::getReadyToSendFrame(c->getNickname() + "\n" + message, 255, 129);
+            sock->write(response);
+            return ERROR::esuccess;
+        }
+    }
+    return 254;
+}
+
+
+quint8 Server::join(Client* c, QString& dest)
+{
+
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if((*it)->getChannelName().compare(dest) == 0)
+        {
+            if((*it)->isBanned(c) == true)
+                return ERROR::eNotAuthorised;
+
+            (*it)->addClient(c, REGULAR)  ;
+            return ERROR::esuccess;
         }
     }
 
-    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The user '%s' does not exist.", dest.toStdString().c_str());
-    return 2;
+    Channel *chan = new Channel(dest);
+    m_listChannels.push_front(chan);
+
+    chan->addClient(c, OPERATOR);
+
+    return ERROR::esuccess;
 }
+
+
 
 quint8 Server::channelMessage(Client* c, QString& dest, QString& message)
 {
@@ -148,27 +159,6 @@ quint8 Server::channelMessage(Client* c, QString& dest, QString& message)
 }
 
 
-quint8 Server::joinChannel(Client* c, QString& dest)
-{
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is joining #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
-
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
-    {
-        if((*it)->getChannelName().compare(dest) == 0)
-        {
-            (*it)->addClient(c);
-            return 0;
-        }
-    }
-
-    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist, creating it.", dest.toStdString().c_str());
-    Channel *chan = new Channel(dest);
-    m_listChannels.push_front(chan);
-
-    //TODO: The new client MUST be OPed
-
-    return 1;
-}
 
 quint8 Server::leaveChannel(Client* c, QString& dest)
 {

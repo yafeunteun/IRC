@@ -4,65 +4,85 @@
 #include <QString>
 #include <QStringList>
 #include <server.h>
+#include "frame.h"
 
-namespace CMD {
-
-    enum ACTION_LIST
-    {
-        UNK_CMD,
-        CLMSGCL_CMD, //Private message to a client k
-        CLMSGCH_CMD, //Message to a channel k
-        WHOG_CMD, //General WHO k
-        WHOC_CMD, //Channel WHO k
-        LIST_CMD, //k
-        TOPIC_CMD, //k
-        KICK_CMD,
-        BAN_CMD,
-        OP_CMD,
-        DEOP_CMD,
-        JOIN_CMD, //k
-        NICK_CMD, //k
-        LEAVE_CMD, //k
-        UNBAN_CMD,
-        BANLST_CMD
+namespace ERROR {
+    enum{
+        esuccess = 0,
+        eBadArg = 250,
+        eNickCollision,
+        eNotAuthorised,
+        eMissingArg,
+        eNotExist,
+        error
     };
 
 }
+
+
+namespace CMD {
+
+
+    enum{
+            C_PRIVMSG = 1,
+            C_PUBMSG,
+            C_GWHO,
+            C_CWHO,
+            C_LIST,
+            C_TOPIC,
+            C_KICK,
+            C_BAN,
+            C_OP,
+            C_DEOP = 20,
+            C_JOIN,
+            C_NICK,
+            C_LEAVE,
+            C_UNBAN,
+            C_BANLIST
+        };
+}
+
+
 
 
 class Command
 {
 
 public:
-    virtual ~Command() {}
-
+    static Command* getCommand(Client* c, Frame &frame);
     virtual quint8 execute() = 0;
+    virtual quint8 verify() = 0;
 protected:
     Command();
+    virtual ~Command() {}
+
 };
 
 
-class nickCommand : public Command
+class nick : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
     QString m_nickname;
+    static QString s_regex;
 public:
-    nickCommand(Client* sender, QStringList args) : m_sender(sender), m_nickname(args[0]){ m_receiver = Server::Instance();}
+    nick(Client* sender, Frame& frame);
+    virtual quint8 verify();
     virtual quint8 execute() { return m_receiver->nick(m_sender, m_nickname); }
 };
 
 
-class pmCommand : public Command
+class privmsg : public Command
 {
 private:
     Client* m_sender;
-    Server* m_receiver;
-    QString dest_nickname, message;
+    Server* m_receiver ;
+    QString m_dest_nickname, m_message;
 public:
-    pmCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_nickname(args[0]), message(_args.join(" ")){ m_receiver = Server::Instance();}
-    virtual quint8 execute() { return m_receiver->privateMessage(m_sender, dest_nickname, message); }
+    privmsg(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->privmsg(m_sender, m_dest_nickname, m_message); }
 };
 
 class chCommand : public Command
@@ -72,19 +92,22 @@ private:
     Server* m_receiver;
     QString dest_channel, message;
 public:
-    chCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_channel(args[0]), message(_args.join(" ")){ m_receiver = Server::Instance();}
+    chCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ args.pop_front(); message = args.join(" "); m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->channelMessage(m_sender, dest_channel, message); }
 };
 
-class joinCommand : public Command
+class join : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString dest_channel;
+    QString m_dest_channel;
+    static QString s_regex;
 public:
-    joinCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
-    virtual quint8 execute() { return m_receiver->joinChannel(m_sender, dest_channel); }
+    join(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->join(m_sender, m_dest_channel); }
 };
 
 class leaveCommand : public Command
@@ -95,6 +118,7 @@ private:
     QString dest_channel;
 public:
     leaveCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->leaveChannel(m_sender, dest_channel); }
 };
 
@@ -106,6 +130,7 @@ private:
     QString filter;
 public:
     listCommand(Client* sender, QStringList args) : m_sender(sender), filter(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->listChannel(m_sender, filter); }
 };
 
@@ -117,6 +142,7 @@ private:
     QString dest_channel, topic;
 public:
     topicCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_channel(args[0]), topic(_args.join(" ")){ m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->setTopic(m_sender, dest_channel, topic); }
 };
 
@@ -128,6 +154,7 @@ private:
     QString filter;
 public:
     whoGCommand(Client* sender, QStringList args) : m_sender(sender), filter(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->whoGeneral(m_sender, filter); }
 };
 
@@ -139,6 +166,7 @@ private:
     QString dest_channel;
 public:
     whoCCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
+    virtual quint8 verify() { return true;}
     virtual quint8 execute() { return m_receiver->whoChannel(m_sender, dest_channel); }
 };
 

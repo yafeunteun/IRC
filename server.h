@@ -37,9 +37,9 @@ public:
     static Server* Instance();
     void delClient(Client* c);
     quint8 nick(Client* c, QString& nickname);
-    quint8 privateMessage(Client* c, QString& dest, QString& message);
+    quint8 privmsg(Client* c, QString& dest, QString& message);
     quint8 channelMessage(Client* c, QString& dest, QString& message);
-    quint8 joinChannel(Client* c, QString& dest);
+    quint8 join(Client* c, QString& dest);
     quint8 leaveChannel(Client* c, QString& dest);
     quint8 listChannel(Client* c, QString& filter);
     quint8 setTopic(Client* c, QString& dest_channel, QString& topic);
