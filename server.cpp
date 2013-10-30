@@ -72,17 +72,37 @@ void Server::delClient(Client* c)
     m_listClients.remove(c);
 }
 
-
-
-void Server::broadCast(Channel *chan, Client *sender, quint16 id, quint8 code, QString& message)
+// if chan is not specified, message will be sent to all clients connected to the server
+// if a sender is specified, message will not be sent to him
+void Server::broadCast(QString& message, quint16 id, quint8 code, Channel* chan, Client* sender)
 {
-    QByteArray response = Frame::getReadyToSendFrame(chan->getChannelName() + "\n" + sender->getNickname() + "\n" + message, id, code);
+    QByteArray response = Frame::getReadyToSendFrame(message, id, code);
+
+    if(chan == NULL)        // Broadcasting to all clients
+    {
+        for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+        {
+            QTcpSocket *sock = (*it)->getSocket();
+            sock->write(response);
+        }
+
+        return;
+    }
+
+
     for(std::list<Client*>::iterator it = chan->getClientList(REGULAR).begin(); it != chan->getClientList(REGULAR).end(); ++it)
     {
-        if ((*it)->getNickname().compare(sender->getNickname()) != 0)
+        if(sender != NULL)  // if sender != NULL sender will not received the message
         {
-            bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "sending response");
+            if ((*it)->getNickname().compare(sender->getNickname()) != 0)
+            {
+                QTcpSocket *sock = (*it)->getSocket();
+                sock->write(response);
+            }
+        }
 
+        else
+        {
             QTcpSocket *sock = (*it)->getSocket();
             sock->write(response);
         }
@@ -102,7 +122,11 @@ quint8 Server::nick(Client* c, QString& nickname)
             return ERROR::eNickCollision;
         }
     }
+    QString msg = c->getNickname() + "\n" + nickname;
     c->setNickname(nickname);
+    QTcpSocket *sock = c->getSocket();
+    QByteArray response = Frame::getReadyToSendFrame(msg, 255, 132);
+    sock->write(response);
     return ERROR::esuccess;
 }
 
@@ -133,8 +157,8 @@ quint8 Server::join(Client* c, QString& dest)
                 return ERROR::eNotAuthorised;
 
             (*it)->addClient(c, REGULAR);
-            QString emptymsg = "";
-            broadCast(*it, c, 255, 137,emptymsg);
+            QString msg = dest + "\n" + c->getNickname();
+            broadCast(msg, 255, 137, *it, c);
             return ERROR::esuccess;
         }
     }
@@ -162,7 +186,8 @@ quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
             if((*it)->isStatus(c, REGULAR) == false)
                 return ERROR::eNotAuthorised;
 
-            broadCast(*it, c, 255, 128,message);
+            QString msg = dest + "\n" + c->getNickname() + "\n" + message;
+            broadCast(msg, 255, 128, *it, c);
             return ERROR::esuccess;
         }
     }
@@ -185,8 +210,8 @@ quint8 Server::leave(Client* c, QString& dest)
             else
             {
                 (*it)->removeClient(c);
-                QString emptymsg = "";
-                broadCast(*it, c, 255, 133,emptymsg);
+                QString msg = dest + "\n" + c->getNickname();
+                broadCast(msg, 255, 133, *it, c);
                 return ERROR::esuccess;
             }
 
@@ -223,27 +248,25 @@ quint8 Server::listChannel(Client* c, QString& filter)
     return 0;
 }
 
-quint8 Server::setTopic(Client* c, QString& dest_channel, QString& topic)
-{
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is changing the topic for the channel #%s by %s.", c->getNickname().toStdString().c_str(), dest_channel.toStdString().c_str(), topic.toStdString().c_str());
 
-    //TODO: check if the client has enough rights to change the topic
+quint8 Server::topic(Client* c, QString& dest_channel, QString& topic)
+{
+
     for (std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
         if ((*it)->getChannelName().compare(dest_channel) == 0)//The specified channel exists
         {
-            if (topic.isEmpty())
-                c->getSocket()->write((*it)->getTopic().toStdString().c_str());
-            else
-                (*it)->setTopic(topic);
+            if(!((*it)->isStatus(c, OPERATOR)))
+                return ERROR::eNotAuthorised;
 
-            return 0;
+            (*it)->setTopic(topic);
+            QString msg = dest_channel + "\n" + topic;
+            broadCast(msg, 255, 131, *it, c);
+            return ERROR::esuccess;
         }
     }
 
-    bdPlatformLog::bdLogMessage(_ERROR, "err/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The requested channel (#%s) does not exist. Hax?", dest_channel.toStdString().c_str());
-
-    return 1;
+    return ERROR::eNotExist;
 }
 
 quint8 Server::gwho(Client* c, QString& filter)

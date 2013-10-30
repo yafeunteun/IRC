@@ -129,16 +129,16 @@ public:
     virtual quint8 execute() { return m_receiver->listChannel(m_sender, filter); }
 };
 
-class topicCommand : public Command
+class topic : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString dest_channel, topic;
+    QString m_dest_channel, m_topic;
 public:
-    topicCommand(Client* sender, QStringList args, QStringList _args) : m_sender(sender), dest_channel(args[0]), topic(_args.join(" ")){ m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->setTopic(m_sender, dest_channel, topic); }
+    topic(Client* sender, Frame &frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->topic(m_sender, m_dest_channel, m_topic); }
 };
 
 class gwho : public Command
