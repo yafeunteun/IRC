@@ -32,7 +32,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         //case(C_DEOP): return new deop(c, frame); break;
         case(C_JOIN): return new join(c, frame); break;
         case(C_NICK): return new nick(c, frame); break;
-        //case(C_LEAVE): return new leave(c, frame); break;
+        case(C_LEAVE): return new leave(c, frame); break;
         //case(C_UNBAN): return new unban(c, frame); break;
         //case(C_BANLIST): return new banlist(c, frame); break;
         default: /* error */; return NULL;
@@ -152,6 +152,25 @@ pubmsg::pubmsg(Client *sender, Frame &frame)
 quint8 pubmsg::verify()
 {
     if(m_dest_channel.isEmpty() || m_message.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+
+leave::leave(Client *sender, Frame &frame)
+{
+
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+        m_dest_channel = "";
+    else
+        m_dest_channel = frame.getArgList()[0];     // we can join one channel at a time
+}
+
+quint8 leave::verify()
+{
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }

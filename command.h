@@ -110,16 +110,16 @@ public:
     virtual quint8 execute() { return m_receiver->join(m_sender, m_dest_channel); }
 };
 
-class leaveCommand : public Command
+class leave : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString dest_channel;
+    QString m_dest_channel;
 public:
-    leaveCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->leaveChannel(m_sender, dest_channel); }
+    leave(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->leave(m_sender, m_dest_channel); }
 };
 
 class listCommand : public Command
