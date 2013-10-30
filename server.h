@@ -31,7 +31,7 @@ private:
     std::list<Channel*> m_listChannels;
 protected:
     Server(QObject *parent = 0);
-    void broadCast(Channel *chan, Client *sender, QString& message);
+    void broadCast(Channel *chan, Client *sender, quint16 id, quint8 code, QString& message);
 public:
     ~Server();
     static Server* Instance();
@@ -40,7 +40,7 @@ public:
     quint8 privmsg(Client* c, QString& dest, QString& message);
     quint8 pubmsg(Client* c, QString& dest, QString& message);
     quint8 join(Client* c, QString& dest);
-    quint8 leaveChannel(Client* c, QString& dest);
+    quint8 leave(Client* c, QString& dest);
     quint8 listChannel(Client* c, QString& filter);
     quint8 setTopic(Client* c, QString& dest_channel, QString& topic);
     quint8 whoGeneral(Client* c, QString& filter);

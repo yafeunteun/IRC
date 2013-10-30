@@ -74,9 +74,9 @@ void Server::delClient(Client* c)
 
 
 
-void Server::broadCast(Channel *chan, Client *sender, QString& message)
+void Server::broadCast(Channel *chan, Client *sender, quint16 id, quint8 code, QString& message)
 {
-    QByteArray response = Frame::getReadyToSendFrame(chan->getChannelName() + "\n" + sender->getNickname() + "\n" + message, 255, 128);
+    QByteArray response = Frame::getReadyToSendFrame(chan->getChannelName() + "\n" + sender->getNickname() + "\n" + message, id, code);
     for(std::list<Client*>::iterator it = chan->getClientList(REGULAR).begin(); it != chan->getClientList(REGULAR).end(); ++it)
     {
         if ((*it)->getNickname().compare(sender->getNickname()) != 0)
@@ -132,7 +132,9 @@ quint8 Server::join(Client* c, QString& dest)
             if((*it)->isStatus(c, BANNED) == true)
                 return ERROR::eNotAuthorised;
 
-            (*it)->addClient(c, REGULAR)  ;
+            (*it)->addClient(c, REGULAR);
+            QString emptymsg = "";
+            broadCast(*it, c, 255, 137,emptymsg);
             return ERROR::esuccess;
         }
     }
@@ -160,7 +162,7 @@ quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
             if((*it)->isStatus(c, REGULAR) == false)
                 return ERROR::eNotAuthorised;
 
-            broadCast(*it, c, message);
+            broadCast(*it, c, 255, 128,message);
             return ERROR::esuccess;
         }
     }
@@ -170,30 +172,29 @@ quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 
 
 
-quint8 Server::leaveChannel(Client* c, QString& dest)
+quint8 Server::leave(Client* c, QString& dest)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "client", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is leaving #%s.", c->getNickname().toStdString().c_str(), dest.toStdString().c_str());
 
     for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
-        if((*it)->getChannelName().compare(dest) == 0)
+        if((*it)->getChannelName().compare(dest) == 0)      // channel exists
         {
-            std::list<Client*>::iterator _it = (*it)->getClientList().begin();
-            for (; _it != (*it)->getClientList().end(); ++_it)
+
+            if((*it)->isStatus(c, REGULAR) == false)        // client is not connected to channel
+                return ERROR::eBadArg;                       // return bad argument
+            else
             {
-                if (c->getNickname().compare((*_it)->getNickname()))
-                    break;
+                (*it)->removeClient(c);
+                QString emptymsg = "";
+                broadCast(*it, c, 255, 133,emptymsg);
+                return ERROR::esuccess;
             }
-            (*it)->getClientList().remove(*_it);
-            return 0;
+
         }
+
     }
 
-    bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "The channel '#%s' does not exist, hax?!", dest.toStdString().c_str());
-
-    //Remarks: If the client who leaves is the current OP, rights should not be transfered to another Client
-
-    return 1;
+    return ERROR::eNotExist;
 }
 
 quint8 Server::listChannel(Client* c, QString& filter)
