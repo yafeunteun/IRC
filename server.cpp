@@ -246,19 +246,25 @@ quint8 Server::setTopic(Client* c, QString& dest_channel, QString& topic)
     return 1;
 }
 
-quint8 Server::whoGeneral(Client* c, QString& filter)
+quint8 Server::gwho(Client* c, QString& filter)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is getting client list.", c->getNickname().toStdString().c_str());
     QString response("");
+    QRegularExpression reg;
+    reg.setPattern(filter);
 
     for (std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
-        //TODO: Build the regex and...
-        //if (regex == ok)
+        if(reg.match((*it)->getNickname()).hasMatch() && (*it)->getNickname() != c->getNickname() )
             response += (*it)->getNickname() + "\n";
     }
 
-    return 0;
+    response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
+
+    QTcpSocket *sock = c->getSocket();
+    // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
+    QByteArray ret_frame = Frame::getReadyToSendFrame(c->getNickname() + "\n" + response, 255, 129);
+    sock->write(ret_frame);
+    return ERROR::esuccess;
 }
 
 quint8 Server::whoChannel(Client* c, QString& dest_channel)

@@ -22,7 +22,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
     {
         case(C_PRIVMSG): return new privmsg(c, frame); break;
         case(C_PUBMSG): return new pubmsg(c, frame); break;
-        //case(C_GWHO): return new gwho(c, frame); break;
+        case(C_GWHO): return new gwho(c, frame); break;
         //case(C_CWHO): return new cwho(c, frame); break;
         //case(C_LIST): return new list(c, frame); break;
         //case(C_TOPIC): return new topic(c, frame); break;
@@ -165,12 +165,36 @@ leave::leave(Client *sender, Frame &frame)
     if(frame.getNbArg() < 1)
         m_dest_channel = "";
     else
-        m_dest_channel = frame.getArgList()[0];     // we can join one channel at a time
+        m_dest_channel = frame.getArgList()[0];
 }
 
 quint8 leave::verify()
 {
     if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+gwho::gwho(Client *sender, Frame &frame)
+{
+
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+        m_filter = "";
+    else
+        m_filter = frame.getArgList()[0];
+}
+
+quint8 gwho::verify()
+{
+
+    if(m_filter.isEmpty())
+        return ERROR::eMissingArg;
+
+    QRegularExpression regex(m_filter);
+    if(!regex.isValid())
+        return ERROR::eBadArg;
+
     return ERROR::esuccess;
 }

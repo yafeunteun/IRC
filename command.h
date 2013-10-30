@@ -146,16 +146,16 @@ public:
     virtual quint8 execute() { return m_receiver->setTopic(m_sender, dest_channel, topic); }
 };
 
-class whoGCommand : public Command
+class gwho : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString filter;
+    QString m_filter;
 public:
-    whoGCommand(Client* sender, QStringList args) : m_sender(sender), filter(args[0]){ m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->whoGeneral(m_sender, filter); }
+    gwho(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->gwho(m_sender, m_filter); }
 };
 
 class whoCCommand : public Command

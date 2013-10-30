@@ -43,7 +43,7 @@ public:
     quint8 leave(Client* c, QString& dest);
     quint8 listChannel(Client* c, QString& filter);
     quint8 setTopic(Client* c, QString& dest_channel, QString& topic);
-    quint8 whoGeneral(Client* c, QString& filter);
+    quint8 gwho(Client* c, QString& filter);
     quint8 whoChannel(Client* c, QString& dest_channel);
 public slots:
     void onNewConnection(void);
