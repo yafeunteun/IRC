@@ -267,21 +267,33 @@ quint8 Server::gwho(Client* c, QString& filter)
     return ERROR::esuccess;
 }
 
-quint8 Server::whoChannel(Client* c, QString& dest_channel)
+quint8 Server::cwho(Client* c, QString& dest_channel)
 {
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __PRETTY_FUNCTION__, __LINE__, "%s is getting client list from #%s.", c->getNickname().toStdString().c_str(), dest_channel.toStdString().c_str());
     QString response("");
 
-    for (std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
-        if ((*it)->getChannelName().compare(dest_channel) == 0)
+        if((*it)->getChannelName().compare(dest_channel) == 0)
         {
-            for (std::list<Client*>::iterator _it = (*it)->getClientList().begin(); _it != (*it)->getClientList().end(); ++_it)
-                    response += (*_it)->getNickname() + "\n";
+            if((*it)->isStatus(c, BANNED) == true)
+                return ERROR::eNotAuthorised;
 
-            break;
+            for (std::list<Client*>::iterator _it = (*it)->getClientList().begin(); _it != (*it)->getClientList().end(); ++_it)
+            {
+                if((*_it)->getNickname() != c->getNickname())
+                    response += (*_it)->getNickname() + "\n";
+            }
+
+            response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
+            QTcpSocket *sock = c->getSocket();
+            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
+            QByteArray ret_frame = Frame::getReadyToSendFrame(c->getNickname() + "\n" + response, 255, 129);
+            sock->write(ret_frame);
+            return ERROR::esuccess;
         }
     }
 
-    return 0;
+    return ERROR::eNotExist;
 }
+
+

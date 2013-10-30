@@ -23,7 +23,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_PRIVMSG): return new privmsg(c, frame); break;
         case(C_PUBMSG): return new pubmsg(c, frame); break;
         case(C_GWHO): return new gwho(c, frame); break;
-        //case(C_CWHO): return new cwho(c, frame); break;
+        case(C_CWHO): return new cwho(c, frame); break;
         //case(C_LIST): return new list(c, frame); break;
         //case(C_TOPIC): return new topic(c, frame); break;
         //case(C_KICK): return new kick(c, frame); break;
@@ -41,7 +41,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
 }
 
 
-nick::nick(Client *sender, Frame &frame) : Command()
+nick::nick(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
@@ -71,7 +71,7 @@ quint8 nick::verify()
     return ERROR::esuccess;
 }
 
-privmsg::privmsg(Client *sender, Frame &frame) : Command()
+privmsg::privmsg(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
@@ -98,7 +98,7 @@ quint8 privmsg::verify()
     return ERROR::esuccess;
 }
 
-join::join(Client *sender, Frame &frame) : Command()
+join::join(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
@@ -196,5 +196,22 @@ quint8 gwho::verify()
     if(!regex.isValid())
         return ERROR::eBadArg;
 
+    return ERROR::esuccess;
+}
+
+cwho::cwho(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+        m_dest_channel = "";
+    else
+        m_dest_channel = frame.getArgList()[0];
+}
+
+quint8 cwho::verify()
+{
+    if(m_dest_channel.isEmpty())
+        return ERROR::eMissingArg;
     return ERROR::esuccess;
 }

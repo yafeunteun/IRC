@@ -42,9 +42,6 @@ namespace CMD {
         };
 }
 
-
-
-
 class Command
 {
 
@@ -58,7 +55,6 @@ protected:
 
 };
 
-
 class nick : public Command
 {
 private:
@@ -71,7 +67,6 @@ public:
     virtual quint8 verify();
     virtual quint8 execute() { return m_receiver->nick(m_sender, m_nickname); }
 };
-
 
 class privmsg : public Command
 {
@@ -158,16 +153,16 @@ public:
     virtual quint8 execute() { return m_receiver->gwho(m_sender, m_filter); }
 };
 
-class whoCCommand : public Command
+class cwho : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString dest_channel;
+    QString m_dest_channel;
 public:
-    whoCCommand(Client* sender, QStringList args) : m_sender(sender), dest_channel(args[0]){ m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->whoChannel(m_sender, dest_channel); }
+    cwho(Client* sender, Frame& frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->cwho(m_sender, m_dest_channel); }
 };
 
 #endif // COMMAND_H
