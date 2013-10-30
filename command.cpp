@@ -192,6 +192,9 @@ quint8 gwho::verify()
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
+    if(m_filter == "*")
+        m_filter = ".*";
+
     QRegularExpression regex(m_filter);
     if(!regex.isValid())
         return ERROR::eBadArg;
