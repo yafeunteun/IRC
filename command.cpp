@@ -13,8 +13,6 @@ Command::Command()
 
 }
 
-
-
 Command* Command::getCommand(Client *c, Frame &frame)
 {
 
@@ -242,6 +240,154 @@ topic::topic(Client *sender, Frame &frame)
 quint8 topic::verify()
 {
     if(m_dest_channel.isEmpty() || m_topic.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+kick::kick(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 3)
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = frame.getArgList()[2];
+    }
+}
+
+quint8 kick::verify()
+{
+    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+ban::ban(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 3)
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = frame.getArgList()[2];
+    }
+}
+
+quint8 ban::verify()
+{
+    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+unban::unban(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 3)
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+        m_reason = frame.getArgList()[2];
+    }
+}
+
+quint8 unban::verify()
+{
+    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+banlist::banlist(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+        m_dest_channel = "";
+    else
+        m_dest_channel = frame.getArgList()[0];
+}
+
+quint8 banlist::verify()
+{
+    if(m_dest_channel.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+makeOP::makeOP(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+    {
+        m_dest_channel = "";
+        m_dest_client == "";
+    }
+    else if (frame.getNbArg() < 2)
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+    }
+}
+
+quint8 makeOP::verify()
+{
+    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+        return ERROR::eMissingArg;
+    return ERROR::esuccess;
+}
+
+remOP::remOP(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+    {
+        m_dest_channel = "";
+        m_dest_client == "";
+    }
+    else if (frame.getNbArg() < 2)
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = "";
+    }
+    else
+    {
+        m_dest_channel = frame.getArgList()[0];
+        m_dest_client = frame.getArgList()[1];
+    }
+}
+
+quint8 remOP::verify()
+{
+    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }

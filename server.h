@@ -45,6 +45,12 @@ public:
     quint8 topic(Client* c, QString& dest_channel, QString& topic);
     quint8 gwho(Client* c, QString& filter);
     quint8 cwho(Client* c, QString& dest_channel);
+    quint8 kick(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
+    quint8 ban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
+    quint8 unban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
+    quint8 banlist(Client* c, QString& dest_channel);
+    quint8 makeOP(Client* c, QString& dest_channel, QString& dest_client);
+    quint8 remOP(Client* c, QString& dest_channel, QString& dest_client);
 public slots:
     void onNewConnection(void);
 
