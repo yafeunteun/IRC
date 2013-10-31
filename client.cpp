@@ -59,8 +59,11 @@ void Client::onDataReady()
     if(ret_val == ERROR::esuccess)
         ret_val = command->execute();
 
-    QByteArray response = Frame::getReadyToSendFrame("", frame.getId(), ret_val);
+    QByteArray response = Frame::getReadyToSendFrame(this->getMsg(), frame.getId(), ret_val);
     this->getSocket()->write(response);
+
+    QString empty("");
+    this->setMsg(empty);           // reset the message held by the client
 
 }
 
@@ -82,6 +85,11 @@ bool Client::getState(void) const
     return m_state;
 }
 
+QString Client::getMsg(void) const
+{
+    return m_msg;
+}
+
 /********************
  *      SETTERS     *
  ********************/
@@ -98,4 +106,9 @@ void Client::setSocket(QTcpSocket *socket)
 void Client::setState(bool state)
 {
     m_state = state;
+}
+
+void Client::setMsg(QString& msg)
+{
+    m_msg = msg;
 }

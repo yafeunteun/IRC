@@ -14,6 +14,7 @@ private:
     QString m_nickname;         // nickname of the client
     bool m_state;               // 0 the client has not set his nickname yet; 1 else
     std::list<Channel*> channelJoinedList;
+    QString m_msg;      // this attribute is set by server in response to a command from the client
 
 public:
     Client(QTcpSocket* socket, QObject *parent);       // constrtuctor
@@ -23,6 +24,8 @@ public:
     void setState(bool state);
     QTcpSocket* getSocket(void) const;                        // getter for socket
     QString getNickname(void) const;                          // getter for nickname
+    QString getMsg(void) const;
+    void setMsg(QString& msg);
     bool getState(void) const;
 
 public slots :
