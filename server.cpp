@@ -315,15 +315,9 @@ quint8 Server::cwho(Client* c, QString& dest_channel)
                 return ERROR::eNotAuthorised;
             }
 
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-            {
-                if((*_it)->getNickname() != c->getNickname())
-                    response += (*_it)->getNickname() + "\n";
-            }
-
             for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
             {
-                if((*_it)->getNickname() != c->getNickname())
+                if((*_it)->getNickname() != c->getNickname())   // remove this line if you want to display your nick if you're in the channel
                     response += (*_it)->getNickname() + "\n";
             }
 
