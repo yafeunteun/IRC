@@ -22,7 +22,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_PUBMSG): return new pubmsg(c, frame); break;
         case(C_GWHO): return new gwho(c, frame); break;
         case(C_CWHO): return new cwho(c, frame); break;
-        //case(C_LIST): return new list(c, frame); break;
+        case(C_LIST): return new list(c, frame); break;
         case(C_TOPIC): return new topic(c, frame); break;
         //case(C_KICK): return new kick(c, frame); break;
         //case(C_BAN): return new ban(c, frame); break;
@@ -200,6 +200,31 @@ quint8 gwho::verify()
     return ERROR::esuccess;
 }
 
+list::list(Client *sender, Frame &frame)
+{
+    m_receiver = Server::Instance();
+    m_sender = sender;
+    if(frame.getNbArg() < 1)
+        m_filter = "";
+    else
+        m_filter = frame.getArgList()[0];
+}
+
+quint8 list::verify()
+{
+    if(m_filter.isEmpty())
+        return ERROR::eMissingArg;
+
+    if(m_filter == "*")
+        m_filter = ".*";
+
+    QRegularExpression regex(m_filter);
+    if(!regex.isValid())
+        return ERROR::eBadArg;
+
+    return ERROR::esuccess;
+}
+
 cwho::cwho(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -336,7 +361,7 @@ quint8 banlist::verify()
     return ERROR::esuccess;
 }
 
-makeOP::makeOP(Client *sender, Frame &frame)
+op::op(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
@@ -357,14 +382,14 @@ makeOP::makeOP(Client *sender, Frame &frame)
     }
 }
 
-quint8 makeOP::verify()
+quint8 op::verify()
 {
     if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
-remOP::remOP(Client *sender, Frame &frame)
+deop::deop(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
@@ -385,7 +410,7 @@ remOP::remOP(Client *sender, Frame &frame)
     }
 }
 
-quint8 remOP::verify()
+quint8 deop::verify()
 {
     if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
         return ERROR::eMissingArg;

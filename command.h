@@ -14,7 +14,6 @@ namespace ERROR {
         eNotAuthorised,
         eMissingArg,
         eNotExist,
-        eNoSufficientPermissions,
         error
     };
 
@@ -118,16 +117,16 @@ public:
     virtual quint8 execute() { return m_receiver->leave(m_sender, m_dest_channel); }
 };
 
-class listCommand : public Command
+class list : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString filter;
+    QString m_filter;
 public:
-    listCommand(Client* sender, QStringList args) : m_sender(sender), filter(args[0]){ m_receiver = Server::Instance();}
-    virtual quint8 verify() { return true;}
-    virtual quint8 execute() { return m_receiver->listChannel(m_sender, filter); }
+    list(Client* sender, Frame &frame);
+    virtual quint8 verify();
+    virtual quint8 execute() { return m_receiver->list(m_sender, m_filter); }
 };
 
 class topic : public Command
@@ -214,28 +213,28 @@ public:
     virtual quint8 execute() { return m_receiver->banlist(m_sender, m_dest_channel); }
 };
 
-class makeOP : public Command
+class op : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
     QString m_dest_channel, m_dest_client;
 public:
-    makeOP(Client* sender, Frame& frame);
+    op(Client* sender, Frame& frame);
     virtual quint8 verify();
-    virtual quint8 execute() { return m_receiver->makeOP(m_sender, m_dest_channel, m_dest_client); }
+    virtual quint8 execute() { return m_receiver->op(m_sender, m_dest_channel, m_dest_client); }
 };
 
-class remOP : public Command
+class deop : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
     QString m_dest_channel, m_dest_client;
 public:
-    remOP(Client* sender, Frame& frame);
+    deop(Client* sender, Frame& frame);
     virtual quint8 verify();
-    virtual quint8 execute() { return m_receiver->remOP(m_sender, m_dest_channel, m_dest_client); }
+    virtual quint8 execute() { return m_receiver->deop(m_sender, m_dest_channel, m_dest_client); }
 };
 
 #endif // COMMAND_H

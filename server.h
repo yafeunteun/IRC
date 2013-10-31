@@ -41,7 +41,7 @@ public:
     quint8 pubmsg(Client* c, QString& dest, QString& message);
     quint8 join(Client* c, QString& dest);
     quint8 leave(Client* c, QString& dest);
-    quint8 listChannel(Client* c, QString& filter);
+    quint8 list(Client* c, QString& filter);
     quint8 topic(Client* c, QString& dest_channel, QString& topic);
     quint8 gwho(Client* c, QString& filter);
     quint8 cwho(Client* c, QString& dest_channel);
@@ -49,8 +49,8 @@ public:
     quint8 ban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
     quint8 unban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
     quint8 banlist(Client* c, QString& dest_channel);
-    quint8 makeOP(Client* c, QString& dest_channel, QString& dest_client);
-    quint8 remOP(Client* c, QString& dest_channel, QString& dest_client);
+    quint8 op(Client* c, QString& dest_channel, QString& dest_client);
+    quint8 deop(Client* c, QString& dest_channel, QString& dest_client);
 public slots:
     void onNewConnection(void);
 
