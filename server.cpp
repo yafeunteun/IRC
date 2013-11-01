@@ -143,14 +143,14 @@ quint8 Server::nick(Client* c, QString& nickname)
 {
     QString msg;
 
-    for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+    Client* tmp;
+    tmp = this->getClientFromName(nickname);
+
+    if(tmp != NULL)
     {
-        if((*it)->getNickname().compare(nickname) == 0)
-        {
-            msg = "Nickname already used by another client !";
-            c->setMsg(msg);
-            return ERROR::eNickCollision;
-        }
+        msg = "Nickname already used by another client !";
+        c->setMsg(msg);
+        return ERROR::eNickCollision;
     }
 
     msg = c->getNickname() + "\n" + nickname;
