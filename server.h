@@ -36,6 +36,8 @@ public:
     ~Server();
     static Server* Instance();
     void delClient(Client* c);
+    //Channel* getChannelFromName(QString& name);
+    //Client* getClientFromName(QString& name);
     quint8 nick(Client* c, QString& nickname);
     quint8 privmsg(Client* c, QString& dest, QString& message);
     quint8 pubmsg(Client* c, QString& dest, QString& message);
@@ -46,7 +48,7 @@ public:
     quint8 gwho(Client* c, QString& filter);
     quint8 cwho(Client* c, QString& dest_channel);
     quint8 kick(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
-    quint8 ban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
+    quint8 ban(Client* c, QString& dest_channel, QString& dest_client);
     quint8 unban(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
     quint8 banlist(Client* c, QString& dest_channel);
     quint8 op(Client* c, QString& dest_channel, QString& dest_client);

@@ -382,54 +382,37 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client, QStr
     return ERROR::eNotExist;
 }
 
-quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client, QString& reason)
+quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
 {
-    bool destClientFound = false;
-
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    for(std::list<Channel*>::iterator channelIterator = m_listChannels.begin(); channelIterator != m_listChannels.end(); ++channelIterator)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0) //Channel found
+        if((*channelIterator)->getChannelName().compare(dest_channel) == 0) //Channel found
         {
-            if((*it)->isStatus(c, BANNED) == true)
+            if((*channelIterator)->isStatus(c, OPERATOR) != true)   // if the sender is not operator, he's not authorized to ban
                 return ERROR::eNotAuthorised;
 
-            if ((*it)->isStatus(c, OPERATOR) != true)
+            for (std::list<Client*>::iterator clientIterator = (*channelIterator)->getClientList(REGULAR).begin(); clientIterator != (*channelIterator)->getClientList(REGULAR).end(); ++clientIterator)
             {
-                c->getSocket()->write(Frame::getReadyToSendFrame("You don't have enough permissions to invoke this command.", 255, 129));
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-            {
-                if((*_it)->getNickname().compare(dest_client) == 0) //Target client found
+                if((*clientIterator)->getNickname().compare(dest_client) == 0 ) //Target client found
                 {
-                    (*it)->getClientList(BANNED).push_front(*_it);
-                    (*it)->getClientList(REGULAR).remove(*_it); //Not sure if it will work...
-                    destClientFound = true;
-                    break;
+                    if((*channelIterator)->isStatus((*clientIterator), OPERATOR))   // if the client is OPERATOR, return ERROR::eNotAuthorised
+                        return ERROR::eNotAuthorised;
+                    else{
+                        (*channelIterator)->getClientList(BANNED).push_front(*clientIterator);
+                        (*channelIterator)->removeClient(*clientIterator);
+                        return ERROR::esuccess;
+                    }
                 }
             }
 
-            if (!destClientFound)
-            {
-                bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __FUNCTION__, __LINE__, "The target client was not found in the REGULAR list but he MIGHT be an operator."); //I assume that we can't be banned between operators
-                return ERROR::eNotExist;
-            }
 
-            QString response = dest_client + " has been banned from #" + dest_channel + " ( " + reason + ")";
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            //Send to the whole channel
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-
-            return ERROR::esuccess;
         }
+
     }
+
     return ERROR::eNotExist;
 }
+
 
 quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client, QString& reason)
 {
