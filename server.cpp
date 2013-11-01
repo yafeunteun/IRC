@@ -67,6 +67,32 @@ void Server::onNewConnection(void)
 /********************
  *    MEMBER         *
  ********************/
+
+// returns the channel corresponding to the name given or null if channel doesn't exist.
+Channel* Server::getChannelFromName(QString& name)
+{
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    {
+        if((*it)->getChannelName().compare(name) == 0)
+            return (*it);
+    }
+
+    return NULL;
+}
+
+Client* Server::getClientFromName(QString& name)
+{
+    for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+    {
+        if((*it)->getNickname().compare(name) == 0)
+            return (*it);
+    }
+
+    return NULL;
+}
+
+
+
 void Server::delClient(Client* c)
 {
     m_listClients.remove(c);

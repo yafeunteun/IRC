@@ -36,8 +36,8 @@ public:
     ~Server();
     static Server* Instance();
     void delClient(Client* c);
-    //Channel* getChannelFromName(QString& name);
-    //Client* getClientFromName(QString& name);
+    Channel* getChannelFromName(QString& name);
+    Client* getClientFromName(QString& name);
     quint8 nick(Client* c, QString& nickname);
     quint8 privmsg(Client* c, QString& dest, QString& message);
     quint8 pubmsg(Client* c, QString& dest, QString& message);
