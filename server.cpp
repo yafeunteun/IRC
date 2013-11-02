@@ -192,30 +192,33 @@ quint8 Server::privmsg(Client* c, QString& dest, QString& message)
 quint8 Server::join(Client* c, QString& dest)
 {
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
-    {
-        if((*it)->getChannelName().compare(dest) == 0)
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-            {
-                QString response("You're banned from this channel !");
-                c->setMsg(response);
-                return ERROR::eNotAuthorised;
-            }
+    Channel* dest_channel = getChannelFromName(dest);
 
-            (*it)->addClient(c, REGULAR);
+    if(dest_channel == NULL)        // if the channel doesn't exist
+    {
+        dest_channel = new Channel(dest);       // it is created
+        m_listChannels.push_front(dest_channel);
+        dest_channel->addClient(c, OPERATOR);       // and the client is Operator on this channel
+        return ERROR::esuccess;
+    }
+
+    else  // dest_channel already exist
+    {
+        if(dest_channel->isStatus(c, BANNED) == true)   // if the status of the client on this channel is BANNED
+        {
+            QString response("You're banned from this channel !");
+            c->setMsg(response);
+            return ERROR::eNotAuthorised;
+        }
+
+        else    // if the client is not banned fromthis channel
+        {
+            dest_channel->addClient(c, REGULAR);
             QString msg = "#" + dest + "\n" + c->getNickname();
-            broadCast(msg, 255, 137, *it, c);
+            broadCast(msg, 255, 137, dest_channel, c);
             return ERROR::esuccess;
         }
     }
-
-    Channel *chan = new Channel(dest);
-    m_listChannels.push_front(chan);
-
-    chan->addClient(c, OPERATOR);
-
-    return ERROR::esuccess;
 }
 
 
