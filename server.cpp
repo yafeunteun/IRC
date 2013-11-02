@@ -225,24 +225,20 @@ quint8 Server::join(Client* c, QString& dest)
 
 quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 {
+    Channel* dest_channel = getChannelFromName(dest);
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
-    {
-        if((*it)->getChannelName().compare(dest) == 0)
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
+    if(dest_channel == NULL)
+        return ERROR::eNotExist;
 
-            if((*it)->isStatus(c, REGULAR) == false)
-                return ERROR::eNotAuthorised;
+    if(dest_channel->isStatus(c, BANNED) == true)       // if the client is banned from this channel
+        return ERROR::eNotAuthorised;
 
-            QString msg = "#" + dest + "\n" + c->getNickname() + "\n" + message;
-            broadCast(msg, 255, 128, *it, c);
-            return ERROR::esuccess;
-        }
-    }
+    if(dest_channel->isStatus(c, REGULAR) == false)     // if the client isn't connected to the channel
+        return ERROR::eNotAuthorised;
 
-    return ERROR::eNotExist;
+    QString msg = "#" + dest + "\n" + c->getNickname() + "\n" + message;
+    broadCast(msg, 255, 128, dest_channel, c);
+    return ERROR::esuccess;
 }
 
 
@@ -250,26 +246,22 @@ quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 quint8 Server::leave(Client* c, QString& dest)
 {
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* dest_channel = getChannelFromName(dest);
+
+    if(dest_channel == NULL)
+        return ERROR::eNotExist;
+
+    if(dest_channel->isStatus(c, REGULAR) == false)        // client is not connected to channel
+        return ERROR::eBadArg;                       // return bad argument
+    else
     {
-        if((*it)->getChannelName().compare(dest) == 0)      // channel exists
-        {
-
-            if((*it)->isStatus(c, REGULAR) == false)        // client is not connected to channel
-                return ERROR::eBadArg;                       // return bad argument
-            else
-            {
-                (*it)->removeClient(c);
-                QString msg = "#" + dest + "\n" + c->getNickname();
-                broadCast(msg, 255, 133, *it, c);
-                return ERROR::esuccess;
-            }
-
-        }
-
+        dest_channel->removeClient(c);
+        QString msg = "#" + dest + "\n" + c->getNickname();
+        broadCast(msg, 255, 133, dest_channel, c);
+        return ERROR::esuccess;
     }
 
-    return ERROR::eNotExist;
+
 }
 
 quint8 Server::list(Client* c, QString& filter)
