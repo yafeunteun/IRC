@@ -169,19 +169,23 @@ quint8 Server::nick(Client* c, QString& nickname)
 
 quint8 Server::privmsg(Client* c, QString& dest, QString& message)
 {
-    for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
+
+    Client *dest_client = getClientFromName(dest);
+
+    if(dest_client == NULL)
     {
-        if((*it)->getNickname().compare(dest) == 0)
-        {
-            QTcpSocket *sock = (*it)->getSocket();
-            QByteArray response = Frame::getReadyToSendFrame(c->getNickname() + "\n" + message, 255, 129);
-            sock->write(response);
-            return ERROR::esuccess;
-        }
+        QString msg = "Specified client doesn't exist !";
+        c->setMsg(msg);
+        return ERROR::eNotExist;
     }
-    QString msg = "Specified client doesn't exist !";
-    c->setMsg(msg);
-    return ERROR::eNotExist;
+
+    else
+    {
+        QTcpSocket *sock = dest_client->getSocket();
+        QByteArray response = Frame::getReadyToSendFrame(c->getNickname() + "\n" + message, 255, 129);
+        sock->write(response);
+        return ERROR::esuccess;
+    }
 }
 
 
