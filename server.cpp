@@ -285,26 +285,25 @@ quint8 Server::list(Client* c, QString& filter)
 }
 
 
-quint8 Server::topic(Client* c, QString& dest_channel, QString& topic)
+quint8 Server::topic(Client* c, QString& dest, QString& topic)
 {
 
-    for (std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* dest_channel = getChannelFromName(dest);
+
+    if(dest_channel == NULL)
     {
-        if ((*it)->getChannelName().compare(dest_channel) == 0)//The specified channel exists
-        {
-            if(!((*it)->isStatus(c, OPERATOR)))
-                return ERROR::eNotAuthorised;
-
-            (*it)->setTopic(topic);
-            QString msg = "#" + dest_channel + "\n" + topic;
-            broadCast(msg, 255, 131, *it, c);
-            return ERROR::esuccess;
-        }
+        QString response("Specified channel doesn't exist !");
+        c->setMsg(response);
+        return ERROR::eNotExist;
     }
-    QString response("Specified channel doesn't exist !");
 
-    c->setMsg(response);
-    return ERROR::eNotExist;
+    if(!(dest_channel->isStatus(c, OPERATOR)))
+        return ERROR::eNotAuthorised;
+
+    dest_channel->setTopic(topic);
+    QString msg = "#" + dest + "\n" + topic;
+    broadCast(msg, 255, 131, dest_channel, c);
+    return ERROR::esuccess;
 }
 
 quint8 Server::gwho(Client* c, QString& filter)

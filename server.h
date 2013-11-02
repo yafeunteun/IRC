@@ -44,7 +44,7 @@ public:
     quint8 join(Client* c, QString& dest);
     quint8 leave(Client* c, QString& dest);
     quint8 list(Client* c, QString& filter);
-    quint8 topic(Client* c, QString& dest_channel, QString& topic);
+    quint8 topic(Client* c, QString& dest, QString& topic);
     quint8 gwho(Client* c, QString& filter);
     quint8 cwho(Client* c, QString& dest_channel);
     quint8 kick(Client* c, QString& dest_channel, QString& dest_client, QString& reason);
