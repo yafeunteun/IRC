@@ -324,37 +324,36 @@ quint8 Server::gwho(Client* c, QString& filter)
     return ERROR::esuccess;
 }
 
-quint8 Server::cwho(Client* c, QString& dest_channel)
+quint8 Server::cwho(Client* c, QString& dest)
 {
     QString response("");
+    Channel* dest_channel = getChannelFromName(dest);
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    if(dest_channel == NULL)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0)
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-            {
-                response = "You're banned from this channel !";
-                c->setMsg(response);
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-            {
-                if((*_it)->getNickname() != c->getNickname())   // remove this line if you want to display your nick if you're in the channel
-                    response += (*_it)->getNickname() + "\n";
-            }
-
-            response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
-
-            c->setMsg(response);
-            return ERROR::esuccess;
-        }
+        response = "Channel doesn't exist !";
+        c->setMsg(response);
+        return ERROR::eNotExist;
     }
 
-    response = "Channel doesn't exist !";
+    if(dest_channel->isStatus(c, BANNED) == true)
+    {
+        response = "You're banned from this channel !";
+        c->setMsg(response);
+        return ERROR::eNotAuthorised;
+    }
+
+    for (std::list<Client*>::iterator _it = dest_channel->getClientList(REGULAR).begin(); _it != dest_channel->getClientList(REGULAR).end(); ++_it)
+    {
+        if((*_it)->getNickname() != c->getNickname())   // remove this line if you want to display your nick if you're in the channel
+            response += (*_it)->getNickname() + "\n";
+    }
+
+    response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
+
     c->setMsg(response);
-    return ERROR::eNotExist;
+    return ERROR::esuccess;
+
 }
 
 
