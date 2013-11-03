@@ -28,6 +28,7 @@ public:
     std::list<Client*>& getClientList( status s = REGULAR );
     void addClient( Client *c, status s = REGULAR );
     void removeClient(Client *c);
+    void unbanClient(Client *c);
     bool isStatus(Client * c, status s = REGULAR);  // true if the client c is in the list corresponding to status given.
 };
 

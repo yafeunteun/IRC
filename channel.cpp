@@ -57,8 +57,15 @@ void Channel::addClient(Client *c , status s)
     }
 }
 
-void Channel::removeClient(Client *c)
+
+void Channel::unbanClient(Client *c)
 {
+    m_banList.remove(c);
+}
+
+
+void Channel::removeClient(Client *c)
+{ 
     if(isStatus(c, OPERATOR))
         m_operatorList.remove(c);
     m_clientList.remove(c);
