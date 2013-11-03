@@ -24,7 +24,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_CWHO): return new cwho(c, frame); break;
         case(C_LIST): return new list(c, frame); break;
         case(C_TOPIC): return new topic(c, frame); break;
-        //case(C_KICK): return new kick(c, frame); break;
+        case(C_KICK): return new kick(c, frame); break;
         case(C_BAN): return new ban(c, frame); break;
         //case(C_OP): return new op(c, frame); break;
         //case(C_DEOP): return new deop(c, frame); break;
@@ -273,17 +273,15 @@ kick::kick(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 3)
+    if(frame.getNbArg() < 2)    // missing argument
     {
-        m_dest_channel = frame.getArgList()[0];
-        m_dest_client = frame.getArgList()[1];
-        m_reason = "";
+        m_dest_channel = "";    // thus, when the command will be verified, eMissingArg will be sent
+        m_dest_client = "";
     }
-    else
+        else
     {
         m_dest_channel = frame.getArgList()[0];
         m_dest_client = frame.getArgList()[1];
-        m_reason = frame.getArgList()[2];
     }
 }
 
@@ -291,8 +289,10 @@ quint8 kick::verify()
 {
     if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
         return ERROR::eMissingArg;
+
     return ERROR::esuccess;
 }
+
 
 ban::ban(Client *sender, Frame &frame)
 {

@@ -98,6 +98,7 @@ void Server::delClient(Client* c)
     m_listClients.remove(c);
 }
 
+
 // if chan is not specified, message will be sent to all clients connected to the server
 // if a sender is specified, message will not be sent to him
 void Server::broadCast(QString& message, quint16 id, quint8 code, Channel* chan, Client* sender)
@@ -357,52 +358,47 @@ quint8 Server::cwho(Client* c, QString& dest)
 }
 
 
-quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client, QString& reason)
+quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
 {
-    bool destClientFound = false;
+    QString response("");
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* chan = getChannelFromName(dest_channel);
+    if(chan == NULL)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0) //Channel found
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
-
-            if ((*it)->isStatus(c, OPERATOR) != true)
-            {
-                c->getSocket()->write(Frame::getReadyToSendFrame("You don't have enough permissions to invoke this command.", 255, 129));
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-            {
-                if((*_it)->getNickname().compare(dest_client) == 0) //Target client found
-                {
-                    (*it)->getClientList(REGULAR).remove(*_it); //Not sure if it will work...
-                    destClientFound = true;
-                    break;
-                }
-            }
-
-            if (!destClientFound)
-            {
-                bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __FUNCTION__, __LINE__, "The target client was not found in the REGULAR list but he MIGHT be an operator."); //I assume that we can't be kicked between operators
-                return ERROR::eNotExist;
-            }
-
-            QString response = dest_client + " has been kicked out #" + dest_channel + " ( " + reason + ")";
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            //Send to the whole channel
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-
-            return ERROR::esuccess;
-        }
+        return ERROR::eNotExist;
     }
-    return ERROR::eNotExist;
+
+    Client* cli = getClientFromName(dest_client);
+    if(cli == NULL)
+    {
+        return ERROR::eNotExist;
+    }
+
+    if (chan->isStatus(c, OPERATOR) != true)
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    if(!chan->isStatus(cli, REGULAR))
+    {
+        response = "Target client is not on this channel.";
+        c->setMsg(response);
+        return ERROR::eNotExist;
+    }
+
+    if(chan->isStatus(cli, OPERATOR))
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    chan->removeClient(cli);
+
+    response = "#" + dest_channel + "\n" + dest_client + "\n" + c->getNickname();
+    broadCast(response, 255, 134, chan, c);
+
+    return ERROR::esuccess;
+
+
 }
 
 quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
