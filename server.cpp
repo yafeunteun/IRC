@@ -403,33 +403,37 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
 
 quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
 {
-    for(std::list<Channel*>::iterator channelIterator = m_listChannels.begin(); channelIterator != m_listChannels.end(); ++channelIterator)
+    QString response("");
+
+    Channel* chan = getChannelFromName(dest_channel);
+    if(chan == NULL)
     {
-        if((*channelIterator)->getChannelName().compare(dest_channel) == 0) //Channel found
-        {
-            if((*channelIterator)->isStatus(c, OPERATOR) != true)   // if the sender is not operator, he's not authorized to ban
-                return ERROR::eNotAuthorised;
-
-            for (std::list<Client*>::iterator clientIterator = (*channelIterator)->getClientList(REGULAR).begin(); clientIterator != (*channelIterator)->getClientList(REGULAR).end(); ++clientIterator)
-            {
-                if((*clientIterator)->getNickname().compare(dest_client) == 0 ) //Target client found
-                {
-                    if((*channelIterator)->isStatus((*clientIterator), OPERATOR))   // if the client is OPERATOR, return ERROR::eNotAuthorised
-                        return ERROR::eNotAuthorised;
-                    else{
-                        (*channelIterator)->getClientList(BANNED).push_front(*clientIterator);
-                        (*channelIterator)->removeClient(*clientIterator);
-                        return ERROR::esuccess;
-                    }
-                }
-            }
-
-
-        }
-
+        return ERROR::eNotExist;
     }
 
-    return ERROR::eNotExist;
+    Client* cli = getClientFromName(dest_client);
+    if(cli == NULL || !(chan->isStatus(cli, REGULAR)))
+    {
+        return ERROR::eNotExist;
+    }
+
+    if (chan->isStatus(c, OPERATOR) != true)
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    if(chan->isStatus(cli, OPERATOR))
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    chan->removeClient(cli);
+    chan->addClient(cli, BANNED);
+
+    response = "#" + dest_channel + "\n" + "+" + "\n" + dest_client;
+    broadCast(response, 255, 135, chan, c);
+
+    return ERROR::esuccess;
 }
 
 

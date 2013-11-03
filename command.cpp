@@ -278,7 +278,8 @@ kick::kick(Client *sender, Frame &frame)
         m_dest_channel = "";    // thus, when the command will be verified, eMissingArg will be sent
         m_dest_client = "";
     }
-        else
+
+    else
     {
         m_dest_channel = frame.getArgList()[0];
         m_dest_client = frame.getArgList()[1];
