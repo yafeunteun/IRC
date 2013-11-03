@@ -437,48 +437,33 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
 }
 
 
-quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client, QString& reason)
+quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
 {
-    bool destClientFound = false;
+    QString response("");
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* chan = getChannelFromName(dest_channel);
+    if(chan == NULL)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0) //Channel found
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
-
-            if ((*it)->isStatus(c, OPERATOR) != true)
-            {
-                c->getSocket()->write(Frame::getReadyToSendFrame("You don't have enough permissions to invoke this command.", 255, 129));
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(BANNED).begin(); _it != (*it)->getClientList(BANNED).end(); ++_it)
-            {
-                if((*_it)->getNickname().compare(dest_client) == 0) //Target client found
-                {
-                    (*it)->getClientList(BANNED).remove(*_it);
-                    destClientFound = true;
-                    break;
-                }
-            }
-
-            if (!destClientFound)
-            {
-                bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __FUNCTION__, __LINE__, "The target client was not found.");
-                return ERROR::eNotExist;
-            }
-
-            QString response = dest_client + " has been unbanned from #" + dest_channel + " ( " + reason + ")";
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            c->getSocket()->write(ret_frame);
-
-            return ERROR::esuccess;
-        }
+        return ERROR::eNotExist;
     }
-    return ERROR::eNotExist;
+
+    Client* cli = getClientFromName(dest_client);
+    if(cli == NULL || !(chan->isStatus(cli, BANNED)))
+    {
+        return ERROR::eNotExist;
+    }
+
+    if (chan->isStatus(c, OPERATOR) != true)
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    chan->unbanClient(cli);
+
+    response = "#" + dest_channel + "\n" + "-" + "\n" + dest_client;
+    broadCast(response, 255, 135, chan, c);
+
+    return ERROR::esuccess;
 }
 
 quint8 Server::banlist(Client* c, QString& dest_channel)

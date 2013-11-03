@@ -31,7 +31,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_JOIN): return new join(c, frame); break;
         case(C_NICK): return new nick(c, frame); break;
         case(C_LEAVE): return new leave(c, frame); break;
-        //case(C_UNBAN): return new unban(c, frame); break;
+        case(C_UNBAN): return new unban(c, frame); break;
         //case(C_BANLIST): return new banlist(c, frame); break;
         default: /* error */; return NULL;
    }
@@ -322,17 +322,15 @@ unban::unban(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 3)
+    if(frame.getNbArg() < 2)
     {
         m_dest_channel = frame.getArgList()[0];
         m_dest_client = frame.getArgList()[1];
-        m_reason = "";
     }
     else
     {
         m_dest_channel = frame.getArgList()[0];
         m_dest_client = frame.getArgList()[1];
-        m_reason = frame.getArgList()[2];
     }
 }
 
@@ -342,6 +340,7 @@ quint8 unban::verify()
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
+
 
 banlist::banlist(Client *sender, Frame &frame)
 {
