@@ -164,6 +164,7 @@ quint8 Server::nick(Client* c, QString& nickname)
             broadCast(msg, 255, 132, (*it),c);
     }
 
+    c->setState(1); // this line means the client has a nickname now and is able to send commands (other than nick)
     return ERROR::esuccess;
 }
 

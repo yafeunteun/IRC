@@ -45,7 +45,18 @@ void Client::onDataReady()
 
     Frame frame = (data);
 
-    frame.debug();
+    if(frame.getCode() != CMD::C_NICK && this->getState() == 0)
+    {
+        this->m_msg = "You must have a nickname before ! Please use /nick <your nickname> without the '<>'";
+        QByteArray response = Frame::getReadyToSendFrame(this->getMsg(), frame.getId(), ERROR::error);
+        this->getSocket()->write(response);
+        this->m_msg = "";
+        return;
+    }
+
+
+
+    //frame.debug();
 
     quint8 ret_val = 0;
 
@@ -57,7 +68,9 @@ void Client::onDataReady()
     ret_val = command->verify();
 
     if(ret_val == ERROR::esuccess)
+    {
         ret_val = command->execute();
+    }
 
     QByteArray response = Frame::getReadyToSendFrame(this->getMsg(), frame.getId(), ret_val);
     this->getSocket()->write(response);
