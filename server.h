@@ -6,7 +6,6 @@
  * \brief IRC Server
  *  Near-IRC server : A simplified IRC server not in accordance with RFC 1459
  * \author yann feunteun
- * \version 0.1
  */
 
 #include <QTcpServer>

@@ -1,49 +1,75 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <QString>
-#include <QStringList>
+/*!
+* \file command.h
+* \brief File containing the declaration of the commands
+* \author yann feunteun
+*/
+
 #include "server.h"
 #include "frame.h"
 
+
+/*! \namespace ERROR
+*
+* Namespace gathering error codes binded to the commands
+*/
 namespace ERROR {
+
+/**
+ * \enum
+ * \brief Error code constants.
+ */
     enum{
-        esuccess = 0,
-        eBadArg = 250,
-        eNickCollision,
-        eNotAuthorised,
-        eMissingArg,
-        eNotExist,
-        error
+        esuccess = 0,       /*!< Command has been executed successfully */
+        eBadArg = 250,      /*!< The parameter is non-compliant */
+        eNickCollision,     /*!< The nickname is already in use by another client */
+        eNotAuthorised,     /*!< Not enough rights to use this command */
+        eMissingArg,        /*!< A parameter is missing to use this command correctly */
+        eNotExist,          /*!< The argument refers to a client/channel that doesn't exist */
+        error               /*!< Other errors */
     };
 
 }
 
-
+/*! \namespace CMD
+*
+* Namespace gathering command codes refering to the commands
+*/
 namespace CMD {
 
-
+/**
+ * \enum
+ * \brief Command code constants.
+ */
     enum{
-            C_PRIVMSG = 1,
-            C_PUBMSG,
-            C_GWHO,
-            C_CWHO,
-            C_LIST,
-            C_TOPIC,
-            C_KICK,
-            C_BAN,
-            C_OP,
-            C_DEOP = 20,
-            C_JOIN,
-            C_NICK,
-            C_LEAVE,
-            C_UNBAN,
-            C_BANLIST
+            C_PRIVMSG = 1,  /*!< Command private message */
+            C_PUBMSG,       /*!< Command public message */
+            C_GWHO,         /*!< Command general who */
+            C_CWHO,         /*!< Command who on a channel */
+            C_LIST,         /*!< Command list */
+            C_TOPIC,        /*!< Command topic */
+            C_KICK,         /*!< Command kick */
+            C_BAN,          /*!< Command ban */
+            C_OP,           /*!< Command op */
+            C_DEOP = 20,    /*!< Command deop */
+            C_JOIN,         /*!< Command join */
+            C_NICK,         /*!< Command nick */
+            C_LEAVE,        /*!< Command leave */
+            C_UNBAN,        /*!< Command unban */
+            C_BANLIST       /*!< Command banlist */
         };
 }
 
 class Command
 {
+
+/*! \class Command
+* \brief Class representing an abstract command
+*
+* This class encapsulate a request as an object. It uses the pattern Command.
+*/
 
 public:
     static Command* getCommand(Client* c, Frame &frame);

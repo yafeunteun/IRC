@@ -3,16 +3,28 @@
 
 using namespace CMD;
 
-QString nick::s_regex = "^[a-z]\\S{2,8}$";
-QString join::s_regex = "^[a-z]\\S{2,8}$";
+QString nick::s_regex = "^[a-z]\\S{2,8}$";  /*!< Regular expression used to verify the validity of a nickname */
+QString join::s_regex = "^[a-z]\\S{2,8}$";  /*!< Regular expression used to verify the validity of a channel name created with join command */
 
 
-
+/*!
+*  \brief Constructor
+*/
 Command::Command()
 {
-
 }
 
+/*!
+*  \brief Get a parameterized command object from a raw Frame object.
+*
+*  This method uses the parameters and the command id code contained in the Frame object
+*   to return a specialized command (inherited from Command) and parameterized correctly, ready to be self verified and executed.
+*
+*  \param c : The client who requests the Command object.
+*  \param frame : The frame providing all the informations to instantiate the
+*   right Command object well parameterized.
+*  \return A pointer on the Command object parameterized according to the Frame object.
+*/
 Command* Command::getCommand(Client *c, Frame &frame)
 {
 
@@ -38,7 +50,13 @@ Command* Command::getCommand(Client *c, Frame &frame)
 
 }
 
-
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 nick::nick(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -49,6 +67,14 @@ nick::nick(Client *sender, Frame &frame)
         m_nickname = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method begin to check if one argument is missing and then check wether the nickname given is valid or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::eBadArg if the nickname given isn't valid, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 nick::verify()
 {
     if(m_nickname.isEmpty())
@@ -58,7 +84,7 @@ quint8 nick::verify()
     reg.setPattern(s_regex);
     reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     if(!reg.isValid()){
-        std::cout<<"FATAL ERROR ! Pattern for regex is invalid !"<<std::endl;
+        std::cerr<<"FATAL ERROR ! Pattern for regex is invalid !"<<std::endl;
         exit(-1);
     }
 
@@ -69,18 +95,21 @@ quint8 nick::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 privmsg::privmsg(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 1)
+
+    if(frame.getNbArg() < 2)
     {
         m_dest_nickname = "";
-        m_message = "";
-    }
-    else if(frame.getNbArg() < 2)
-    {
-        m_message = "";
     }
     else
     {
@@ -89,13 +118,28 @@ privmsg::privmsg(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 privmsg::verify()
 {
-    if(m_dest_nickname.isEmpty() || m_message.isEmpty())
+    if(m_dest_nickname.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 join::join(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -103,9 +147,17 @@ join::join(Client *sender, Frame &frame)
     if(frame.getNbArg() < 1)
         m_dest_channel = "";
     else
-        m_dest_channel = frame.getArgList()[0];     // we can join one channel at a time
+        m_dest_channel = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method begin to check if one argument is missing and then check wether the channel name given is valid or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::eBadArg if the channel name given isn't valid, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 join::verify()
 {
     if(m_dest_channel.isEmpty())
@@ -115,7 +167,7 @@ quint8 join::verify()
     reg.setPattern(s_regex);
     reg.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     if(!reg.isValid()){
-        std::cout<<"FATAL ERROR ! Pattern for regex is invalid !"<<std::endl;
+        std::cerr<<"FATAL ERROR ! Pattern for regex is invalid !"<<std::endl;
         exit(-1);
     }
 
@@ -123,22 +175,24 @@ quint8 join::verify()
         return ERROR::eBadArg;
     }
 
-
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 pubmsg::pubmsg(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 1)
+
+    if(frame.getNbArg() < 2)
     {
         m_dest_channel = "";
-        m_message = "";
-    }
-    else if(frame.getNbArg() < 2)
-    {
-        m_message = "";
     }
     else
     {
@@ -147,14 +201,28 @@ pubmsg::pubmsg(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 pubmsg::verify()
 {
-    if(m_dest_channel.isEmpty() || m_message.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
-
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 leave::leave(Client *sender, Frame &frame)
 {
 
@@ -166,6 +234,14 @@ leave::leave(Client *sender, Frame &frame)
         m_dest_channel = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 leave::verify()
 {
     if(m_dest_channel.isEmpty())
@@ -173,6 +249,13 @@ quint8 leave::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 gwho::gwho(Client *sender, Frame &frame)
 {
 
@@ -184,13 +267,21 @@ gwho::gwho(Client *sender, Frame &frame)
         m_filter = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method begin to check if one argument is missing and then check wether the regex given is valid or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::eBadArg if the regex given isn't valid, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 gwho::verify()
 {
 
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
-    if(m_filter == "*")
+    if(m_filter == "*")         //  A "*" argument will be interpreted as a ".*" regex
         m_filter = ".*";
 
     QRegularExpression regex(m_filter);
@@ -200,6 +291,13 @@ quint8 gwho::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 list::list(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -210,13 +308,21 @@ list::list(Client *sender, Frame &frame)
         m_filter = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method begin to check if one argument is missing and then check wether the regex given is valid or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::eBadArg if the regex given isn't valid, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 list::verify()
 {
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
     if(m_filter == "*")
-        m_filter = ".*";
+        m_filter = ".*";                //  A "*" argument will be interpreted as a ".*" regex
 
     QRegularExpression regex(m_filter);
     if(!regex.isValid())
@@ -225,6 +331,13 @@ quint8 list::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 cwho::cwho(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -235,6 +348,14 @@ cwho::cwho(Client *sender, Frame &frame)
         m_dest_channel = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 cwho::verify()
 {
     if(m_dest_channel.isEmpty())
@@ -242,18 +363,21 @@ quint8 cwho::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 topic::topic(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 1)
+
+    if(frame.getNbArg() < 2)
     {
         m_dest_channel = "";
-        m_topic = "";
-    }
-    else if(frame.getNbArg() < 2)
-    {
-        m_topic = "";
     }
     else
     {
@@ -262,13 +386,28 @@ topic::topic(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 topic::verify()
 {
-    if(m_dest_channel.isEmpty() || m_topic.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 kick::kick(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -276,7 +415,6 @@ kick::kick(Client *sender, Frame &frame)
     if(frame.getNbArg() < 2)    // missing argument
     {
         m_dest_channel = "";    // thus, when the command will be verified, eMissingArg will be sent
-        m_dest_client = "";
     }
 
     else
@@ -286,15 +424,29 @@ kick::kick(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 kick::verify()
 {
-    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
 
     return ERROR::esuccess;
 }
 
-
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 ban::ban(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -302,7 +454,6 @@ ban::ban(Client *sender, Frame &frame)
     if(frame.getNbArg() < 2)    // missing arg !
     {
         m_dest_channel = "";
-        m_dest_client = "";
     }
     else
     {
@@ -311,21 +462,35 @@ ban::ban(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 ban::verify()
 {
-    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 unban::unban(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
     if(frame.getNbArg() < 2)
     {
-        m_dest_channel = frame.getArgList()[0];
-        m_dest_client = frame.getArgList()[1];
+        m_dest_channel = "";
     }
     else
     {
@@ -334,14 +499,28 @@ unban::unban(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 unban::verify()
 {
-    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
-
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 banlist::banlist(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
@@ -352,6 +531,14 @@ banlist::banlist(Client *sender, Frame &frame)
         m_dest_channel = frame.getArgList()[0];
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 banlist::verify()
 {
     if(m_dest_channel.isEmpty())
@@ -359,19 +546,21 @@ quint8 banlist::verify()
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 op::op(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 1)
+
+    if (frame.getNbArg() < 2)
     {
         m_dest_channel = "";
-        m_dest_client == "";
-    }
-    else if (frame.getNbArg() < 2)
-    {
-        m_dest_channel = frame.getArgList()[0];
-        m_dest_client = "";
     }
     else
     {
@@ -380,26 +569,36 @@ op::op(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 op::verify()
 {
-    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }
 
+/*!
+*  \brief Constructor
+*
+*  \param sender : A pointer on the client who requests the Command object.
+*  \param frame : The frame providing all the informations to parameterized the command.
+*
+*/
 deop::deop(Client *sender, Frame &frame)
 {
     m_receiver = Server::Instance();
     m_sender = sender;
-    if(frame.getNbArg() < 1)
+
+    if (frame.getNbArg() < 2)
     {
         m_dest_channel = "";
-        m_dest_client == "";
-    }
-    else if (frame.getNbArg() < 2)
-    {
-        m_dest_channel = frame.getArgList()[0];
-        m_dest_client = "";
     }
     else
     {
@@ -408,9 +607,17 @@ deop::deop(Client *sender, Frame &frame)
     }
 }
 
+/*!
+*  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
+*
+*  The method check wether one argument is missing or not.
+*
+*  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
+*   the command is valid.
+*/
 quint8 deop::verify()
 {
-    if(m_dest_channel.isEmpty() || m_dest_client.isEmpty())
+    if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
     return ERROR::esuccess;
 }

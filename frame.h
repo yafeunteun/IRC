@@ -1,9 +1,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <QString>
 #include <QStringList>
-
 
 class Frame
 {
