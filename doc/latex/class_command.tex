@@ -1,0 +1,72 @@
+\hypertarget{class_command}{\section{Command Class Reference}
+\label{class_command}\index{Command@{Command}}
+}
+
+
+Class representing an abstract command.  
+
+
+Inheritance diagram for Command\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{class_command}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_command_a20fa39890f59b06436d0d0a8d92b7a06}{virtual quint8 {\bfseries execute} ()=0}\label{class_command_a20fa39890f59b06436d0d0a8d92b7a06}
+
+\item 
+\hypertarget{class_command_a14753bb776573d337310c879142e0a27}{virtual quint8 {\bfseries verify} ()=0}\label{class_command_a14753bb776573d337310c879142e0a27}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_command}{Command} $\ast$ \hyperlink{class_command_afde3d28d8a42af44204a019a517d043f}{get\-Command} (\hyperlink{class_client}{Client} $\ast$c, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Get a parameterized command object from a raw \hyperlink{class_frame}{Frame} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_command_a18df2d81039392daeb0b78c346a70537}{\hyperlink{class_command_a18df2d81039392daeb0b78c346a70537}{Command} ()}\label{class_command_a18df2d81039392daeb0b78c346a70537}
+
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing an abstract command. 
+
+This class encapsulate a request as an object. It uses the pattern \hyperlink{class_command}{Command}. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_command_afde3d28d8a42af44204a019a517d043f}{\index{Command@{Command}!get\-Command@{get\-Command}}
+\index{get\-Command@{get\-Command}!Command@{Command}}
+\subsubsection[{get\-Command}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Command} $\ast$ Command\-::get\-Command (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{c, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_command_afde3d28d8a42af44204a019a517d043f}
+
+
+Get a parameterized command object from a raw \hyperlink{class_frame}{Frame} object. 
+
+This method uses the parameters and the command id code contained in the \hyperlink{class_frame}{Frame} object to return a specialized command (inherited from \hyperlink{class_command}{Command}) and parameterized correctly, ready to be self verified and executed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \-: The client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to instantiate the right \hyperlink{class_command}{Command} object well parameterized. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer on the \hyperlink{class_command}{Command} object parameterized according to the \hyperlink{class_frame}{Frame} object. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}

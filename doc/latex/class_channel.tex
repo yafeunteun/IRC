@@ -1,0 +1,216 @@
+\hypertarget{class_channel}{\section{Channel Class Reference}
+\label{class_channel}\index{Channel@{Channel}}
+}
+
+
+Class reprensenting a channel.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_channel_a8feadb7e1960104caee0b3fa91925480}{Channel} (const Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_channel_a23eab8d240c3a42711f86d0f9d92f680}{set\-Topic} (const Q\-String \&\hyperlink{classtopic}{topic})
+\begin{DoxyCompactList}\small\item\em Set the topic of the channel. \end{DoxyCompactList}\item 
+Q\-String \& \hyperlink{class_channel_a1514edfc06a6c6f39a7de5dc28d07ccc}{get\-Topic} (void)
+\begin{DoxyCompactList}\small\item\em Getter of the topic of the channel. \end{DoxyCompactList}\item 
+Q\-String \& \hyperlink{class_channel_af0f7c900b79dcea96263857f49911ace}{get\-Channel\-Name} (void)
+\begin{DoxyCompactList}\small\item\em Getter of the name of the channel. \end{DoxyCompactList}\item 
+std\-::list$<$ \hyperlink{class_client}{Client} $\ast$ $>$ \& \hyperlink{class_channel_ab2b33ebbbcee6504ad5fb2a8c4cb4d8d}{get\-Client\-List} (\hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959}{status} s=\hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959afc488491175a6dac9e5881e363ad4c41}{R\-E\-G\-U\-L\-A\-R})
+\begin{DoxyCompactList}\small\item\em Getter of the client lists of the channel. \end{DoxyCompactList}\item 
+void \hyperlink{class_channel_ab30a7691363ec17e73e8123151e516bd}{add\-Client} (\hyperlink{class_client}{Client} $\ast$c, \hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959}{status} s=\hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959afc488491175a6dac9e5881e363ad4c41}{R\-E\-G\-U\-L\-A\-R})
+\begin{DoxyCompactList}\small\item\em Allows to add and/or set the status of a client on the channel. \end{DoxyCompactList}\item 
+void \hyperlink{class_channel_aee73d8c3381821f923cbd2dd8d020a41}{remove\-Client} (\hyperlink{class_client}{Client} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Remove a client from a channel. \end{DoxyCompactList}\item 
+void \hyperlink{class_channel_a5b43b0189fcc7e211e2f5224fc0cdf7e}{unban\-Client} (\hyperlink{class_client}{Client} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Unban a client. \end{DoxyCompactList}\item 
+bool \hyperlink{class_channel_a9b91de2283793cfcc910a6b2c0a0b309}{is\-Status} (\hyperlink{class_client}{Client} $\ast$c, \hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959}{status} s=\hyperlink{channel_8h_a015eb90e0de9f16e87bd149d4b9ce959afc488491175a6dac9e5881e363ad4c41}{R\-E\-G\-U\-L\-A\-R})
+\begin{DoxyCompactList}\small\item\em Check the status of a client on a channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class reprensenting a channel. 
+
+This class manage 3 lists of clients \-: banned, regular (connected to the channel including operators) and operator clients. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_channel_a8feadb7e1960104caee0b3fa91925480}{\index{Channel@{Channel}!Channel@{Channel}}
+\index{Channel@{Channel}!Channel@{Channel}}
+\subsubsection[{Channel}]{\setlength{\rightskip}{0pt plus 5cm}Channel\-::\-Channel (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_channel_a8feadb7e1960104caee0b3fa91925480}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \-: Name of the channel. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_channel_ab30a7691363ec17e73e8123151e516bd}{\index{Channel@{Channel}!add\-Client@{add\-Client}}
+\index{add\-Client@{add\-Client}!Channel@{Channel}}
+\subsubsection[{add\-Client}]{\setlength{\rightskip}{0pt plus 5cm}void Channel\-::add\-Client (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{c, }
+\item[{{\bf status}}]{s = {\ttfamily {\bf R\-E\-G\-U\-L\-A\-R}}}
+\end{DoxyParamCaption}
+)}}\label{class_channel_ab30a7691363ec17e73e8123151e516bd}
+
+
+Allows to add and/or set the status of a client on the channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \-: The address of the client you want to add and or change the status on the channel. \\
+\hline
+{\em s} & \-: The status you want to give to the client you are adding. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\hypertarget{class_channel_af0f7c900b79dcea96263857f49911ace}{\index{Channel@{Channel}!get\-Channel\-Name@{get\-Channel\-Name}}
+\index{get\-Channel\-Name@{get\-Channel\-Name}!Channel@{Channel}}
+\subsubsection[{get\-Channel\-Name}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String \& Channel\-::get\-Channel\-Name (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_channel_af0f7c900b79dcea96263857f49911ace}
+
+
+Getter of the name of the channel. 
+
+\begin{DoxyReturn}{Returns}
+A string containing the name of the channel. 
+\end{DoxyReturn}
+\hypertarget{class_channel_ab2b33ebbbcee6504ad5fb2a8c4cb4d8d}{\index{Channel@{Channel}!get\-Client\-List@{get\-Client\-List}}
+\index{get\-Client\-List@{get\-Client\-List}!Channel@{Channel}}
+\subsubsection[{get\-Client\-List}]{\setlength{\rightskip}{0pt plus 5cm}std\-::list$<$ {\bf Client} $\ast$ $>$ \& Channel\-::get\-Client\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf status}}]{s = {\ttfamily {\bf R\-E\-G\-U\-L\-A\-R}}}
+\end{DoxyParamCaption}
+)}}\label{class_channel_ab2b33ebbbcee6504ad5fb2a8c4cb4d8d}
+
+
+Getter of the client lists of the channel. 
+
+For example \-: sample\-Channel.\-get\-Client\-List(\-O\-P\-E\-R\-A\-T\-O\-R) returns the operator clients list of the channel.
+
+If no status is given, the getter returns the connected clients list.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & \-: The client list you want to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list (from S\-T\-L) containing the adresses of clients depending on the status given in parameter. 
+\end{DoxyReturn}
+\hypertarget{class_channel_a1514edfc06a6c6f39a7de5dc28d07ccc}{\index{Channel@{Channel}!get\-Topic@{get\-Topic}}
+\index{get\-Topic@{get\-Topic}!Channel@{Channel}}
+\subsubsection[{get\-Topic}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String \& Channel\-::get\-Topic (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_channel_a1514edfc06a6c6f39a7de5dc28d07ccc}
+
+
+Getter of the topic of the channel. 
+
+\begin{DoxyReturn}{Returns}
+A string containing the topic of the channel. 
+\end{DoxyReturn}
+\hypertarget{class_channel_a9b91de2283793cfcc910a6b2c0a0b309}{\index{Channel@{Channel}!is\-Status@{is\-Status}}
+\index{is\-Status@{is\-Status}!Channel@{Channel}}
+\subsubsection[{is\-Status}]{\setlength{\rightskip}{0pt plus 5cm}bool Channel\-::is\-Status (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{c, }
+\item[{{\bf status}}]{s = {\ttfamily {\bf R\-E\-G\-U\-L\-A\-R}}}
+\end{DoxyParamCaption}
+)}}\label{class_channel_a9b91de2283793cfcc910a6b2c0a0b309}
+
+
+Check the status of a client on a channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \-: The address of the client you want to check the status. \\
+\hline
+{\em s} & \-: The status you want to check if the client has. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the client c is in the list corresponding to status given, false either. 
+\end{DoxyReturn}
+\hypertarget{class_channel_aee73d8c3381821f923cbd2dd8d020a41}{\index{Channel@{Channel}!remove\-Client@{remove\-Client}}
+\index{remove\-Client@{remove\-Client}!Channel@{Channel}}
+\subsubsection[{remove\-Client}]{\setlength{\rightskip}{0pt plus 5cm}void Channel\-::remove\-Client (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_channel_aee73d8c3381821f923cbd2dd8d020a41}
+
+
+Remove a client from a channel. 
+
+Remove a client from the regular and operator lists if the client is operator on the channel. This function doesn't intend to remove a client from the ban list, if you want to do so, you should use \hyperlink{class_channel_a5b43b0189fcc7e211e2f5224fc0cdf7e}{unban\-Client()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \-: The address of the client you want to remove from the channel. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\hypertarget{class_channel_a23eab8d240c3a42711f86d0f9d92f680}{\index{Channel@{Channel}!set\-Topic@{set\-Topic}}
+\index{set\-Topic@{set\-Topic}!Channel@{Channel}}
+\subsubsection[{set\-Topic}]{\setlength{\rightskip}{0pt plus 5cm}void Channel\-::set\-Topic (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{topic}
+\end{DoxyParamCaption}
+)}}\label{class_channel_a23eab8d240c3a42711f86d0f9d92f680}
+
+
+Set the topic of the channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em topic} & \-: A string containing the topic of the channel. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\hypertarget{class_channel_a5b43b0189fcc7e211e2f5224fc0cdf7e}{\index{Channel@{Channel}!unban\-Client@{unban\-Client}}
+\index{unban\-Client@{unban\-Client}!Channel@{Channel}}
+\subsubsection[{unban\-Client}]{\setlength{\rightskip}{0pt plus 5cm}void Channel\-::unban\-Client (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_channel_a5b43b0189fcc7e211e2f5224fc0cdf7e}
+
+
+Unban a client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \-: The address of the client you want to unban. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{channel_8h}{channel.\-h}\item 
+channel.\-cpp\end{DoxyCompactItemize}

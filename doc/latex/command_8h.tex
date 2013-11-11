@@ -1,0 +1,93 @@
+\hypertarget{command_8h}{\section{command.\-h File Reference}
+\label{command_8h}\index{command.\-h@{command.\-h}}
+}
+
+
+File containing the declaration of the commands.  
+
+
+{\ttfamily \#include \char`\"{}server.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}frame.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_command}{Command}
+\begin{DoxyCompactList}\small\item\em Class representing an abstract command. \end{DoxyCompactList}\item 
+class \hyperlink{classnick}{nick}
+\item 
+class \hyperlink{classprivmsg}{privmsg}
+\item 
+class \hyperlink{classpubmsg}{pubmsg}
+\item 
+class \hyperlink{classjoin}{join}
+\item 
+class \hyperlink{classleave}{leave}
+\item 
+class \hyperlink{classlist}{list}
+\item 
+class \hyperlink{classtopic}{topic}
+\item 
+class \hyperlink{classgwho}{gwho}
+\item 
+class \hyperlink{classcwho}{cwho}
+\item 
+class \hyperlink{classkick}{kick}
+\item 
+class \hyperlink{classban}{ban}
+\item 
+class \hyperlink{classunban}{unban}
+\item 
+class \hyperlink{classbanlist}{banlist}
+\item 
+class \hyperlink{classop}{op}
+\item 
+class \hyperlink{classdeop}{deop}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_e_r_r_o_r}{E\-R\-R\-O\-R}
+\item 
+namespace \hyperlink{namespace_c_m_d}{C\-M\-D}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} = 0, 
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974ca2357c51e16615bb8e0cdbdc4260edf40}{E\-R\-R\-O\-R\-::e\-Bad\-Arg} = 250, 
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974caeb911bc1364ca34710928803e5292c4d}{E\-R\-R\-O\-R\-::e\-Nick\-Collision}, 
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974ca3b8f93ae7303eb6814c40966b70e5485}{E\-R\-R\-O\-R\-::e\-Not\-Authorised}, 
+\\*
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg}, 
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cacb4279d0b3eb7c9ba6fe31fe1a43941f}{E\-R\-R\-O\-R\-::e\-Not\-Exist}, 
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974ca247e6a0d1ca9059f7afc0a1fdf25d702}{E\-R\-R\-O\-R\-::error}
+ \}
+\item 
+enum \{ \\*
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba56f801908bd8194c1bc26d7199957b7a}{C\-M\-D\-::\-C\-\_\-\-P\-R\-I\-V\-M\-S\-G} = 1, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba88d5e564cbccf63379730dd1697a5fc9}{C\-M\-D\-::\-C\-\_\-\-P\-U\-B\-M\-S\-G}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba33fa7a831c22ac26e235e982030c9c50}{C\-M\-D\-::\-C\-\_\-\-G\-W\-H\-O}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba3a850ec81114bcf7270779227ab7916d}{C\-M\-D\-::\-C\-\_\-\-C\-W\-H\-O}, 
+\\*
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67bae13562df20758d6c2267f78eb16cb645}{C\-M\-D\-::\-C\-\_\-\-L\-I\-S\-T}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba2cc733b6e3da7ebe35d55087733a6d7d}{C\-M\-D\-::\-C\-\_\-\-T\-O\-P\-I\-C}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67baf32f2849209ab7708d466b7ac1267d5c}{C\-M\-D\-::\-C\-\_\-\-K\-I\-C\-K}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba1567cc80d69df71873944a898f5684ce}{C\-M\-D\-::\-C\-\_\-\-B\-A\-N}, 
+\\*
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67baa329e9c30629aa48e610cc71b13f21c3}{C\-M\-D\-::\-C\-\_\-\-O\-P}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba2e7d8b81da6e4dd3b8fb9b1c7fd0ce60}{C\-M\-D\-::\-C\-\_\-\-D\-E\-O\-P} = 20, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67bad86400006dfcd8a7611eae8bddb98ec8}{C\-M\-D\-::\-C\-\_\-\-J\-O\-I\-N}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67badda9a423ad8ffc645fcc639d902410e5}{C\-M\-D\-::\-C\-\_\-\-N\-I\-C\-K}, 
+\\*
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67baff19678459a89ad11f5f534d4ec3e427}{C\-M\-D\-::\-C\-\_\-\-L\-E\-A\-V\-E}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba9dc87ca9ffd8b521aec851e6f6c365b6}{C\-M\-D\-::\-C\-\_\-\-U\-N\-B\-A\-N}, 
+\hyperlink{namespace_c_m_d_a29d3221fd651d37c461db812371ba67ba355182dc54ac311dc65588f9eb0dd57a}{C\-M\-D\-::\-C\-\_\-\-B\-A\-N\-L\-I\-S\-T}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File containing the declaration of the commands. \begin{DoxyAuthor}{Author}
+yann feunteun 
+\end{DoxyAuthor}

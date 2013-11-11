@@ -1,0 +1,71 @@
+\hypertarget{classunban}{\section{unban Class Reference}
+\label{classunban}\index{unban@{unban}}
+}
+Inheritance diagram for unban\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classunban}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classunban_aca32dfdd9e6a4f956dee3eb0e720f72a}{unban} (\hyperlink{class_client}{Client} $\ast$sender, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual quint8 \hyperlink{classunban_a7d6273b3e4f27d91cfe4a3089ebef977}{verify} ()
+\begin{DoxyCompactList}\small\item\em Check the validity of the command according to the parameters contained in the frame given to the construcor. \end{DoxyCompactList}\item 
+\hypertarget{classunban_a43ad992fb40a83dfb1e34c2bc7347e6d}{virtual quint8 {\bfseries execute} ()}\label{classunban_a43ad992fb40a83dfb1e34c2bc7347e6d}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classunban_aca32dfdd9e6a4f956dee3eb0e720f72a}{\index{unban@{unban}!unban@{unban}}
+\index{unban@{unban}!unban@{unban}}
+\subsubsection[{unban}]{\setlength{\rightskip}{0pt plus 5cm}unban\-::unban (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{sender, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)}}\label{classunban_aca32dfdd9e6a4f956dee3eb0e720f72a}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \-: A pointer on the client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to parameterized the command. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classunban_a7d6273b3e4f27d91cfe4a3089ebef977}{\index{unban@{unban}!verify@{verify}}
+\index{verify@{verify}!unban@{unban}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}quint8 unban\-::verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classunban_a7d6273b3e4f27d91cfe4a3089ebef977}
+
+
+Check the validity of the command according to the parameters contained in the frame given to the construcor. 
+
+The method check wether one argument is missing or not.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg} if an argument is missing, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} if the command is valid. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_command}{Command}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}

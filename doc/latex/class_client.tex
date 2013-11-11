@@ -1,0 +1,197 @@
+\hypertarget{class_client}{\section{Client Class Reference}
+\label{class_client}\index{Client@{Client}}
+}
+
+
+Class representing a \hyperlink{class_client}{Client} connected to the server. This class inherits from Q\-Objet to use slots and signals.  
+
+
+
+
+{\ttfamily \#include $<$client.\-h$>$}
+
+Inheritance diagram for Client\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_client}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_client_a867ed29a467894512410b157888c5c15}{void \hyperlink{class_client_a867ed29a467894512410b157888c5c15}{on\-Disconnection} (void)}\label{class_client_a867ed29a467894512410b157888c5c15}
+
+\begin{DoxyCompactList}\small\item\em Remove the client from the server list of clients when it has left the server. S\-L\-O\-T connected to S\-I\-G\-N\-A\-L disconnected() of the Q\-Tcp\-Socket attribute. \end{DoxyCompactList}\item 
+void \hyperlink{class_client_a82a0605f81febec1660a250cac484442}{on\-Data\-Ready} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_client_a3fee5c9221e495d09569c2f4c6bce53c}{Client} (Q\-Tcp\-Socket $\ast$socket, Q\-Object $\ast$parent)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_client_a840e519ca781888cbd54181572ebe3a7}{\hyperlink{class_client_a840e519ca781888cbd54181572ebe3a7}{$\sim$\-Client} ()}\label{class_client_a840e519ca781888cbd54181572ebe3a7}
+
+\begin{DoxyCompactList}\small\item\em Destructeur Frees up the memory allocated for the attribute m\-\_\-socket. \end{DoxyCompactList}\item 
+void \hyperlink{class_client_aa7ae88fd3971f253df4e8a7f591b6c88}{set\-Nickname} (const Q\-String \&nickname)
+\item 
+void \hyperlink{class_client_a559b3d6b01f9ab3a2934d6ef0c383dd6}{set\-Socket} (Q\-Tcp\-Socket $\ast$socket)
+\item 
+void \hyperlink{class_client_a81c338aeab1f6bfd7b6e9a879c6db453}{set\-State} (bool state)
+\item 
+Q\-Tcp\-Socket $\ast$ \hyperlink{class_client_a67454714bbf369688416444223ed47e7}{get\-Socket} (void) const 
+\item 
+Q\-String \hyperlink{class_client_a8659e4aa0cbdce7d8b2bd6cc3c99ac05}{get\-Nickname} (void) const 
+\item 
+Q\-String \hyperlink{class_client_a822851376ab4c8418c7bad3adfe1d333}{get\-Msg} (void) const 
+\item 
+void \hyperlink{class_client_a193f44e7d464f66588a3ae83f660a788}{set\-Msg} (const Q\-String \&msg)
+\item 
+bool \hyperlink{class_client_a7b31bb783d4b1d0ff34121b788bf7a9f}{get\-State} (void) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing a \hyperlink{class_client}{Client} connected to the server. This class inherits from Q\-Objet to use slots and signals. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_client_a3fee5c9221e495d09569c2f4c6bce53c}{\index{Client@{Client}!Client@{Client}}
+\index{Client@{Client}!Client@{Client}}
+\subsubsection[{Client}]{\setlength{\rightskip}{0pt plus 5cm}Client\-::\-Client (
+\begin{DoxyParamCaption}
+\item[{Q\-Tcp\-Socket $\ast$}]{socket, }
+\item[{Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{class_client_a3fee5c9221e495d09569c2f4c6bce53c}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & \-: the socket used to communicate with the server. Given by the server. \\
+\hline
+{\em parent} & \-: The adress of the \hyperlink{class_server}{Server} instance. The client is binded to the server, when the server shuts down, the client is destroyed regularly by the application. It prevents problems like memory leak. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_client_a822851376ab4c8418c7bad3adfe1d333}{\index{Client@{Client}!get\-Msg@{get\-Msg}}
+\index{get\-Msg@{get\-Msg}!Client@{Client}}
+\subsubsection[{get\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String Client\-::get\-Msg (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_client_a822851376ab4c8418c7bad3adfe1d333}
+Get the current message held by the client.
+
+\begin{DoxyReturn}{Returns}
+A Q\-String containing the current message held by the client. 
+\end{DoxyReturn}
+\hypertarget{class_client_a8659e4aa0cbdce7d8b2bd6cc3c99ac05}{\index{Client@{Client}!get\-Nickname@{get\-Nickname}}
+\index{get\-Nickname@{get\-Nickname}!Client@{Client}}
+\subsubsection[{get\-Nickname}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String Client\-::get\-Nickname (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_client_a8659e4aa0cbdce7d8b2bd6cc3c99ac05}
+Get the nickname of the client
+
+\begin{DoxyReturn}{Returns}
+A Q\-String containing the nickname of the client. 
+\end{DoxyReturn}
+\hypertarget{class_client_a67454714bbf369688416444223ed47e7}{\index{Client@{Client}!get\-Socket@{get\-Socket}}
+\index{get\-Socket@{get\-Socket}!Client@{Client}}
+\subsubsection[{get\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Tcp\-Socket $\ast$ Client\-::get\-Socket (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_client_a67454714bbf369688416444223ed47e7}
+Get the socket used by the client to communicate with the server.
+
+\begin{DoxyReturn}{Returns}
+The address of the socket used by the client to communicate with the server. 
+\end{DoxyReturn}
+\hypertarget{class_client_a7b31bb783d4b1d0ff34121b788bf7a9f}{\index{Client@{Client}!get\-State@{get\-State}}
+\index{get\-State@{get\-State}!Client@{Client}}
+\subsubsection[{get\-State}]{\setlength{\rightskip}{0pt plus 5cm}bool Client\-::get\-State (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_client_a7b31bb783d4b1d0ff34121b788bf7a9f}
+Get the current state of the client
+
+\begin{DoxyReturn}{Returns}
+A boolean containing true if the client has a nickname, false either. 
+\end{DoxyReturn}
+\hypertarget{class_client_a82a0605f81febec1660a250cac484442}{\index{Client@{Client}!on\-Data\-Ready@{on\-Data\-Ready}}
+\index{on\-Data\-Ready@{on\-Data\-Ready}!Client@{Client}}
+\subsubsection[{on\-Data\-Ready}]{\setlength{\rightskip}{0pt plus 5cm}void Client\-::on\-Data\-Ready (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_client_a82a0605f81febec1660a250cac484442}
+data sent by the client program corresponding.
+
+Read and execute a command sent by the client program corresponding to the instance of the client. S\-L\-O\-T connected to S\-I\-G\-N\-A\-L ready\-Read() of the Q\-Tcp\-Socket attribute. \hypertarget{class_client_a193f44e7d464f66588a3ae83f660a788}{\index{Client@{Client}!set\-Msg@{set\-Msg}}
+\index{set\-Msg@{set\-Msg}!Client@{Client}}
+\subsubsection[{set\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}void Client\-::set\-Msg (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{msg}
+\end{DoxyParamCaption}
+)}}\label{class_client_a193f44e7d464f66588a3ae83f660a788}
+Set the message of the client.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & \-: A Q\-String depicting the result of the last command sent by the client. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_client_aa7ae88fd3971f253df4e8a7f591b6c88}{\index{Client@{Client}!set\-Nickname@{set\-Nickname}}
+\index{set\-Nickname@{set\-Nickname}!Client@{Client}}
+\subsubsection[{set\-Nickname}]{\setlength{\rightskip}{0pt plus 5cm}void Client\-::set\-Nickname (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{nickname}
+\end{DoxyParamCaption}
+)}}\label{class_client_aa7ae88fd3971f253df4e8a7f591b6c88}
+Set the nickname of the client.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nickname} & \-: A Q\-String containing the new nickname for the client. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_client_a559b3d6b01f9ab3a2934d6ef0c383dd6}{\index{Client@{Client}!set\-Socket@{set\-Socket}}
+\index{set\-Socket@{set\-Socket}!Client@{Client}}
+\subsubsection[{set\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}void Client\-::set\-Socket (
+\begin{DoxyParamCaption}
+\item[{Q\-Tcp\-Socket $\ast$}]{socket}
+\end{DoxyParamCaption}
+)}}\label{class_client_a559b3d6b01f9ab3a2934d6ef0c383dd6}
+Set the socket of the client.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & \-: A Q\-Tcp\-Socket pointer containing the address of the Q\-Tcp\-Socket for the client. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_client_a81c338aeab1f6bfd7b6e9a879c6db453}{\index{Client@{Client}!set\-State@{set\-State}}
+\index{set\-State@{set\-State}!Client@{Client}}
+\subsubsection[{set\-State}]{\setlength{\rightskip}{0pt plus 5cm}void Client\-::set\-State (
+\begin{DoxyParamCaption}
+\item[{bool}]{state}
+\end{DoxyParamCaption}
+)}}\label{class_client_a81c338aeab1f6bfd7b6e9a879c6db453}
+Set the state of the client.
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & \-: A boolean containing the new state of the client depending on wether it has set is nickname(true) or not(false). \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{client_8h}{client.\-h}\item 
+client.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,52 @@
+\hypertarget{bd_platform_log_8h}{\section{bd\-Platform\-Log.\-h File Reference}
+\label{bd_platform_log_8h}\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}}
+}
+
+
+A (nice) logging class.  
+
+
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classbd_platform_log}{bd\-Platform\-Log}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classbd_platform_log}{bd\-Platform\-Log} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1}{\-\_\-\-Log\-Level} \{ \hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aad146b360b9e19d5e96401bdf594cf44}{\-\_\-\-N\-O\-N\-E}, 
+\hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aab5fdb38bbe08ed673f892c765198ff7}{\-\_\-\-W\-A\-R\-N\-I\-N\-G}, 
+\hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1ab3de63bf234b3d77efb2e2df1ee2e48e}{\-\_\-\-E\-R\-R\-O\-R}, 
+\hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1a15ecf20045d6ad506a469746ea8c0f6d}{\-\_\-\-D\-E\-B\-U\-G}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A (nice) logging class. \begin{DoxyAuthor}{Author}
+Victorien M\-O\-L\-L\-E 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\-1 
+\end{DoxyVersion}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1}{\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}!\-\_\-\-Log\-Level@{\-\_\-\-Log\-Level}}
+\index{\-\_\-\-Log\-Level@{\-\_\-\-Log\-Level}!bdPlatformLog.h@{bd\-Platform\-Log.\-h}}
+\subsubsection[{\-\_\-\-Log\-Level}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-\_\-\-Log\-Level}}}\label{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{\-\_\-\-N\-O\-N\-E@{\-\_\-\-N\-O\-N\-E}!bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}}\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}!\-\_\-\-N\-O\-N\-E@{\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aad146b360b9e19d5e96401bdf594cf44}{\-\_\-\-N\-O\-N\-E}\label{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aad146b360b9e19d5e96401bdf594cf44}
+}]Defines a 'none' level. \index{\-\_\-\-W\-A\-R\-N\-I\-N\-G@{\-\_\-\-W\-A\-R\-N\-I\-N\-G}!bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}}\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}!\-\_\-\-W\-A\-R\-N\-I\-N\-G@{\-\_\-\-W\-A\-R\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aab5fdb38bbe08ed673f892c765198ff7}{\-\_\-\-W\-A\-R\-N\-I\-N\-G}\label{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1aab5fdb38bbe08ed673f892c765198ff7}
+}]Defines a 'warning' level. \index{\-\_\-\-E\-R\-R\-O\-R@{\-\_\-\-E\-R\-R\-O\-R}!bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}}\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}!\-\_\-\-E\-R\-R\-O\-R@{\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1ab3de63bf234b3d77efb2e2df1ee2e48e}{\-\_\-\-E\-R\-R\-O\-R}\label{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1ab3de63bf234b3d77efb2e2df1ee2e48e}
+}]Defines an 'error' level. \index{\-\_\-\-D\-E\-B\-U\-G@{\-\_\-\-D\-E\-B\-U\-G}!bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}}\index{bd\-Platform\-Log.\-h@{bd\-Platform\-Log.\-h}!\-\_\-\-D\-E\-B\-U\-G@{\-\_\-\-D\-E\-B\-U\-G}}\item[{\em 
+\hypertarget{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1a15ecf20045d6ad506a469746ea8c0f6d}{\-\_\-\-D\-E\-B\-U\-G}\label{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1a15ecf20045d6ad506a469746ea8c0f6d}
+}]Defines a 'debug' level. \end{description}
+\end{Desc}

@@ -1,0 +1,119 @@
+\hypertarget{classbd_platform_log}{\section{bd\-Platform\-Log Class Reference}
+\label{classbd_platform_log}\index{bd\-Platform\-Log@{bd\-Platform\-Log}}
+}
+
+
+The \hyperlink{classbd_platform_log}{bd\-Platform\-Log} class.  
+
+
+
+
+{\ttfamily \#include $<$bd\-Platform\-Log.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classbd_platform_log_afcd51cbc6c5213eeb43a94f9e3912327}{bd\-Platform\-Log} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classbd_platform_log_a3bee73938674ac56d954aabdaa370432}{publish} (\hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1}{\-\_\-\-Log\-Level} log\-Level, const char $\ast$channel, const char $\ast$pathtofile, const char $\ast$method, int line, const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Publish a message. \end{DoxyCompactList}\item 
+static void \hyperlink{classbd_platform_log_abddf5b49c53721a9af03a9465284e844}{bd\-Log\-Message} (\hyperlink{bd_platform_log_8h_a7d9d20bfc2dbfc95773beb480657d5d1}{\-\_\-\-Log\-Level} log\-Level, const char $\ast$level, const char $\ast$channel, const char $\ast$pathtofile, const char $\ast$method, int line,...)
+\begin{DoxyCompactList}\small\item\em Log a message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classbd_platform_log}{bd\-Platform\-Log} class. 
+
+This class write an output message specified by the developper including more information such as the file name from where the class is called, the line and the member function 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classbd_platform_log_afcd51cbc6c5213eeb43a94f9e3912327}{\index{bd\-Platform\-Log@{bd\-Platform\-Log}!bd\-Platform\-Log@{bd\-Platform\-Log}}
+\index{bd\-Platform\-Log@{bd\-Platform\-Log}!bdPlatformLog@{bd\-Platform\-Log}}
+\subsubsection[{bd\-Platform\-Log}]{\setlength{\rightskip}{0pt plus 5cm}bd\-Platform\-Log\-::bd\-Platform\-Log (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classbd_platform_log_afcd51cbc6c5213eeb43a94f9e3912327}
+
+
+Constructor. 
+
+The \hyperlink{classbd_platform_log}{bd\-Platform\-Log} constructor 
+
+\subsection{Member Function Documentation}
+\hypertarget{classbd_platform_log_abddf5b49c53721a9af03a9465284e844}{\index{bd\-Platform\-Log@{bd\-Platform\-Log}!bd\-Log\-Message@{bd\-Log\-Message}}
+\index{bd\-Log\-Message@{bd\-Log\-Message}!bdPlatformLog@{bd\-Platform\-Log}}
+\subsubsection[{bd\-Log\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void bd\-Platform\-Log\-::bd\-Log\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf \-\_\-\-Log\-Level}}]{log\-Level, }
+\item[{const char $\ast$}]{level, }
+\item[{const char $\ast$}]{channel, }
+\item[{const char $\ast$}]{pathtofile, }
+\item[{const char $\ast$}]{method, }
+\item[{int}]{line, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classbd_platform_log_abddf5b49c53721a9af03a9465284e844}
+
+
+Log a message. 
+
+Member function which logs a new message
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\-Level,\-:} & the log level (\-\_\-\-N\-O\-N\-E, \-\_\-\-W\-A\-R\-N\-I\-N\-G, \-\_\-\-E\-R\-R\-O\-R, \-\_\-\-D\-E\-B\-U\-G) \\
+\hline
+{\em channel,\-:} & unknown \\
+\hline
+{\em pathtofile,\-:} & the path to the file from where the member function was called \\
+\hline
+{\em method,\-:} & the method/function which called this method \\
+\hline
+{\em line,\-:} & the line of the file where the function was called \\
+\hline
+{\em ...,\-:} & the others parameters, always starting with the format of the output message \\
+\hline
+\end{DoxyParams}
+\hypertarget{classbd_platform_log_a3bee73938674ac56d954aabdaa370432}{\index{bd\-Platform\-Log@{bd\-Platform\-Log}!publish@{publish}}
+\index{publish@{publish}!bdPlatformLog@{bd\-Platform\-Log}}
+\subsubsection[{publish}]{\setlength{\rightskip}{0pt plus 5cm}void bd\-Platform\-Log\-::publish (
+\begin{DoxyParamCaption}
+\item[{{\bf \-\_\-\-Log\-Level}}]{log\-Level, }
+\item[{const char $\ast$}]{channel, }
+\item[{const char $\ast$}]{pathtofile, }
+\item[{const char $\ast$}]{method, }
+\item[{int}]{line, }
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classbd_platform_log_a3bee73938674ac56d954aabdaa370432}
+
+
+Publish a message. 
+
+Member function which publishes a new message
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\-Level,\-:} & the log level (\-\_\-\-N\-O\-N\-E, \-\_\-\-W\-A\-R\-N\-I\-N\-G, \-\_\-\-E\-R\-R\-O\-R, \-\_\-\-D\-E\-B\-U\-G) \\
+\hline
+{\em channel,\-:} & unknown \\
+\hline
+{\em pathtofile,\-:} & the path to the file from where the member function was called \\
+\hline
+{\em method,\-:} & the method/function which called this method \\
+\hline
+{\em line,\-:} & the line of the file where the function was called \\
+\hline
+{\em message,\-:} & the message set by the developper \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{bd_platform_log_8h}{bd\-Platform\-Log.\-h}\item 
+bd\-Platform\-Log.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,310 @@
+\begin{theindex}
+
+  \item {\-\_\-\-D\-E\-B\-U\-G}
+    \subitem {bd\-Platform\-Log.\-h}, \hyperpage{37}
+  \item {\-\_\-\-E\-R\-R\-O\-R}
+    \subitem {bd\-Platform\-Log.\-h}, \hyperpage{37}
+  \item {\-\_\-\-N\-O\-N\-E}
+    \subitem {bd\-Platform\-Log.\-h}, \hyperpage{37}
+  \item {\-\_\-\-W\-A\-R\-N\-I\-N\-G}
+    \subitem {bd\-Platform\-Log.\-h}, \hyperpage{37}
+  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Log\discretionary {-}{}{}Level}
+    \subitem {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log.\discretionary {-}{}{}h}, 
+		\hyperpage{37}
+
+  \indexspace
+
+  \item {add\discretionary {-}{}{}Client}
+    \subitem {Channel}, \hyperpage{15}
+
+  \indexspace
+
+  \item {B\-A\-N\-N\-E\-D}
+    \subitem {channel.\-h}, \hyperpage{38}
+  \item {ban}, \hyperpage{11}
+    \subitem {ban}, \hyperpage{11}
+    \subitem {verify}, \hyperpage{11}
+  \item {banlist}, \hyperpage{12}
+    \subitem {banlist}, \hyperpage{12}
+    \subitem {verify}, \hyperpage{12}
+  \item {bd\-Platform\-Log.\-h}
+    \subitem {\-\_\-\-D\-E\-B\-U\-G}, \hyperpage{37}
+    \subitem {\-\_\-\-E\-R\-R\-O\-R}, \hyperpage{37}
+    \subitem {\-\_\-\-N\-O\-N\-E}, \hyperpage{37}
+    \subitem {\-\_\-\-W\-A\-R\-N\-I\-N\-G}, \hyperpage{37}
+  \item {bd\discretionary {-}{}{}Log\discretionary {-}{}{}Message}
+    \subitem {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}, 
+		\hyperpage{13}
+  \item {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}, 
+		\hyperpage{13}
+    \subitem {bd\discretionary {-}{}{}Log\discretionary {-}{}{}Message}, 
+		\hyperpage{13}
+    \subitem {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}, 
+		\hyperpage{13}
+    \subitem {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}, 
+		\hyperpage{13}
+    \subitem {publish}, \hyperpage{14}
+  \item {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log.\discretionary {-}{}{}h}, 
+		\hyperpage{37}
+    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Log\discretionary {-}{}{}Level}, 
+		\hyperpage{37}
+
+  \indexspace
+
+  \item {C\-\_\-\-B\-A\-N}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-B\-A\-N\-L\-I\-S\-T}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-C\-W\-H\-O}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-D\-E\-O\-P}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-G\-W\-H\-O}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-J\-O\-I\-N}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-K\-I\-C\-K}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-L\-E\-A\-V\-E}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-L\-I\-S\-T}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-N\-I\-C\-K}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-O\-P}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-P\-R\-I\-V\-M\-S\-G}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-P\-U\-B\-M\-S\-G}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-T\-O\-P\-I\-C}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-\_\-\-U\-N\-B\-A\-N}
+    \subitem {C\-M\-D}, \hyperpage{9}
+  \item {C\-M\-D}
+    \subitem {C\-\_\-\-B\-A\-N}, \hyperpage{9}
+    \subitem {C\-\_\-\-B\-A\-N\-L\-I\-S\-T}, \hyperpage{9}
+    \subitem {C\-\_\-\-C\-W\-H\-O}, \hyperpage{9}
+    \subitem {C\-\_\-\-D\-E\-O\-P}, \hyperpage{9}
+    \subitem {C\-\_\-\-G\-W\-H\-O}, \hyperpage{9}
+    \subitem {C\-\_\-\-J\-O\-I\-N}, \hyperpage{9}
+    \subitem {C\-\_\-\-K\-I\-C\-K}, \hyperpage{9}
+    \subitem {C\-\_\-\-L\-E\-A\-V\-E}, \hyperpage{9}
+    \subitem {C\-\_\-\-L\-I\-S\-T}, \hyperpage{9}
+    \subitem {C\-\_\-\-N\-I\-C\-K}, \hyperpage{9}
+    \subitem {C\-\_\-\-O\-P}, \hyperpage{9}
+    \subitem {C\-\_\-\-P\-R\-I\-V\-M\-S\-G}, \hyperpage{9}
+    \subitem {C\-\_\-\-P\-U\-B\-M\-S\-G}, \hyperpage{9}
+    \subitem {C\-\_\-\-T\-O\-P\-I\-C}, \hyperpage{9}
+    \subitem {C\-\_\-\-U\-N\-B\-A\-N}, \hyperpage{9}
+  \item {C\discretionary {-}{}{}M\discretionary {-}{}{}D}, 
+		\hyperpage{9}
+  \item {Channel}, \hyperpage{14}
+    \subitem {add\discretionary {-}{}{}Client}, \hyperpage{15}
+    \subitem {Channel}, \hyperpage{15}
+    \subitem {get\discretionary {-}{}{}Channel\discretionary {-}{}{}Name}, 
+		\hyperpage{15}
+    \subitem {get\discretionary {-}{}{}Client\discretionary {-}{}{}List}, 
+		\hyperpage{15}
+    \subitem {get\discretionary {-}{}{}Topic}, \hyperpage{15}
+    \subitem {is\discretionary {-}{}{}Status}, \hyperpage{16}
+    \subitem {remove\discretionary {-}{}{}Client}, \hyperpage{16}
+    \subitem {set\discretionary {-}{}{}Topic}, \hyperpage{16}
+    \subitem {unban\discretionary {-}{}{}Client}, \hyperpage{16}
+  \item {channel.\-h}
+    \subitem {B\-A\-N\-N\-E\-D}, \hyperpage{38}
+    \subitem {O\-P\-E\-R\-A\-T\-O\-R}, \hyperpage{38}
+    \subitem {R\-E\-G\-U\-L\-A\-R}, \hyperpage{38}
+  \item {channel.\discretionary {-}{}{}h}, \hyperpage{38}
+    \subitem {status}, \hyperpage{38}
+  \item {Client}, \hyperpage{17}
+    \subitem {Client}, \hyperpage{18}
+    \subitem {get\discretionary {-}{}{}Msg}, \hyperpage{18}
+    \subitem {get\discretionary {-}{}{}Nickname}, \hyperpage{18}
+    \subitem {get\discretionary {-}{}{}Socket}, \hyperpage{18}
+    \subitem {get\discretionary {-}{}{}State}, \hyperpage{18}
+    \subitem {on\discretionary {-}{}{}Data\discretionary {-}{}{}Ready}, 
+		\hyperpage{18}
+    \subitem {set\discretionary {-}{}{}Msg}, \hyperpage{18}
+    \subitem {set\discretionary {-}{}{}Nickname}, \hyperpage{19}
+    \subitem {set\discretionary {-}{}{}Socket}, \hyperpage{19}
+    \subitem {set\discretionary {-}{}{}State}, \hyperpage{19}
+  \item {client.\discretionary {-}{}{}h}, \hyperpage{38}
+  \item {Command}, \hyperpage{19}
+    \subitem {get\discretionary {-}{}{}Command}, \hyperpage{20}
+  \item {command.\discretionary {-}{}{}h}, \hyperpage{39}
+  \item {cwho}, \hyperpage{21}
+    \subitem {cwho}, \hyperpage{21}
+    \subitem {verify}, \hyperpage{22}
+
+  \indexspace
+
+  \item {deop}, \hyperpage{22}
+    \subitem {deop}, \hyperpage{22}
+    \subitem {verify}, \hyperpage{22}
+
+  \indexspace
+
+  \item {e\-Bad\-Arg}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {e\-Missing\-Arg}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {e\-Nick\-Collision}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {e\-Not\-Authorised}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {e\-Not\-Exist}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {E\-R\-R\-O\-R}
+    \subitem {e\-Bad\-Arg}, \hyperpage{10}
+    \subitem {e\-Missing\-Arg}, \hyperpage{10}
+    \subitem {e\-Nick\-Collision}, \hyperpage{10}
+    \subitem {e\-Not\-Authorised}, \hyperpage{10}
+    \subitem {e\-Not\-Exist}, \hyperpage{10}
+    \subitem {error}, \hyperpage{10}
+    \subitem {esuccess}, \hyperpage{10}
+  \item {E\discretionary {-}{}{}R\discretionary {-}{}{}R\discretionary {-}{}{}O\discretionary {-}{}{}R}, 
+		\hyperpage{10}
+  \item {error}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+  \item {esuccess}
+    \subitem {E\-R\-R\-O\-R}, \hyperpage{10}
+
+  \indexspace
+
+  \item {Frame}, \hyperpage{23}
+
+  \indexspace
+
+  \item {get\discretionary {-}{}{}Channel\discretionary {-}{}{}Name}
+    \subitem {Channel}, \hyperpage{15}
+  \item {get\discretionary {-}{}{}Client\discretionary {-}{}{}List}
+    \subitem {Channel}, \hyperpage{15}
+  \item {get\discretionary {-}{}{}Command}
+    \subitem {Command}, \hyperpage{20}
+  \item {get\discretionary {-}{}{}Msg}
+    \subitem {Client}, \hyperpage{18}
+  \item {get\discretionary {-}{}{}Nickname}
+    \subitem {Client}, \hyperpage{18}
+  \item {get\discretionary {-}{}{}Socket}
+    \subitem {Client}, \hyperpage{18}
+  \item {get\discretionary {-}{}{}State}
+    \subitem {Client}, \hyperpage{18}
+  \item {get\discretionary {-}{}{}Topic}
+    \subitem {Channel}, \hyperpage{15}
+  \item {gwho}, \hyperpage{23}
+    \subitem {gwho}, \hyperpage{24}
+    \subitem {verify}, \hyperpage{24}
+
+  \indexspace
+
+  \item {is\discretionary {-}{}{}Status}
+    \subitem {Channel}, \hyperpage{16}
+
+  \indexspace
+
+  \item {join}, \hyperpage{24}
+    \subitem {join}, \hyperpage{25}
+    \subitem {verify}, \hyperpage{25}
+
+  \indexspace
+
+  \item {kick}, \hyperpage{25}
+    \subitem {kick}, \hyperpage{26}
+    \subitem {verify}, \hyperpage{26}
+
+  \indexspace
+
+  \item {leave}, \hyperpage{26}
+    \subitem {leave}, \hyperpage{26}
+    \subitem {verify}, \hyperpage{27}
+  \item {list}, \hyperpage{27}
+    \subitem {list}, \hyperpage{27}
+    \subitem {verify}, \hyperpage{28}
+
+  \indexspace
+
+  \item {nick}, \hyperpage{28}
+    \subitem {nick}, \hyperpage{28}
+    \subitem {verify}, \hyperpage{29}
+
+  \indexspace
+
+  \item {O\-P\-E\-R\-A\-T\-O\-R}
+    \subitem {channel.\-h}, \hyperpage{38}
+  \item {on\discretionary {-}{}{}Data\discretionary {-}{}{}Ready}
+    \subitem {Client}, \hyperpage{18}
+  \item {op}, \hyperpage{29}
+    \subitem {op}, \hyperpage{29}
+    \subitem {verify}, \hyperpage{29}
+
+  \indexspace
+
+  \item {privmsg}, \hyperpage{30}
+    \subitem {privmsg}, \hyperpage{30}
+    \subitem {verify}, \hyperpage{30}
+  \item {publish}
+    \subitem {bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}, 
+		\hyperpage{14}
+  \item {pubmsg}, \hyperpage{31}
+    \subitem {pubmsg}, \hyperpage{31}
+    \subitem {verify}, \hyperpage{31}
+
+  \indexspace
+
+  \item {R\-E\-G\-U\-L\-A\-R}
+    \subitem {channel.\-h}, \hyperpage{38}
+  \item {remove\discretionary {-}{}{}Client}
+    \subitem {Channel}, \hyperpage{16}
+
+  \indexspace
+
+  \item {Server}, \hyperpage{32}
+  \item {server.\discretionary {-}{}{}h}, \hyperpage{40}
+  \item {set\discretionary {-}{}{}Msg}
+    \subitem {Client}, \hyperpage{18}
+  \item {set\discretionary {-}{}{}Nickname}
+    \subitem {Client}, \hyperpage{19}
+  \item {set\discretionary {-}{}{}Socket}
+    \subitem {Client}, \hyperpage{19}
+  \item {set\discretionary {-}{}{}State}
+    \subitem {Client}, \hyperpage{19}
+  \item {set\discretionary {-}{}{}Topic}
+    \subitem {Channel}, \hyperpage{16}
+  \item {status}
+    \subitem {channel.\discretionary {-}{}{}h}, \hyperpage{38}
+
+  \indexspace
+
+  \item {topic}, \hyperpage{33}
+    \subitem {topic}, \hyperpage{33}
+    \subitem {verify}, \hyperpage{33}
+
+  \indexspace
+
+  \item {unban}, \hyperpage{34}
+    \subitem {unban}, \hyperpage{34}
+    \subitem {verify}, \hyperpage{34}
+  \item {unban\discretionary {-}{}{}Client}
+    \subitem {Channel}, \hyperpage{16}
+
+  \indexspace
+
+  \item {verify}
+    \subitem {ban}, \hyperpage{11}
+    \subitem {banlist}, \hyperpage{12}
+    \subitem {cwho}, \hyperpage{22}
+    \subitem {deop}, \hyperpage{22}
+    \subitem {gwho}, \hyperpage{24}
+    \subitem {join}, \hyperpage{25}
+    \subitem {kick}, \hyperpage{26}
+    \subitem {leave}, \hyperpage{27}
+    \subitem {list}, \hyperpage{28}
+    \subitem {nick}, \hyperpage{29}
+    \subitem {op}, \hyperpage{29}
+    \subitem {privmsg}, \hyperpage{30}
+    \subitem {pubmsg}, \hyperpage{31}
+    \subitem {topic}, \hyperpage{33}
+    \subitem {unban}, \hyperpage{34}
+
+\end{theindex}

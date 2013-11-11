@@ -1,0 +1,71 @@
+\hypertarget{classjoin}{\section{join Class Reference}
+\label{classjoin}\index{join@{join}}
+}
+Inheritance diagram for join\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classjoin}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjoin_a434e7aa6f423ea8b6b5525be2c3c34de}{join} (\hyperlink{class_client}{Client} $\ast$sender, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual quint8 \hyperlink{classjoin_a337d116b5349fc12942d52588b7b695d}{verify} ()
+\begin{DoxyCompactList}\small\item\em Check the validity of the command according to the parameters contained in the frame given to the construcor. \end{DoxyCompactList}\item 
+\hypertarget{classjoin_acbcbe84fa0b91982ae52d64feebdc74d}{virtual quint8 {\bfseries execute} ()}\label{classjoin_acbcbe84fa0b91982ae52d64feebdc74d}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classjoin_a434e7aa6f423ea8b6b5525be2c3c34de}{\index{join@{join}!join@{join}}
+\index{join@{join}!join@{join}}
+\subsubsection[{join}]{\setlength{\rightskip}{0pt plus 5cm}join\-::join (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{sender, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)}}\label{classjoin_a434e7aa6f423ea8b6b5525be2c3c34de}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \-: A pointer on the client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to parameterized the command. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classjoin_a337d116b5349fc12942d52588b7b695d}{\index{join@{join}!verify@{verify}}
+\index{verify@{verify}!join@{join}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}quint8 join\-::verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classjoin_a337d116b5349fc12942d52588b7b695d}
+
+
+Check the validity of the command according to the parameters contained in the frame given to the construcor. 
+
+The method begin to check if one argument is missing and then check wether the channel name given is valid or not.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg} if an argument is missing, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974ca2357c51e16615bb8e0cdbdc4260edf40}{E\-R\-R\-O\-R\-::e\-Bad\-Arg} if the channel name given isn't valid, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} if the command is valid. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_command}{Command}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}

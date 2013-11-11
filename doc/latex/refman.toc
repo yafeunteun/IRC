@@ -1,0 +1,150 @@
+\contentsline {chapter}{\numberline {1}Namespace Index}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Namespace List}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}Hierarchical Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Class Hierarchy}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}Class Index}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Class List}{5}{section.3.1}
+\contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}
+\contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}
+\contentsline {chapter}{\numberline {5}Namespace Documentation}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}C\discretionary {-}{}{}M\discretionary {-}{}{}D Namespace Reference}{9}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{9}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Enumeration Type Documentation}{9}{subsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.2.1}anonymous enum}{9}{subsubsection.5.1.2.1}
+\contentsline {section}{\numberline {5.2}E\discretionary {-}{}{}R\discretionary {-}{}{}R\discretionary {-}{}{}O\discretionary {-}{}{}R Namespace Reference}{10}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Detailed Description}{10}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Enumeration Type Documentation}{10}{subsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.2.1}anonymous enum}{10}{subsubsection.5.2.2.1}
+\contentsline {chapter}{\numberline {6}Class Documentation}{11}{chapter.6}
+\contentsline {section}{\numberline {6.1}ban Class Reference}{11}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Constructor \& Destructor Documentation}{11}{subsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.1.1}ban}{11}{subsubsection.6.1.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Member Function Documentation}{11}{subsection.6.1.2}
+\contentsline {subsubsection}{\numberline {6.1.2.1}verify}{11}{subsubsection.6.1.2.1}
+\contentsline {section}{\numberline {6.2}banlist Class Reference}{12}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Constructor \& Destructor Documentation}{12}{subsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.1.1}banlist}{12}{subsubsection.6.2.1.1}
+\contentsline {subsection}{\numberline {6.2.2}Member Function Documentation}{12}{subsection.6.2.2}
+\contentsline {subsubsection}{\numberline {6.2.2.1}verify}{12}{subsubsection.6.2.2.1}
+\contentsline {section}{\numberline {6.3}bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log Class Reference}{13}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{13}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Constructor \& Destructor Documentation}{13}{subsection.6.3.2}
+\contentsline {subsubsection}{\numberline {6.3.2.1}bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log}{13}{subsubsection.6.3.2.1}
+\contentsline {subsection}{\numberline {6.3.3}Member Function Documentation}{13}{subsection.6.3.3}
+\contentsline {subsubsection}{\numberline {6.3.3.1}bd\discretionary {-}{}{}Log\discretionary {-}{}{}Message}{13}{subsubsection.6.3.3.1}
+\contentsline {subsubsection}{\numberline {6.3.3.2}publish}{14}{subsubsection.6.3.3.2}
+\contentsline {section}{\numberline {6.4}Channel Class Reference}{14}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{15}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}Constructor \& Destructor Documentation}{15}{subsection.6.4.2}
+\contentsline {subsubsection}{\numberline {6.4.2.1}Channel}{15}{subsubsection.6.4.2.1}
+\contentsline {subsection}{\numberline {6.4.3}Member Function Documentation}{15}{subsection.6.4.3}
+\contentsline {subsubsection}{\numberline {6.4.3.1}add\discretionary {-}{}{}Client}{15}{subsubsection.6.4.3.1}
+\contentsline {subsubsection}{\numberline {6.4.3.2}get\discretionary {-}{}{}Channel\discretionary {-}{}{}Name}{15}{subsubsection.6.4.3.2}
+\contentsline {subsubsection}{\numberline {6.4.3.3}get\discretionary {-}{}{}Client\discretionary {-}{}{}List}{15}{subsubsection.6.4.3.3}
+\contentsline {subsubsection}{\numberline {6.4.3.4}get\discretionary {-}{}{}Topic}{16}{subsubsection.6.4.3.4}
+\contentsline {subsubsection}{\numberline {6.4.3.5}is\discretionary {-}{}{}Status}{16}{subsubsection.6.4.3.5}
+\contentsline {subsubsection}{\numberline {6.4.3.6}remove\discretionary {-}{}{}Client}{16}{subsubsection.6.4.3.6}
+\contentsline {subsubsection}{\numberline {6.4.3.7}set\discretionary {-}{}{}Topic}{16}{subsubsection.6.4.3.7}
+\contentsline {subsubsection}{\numberline {6.4.3.8}unban\discretionary {-}{}{}Client}{16}{subsubsection.6.4.3.8}
+\contentsline {section}{\numberline {6.5}Client Class Reference}{17}{section.6.5}
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{17}{subsection.6.5.1}
+\contentsline {subsection}{\numberline {6.5.2}Constructor \& Destructor Documentation}{18}{subsection.6.5.2}
+\contentsline {subsubsection}{\numberline {6.5.2.1}Client}{18}{subsubsection.6.5.2.1}
+\contentsline {subsection}{\numberline {6.5.3}Member Function Documentation}{18}{subsection.6.5.3}
+\contentsline {subsubsection}{\numberline {6.5.3.1}get\discretionary {-}{}{}Msg}{18}{subsubsection.6.5.3.1}
+\contentsline {subsubsection}{\numberline {6.5.3.2}get\discretionary {-}{}{}Nickname}{18}{subsubsection.6.5.3.2}
+\contentsline {subsubsection}{\numberline {6.5.3.3}get\discretionary {-}{}{}Socket}{18}{subsubsection.6.5.3.3}
+\contentsline {subsubsection}{\numberline {6.5.3.4}get\discretionary {-}{}{}State}{18}{subsubsection.6.5.3.4}
+\contentsline {subsubsection}{\numberline {6.5.3.5}on\discretionary {-}{}{}Data\discretionary {-}{}{}Ready}{18}{subsubsection.6.5.3.5}
+\contentsline {subsubsection}{\numberline {6.5.3.6}set\discretionary {-}{}{}Msg}{19}{subsubsection.6.5.3.6}
+\contentsline {subsubsection}{\numberline {6.5.3.7}set\discretionary {-}{}{}Nickname}{19}{subsubsection.6.5.3.7}
+\contentsline {subsubsection}{\numberline {6.5.3.8}set\discretionary {-}{}{}Socket}{19}{subsubsection.6.5.3.8}
+\contentsline {subsubsection}{\numberline {6.5.3.9}set\discretionary {-}{}{}State}{19}{subsubsection.6.5.3.9}
+\contentsline {section}{\numberline {6.6}Command Class Reference}{19}{section.6.6}
+\contentsline {subsection}{\numberline {6.6.1}Detailed Description}{20}{subsection.6.6.1}
+\contentsline {subsection}{\numberline {6.6.2}Member Function Documentation}{20}{subsection.6.6.2}
+\contentsline {subsubsection}{\numberline {6.6.2.1}get\discretionary {-}{}{}Command}{21}{subsubsection.6.6.2.1}
+\contentsline {section}{\numberline {6.7}cwho Class Reference}{21}{section.6.7}
+\contentsline {subsection}{\numberline {6.7.1}Constructor \& Destructor Documentation}{21}{subsection.6.7.1}
+\contentsline {subsubsection}{\numberline {6.7.1.1}cwho}{21}{subsubsection.6.7.1.1}
+\contentsline {subsection}{\numberline {6.7.2}Member Function Documentation}{22}{subsection.6.7.2}
+\contentsline {subsubsection}{\numberline {6.7.2.1}verify}{22}{subsubsection.6.7.2.1}
+\contentsline {section}{\numberline {6.8}deop Class Reference}{22}{section.6.8}
+\contentsline {subsection}{\numberline {6.8.1}Constructor \& Destructor Documentation}{22}{subsection.6.8.1}
+\contentsline {subsubsection}{\numberline {6.8.1.1}deop}{22}{subsubsection.6.8.1.1}
+\contentsline {subsection}{\numberline {6.8.2}Member Function Documentation}{22}{subsection.6.8.2}
+\contentsline {subsubsection}{\numberline {6.8.2.1}verify}{23}{subsubsection.6.8.2.1}
+\contentsline {section}{\numberline {6.9}Frame Class Reference}{23}{section.6.9}
+\contentsline {section}{\numberline {6.10}gwho Class Reference}{23}{section.6.10}
+\contentsline {subsection}{\numberline {6.10.1}Constructor \& Destructor Documentation}{24}{subsection.6.10.1}
+\contentsline {subsubsection}{\numberline {6.10.1.1}gwho}{24}{subsubsection.6.10.1.1}
+\contentsline {subsection}{\numberline {6.10.2}Member Function Documentation}{24}{subsection.6.10.2}
+\contentsline {subsubsection}{\numberline {6.10.2.1}verify}{24}{subsubsection.6.10.2.1}
+\contentsline {section}{\numberline {6.11}join Class Reference}{24}{section.6.11}
+\contentsline {subsection}{\numberline {6.11.1}Constructor \& Destructor Documentation}{25}{subsection.6.11.1}
+\contentsline {subsubsection}{\numberline {6.11.1.1}join}{25}{subsubsection.6.11.1.1}
+\contentsline {subsection}{\numberline {6.11.2}Member Function Documentation}{25}{subsection.6.11.2}
+\contentsline {subsubsection}{\numberline {6.11.2.1}verify}{25}{subsubsection.6.11.2.1}
+\contentsline {section}{\numberline {6.12}kick Class Reference}{25}{section.6.12}
+\contentsline {subsection}{\numberline {6.12.1}Constructor \& Destructor Documentation}{26}{subsection.6.12.1}
+\contentsline {subsubsection}{\numberline {6.12.1.1}kick}{26}{subsubsection.6.12.1.1}
+\contentsline {subsection}{\numberline {6.12.2}Member Function Documentation}{26}{subsection.6.12.2}
+\contentsline {subsubsection}{\numberline {6.12.2.1}verify}{26}{subsubsection.6.12.2.1}
+\contentsline {section}{\numberline {6.13}leave Class Reference}{26}{section.6.13}
+\contentsline {subsection}{\numberline {6.13.1}Constructor \& Destructor Documentation}{26}{subsection.6.13.1}
+\contentsline {subsubsection}{\numberline {6.13.1.1}leave}{27}{subsubsection.6.13.1.1}
+\contentsline {subsection}{\numberline {6.13.2}Member Function Documentation}{27}{subsection.6.13.2}
+\contentsline {subsubsection}{\numberline {6.13.2.1}verify}{27}{subsubsection.6.13.2.1}
+\contentsline {section}{\numberline {6.14}list Class Reference}{27}{section.6.14}
+\contentsline {subsection}{\numberline {6.14.1}Constructor \& Destructor Documentation}{27}{subsection.6.14.1}
+\contentsline {subsubsection}{\numberline {6.14.1.1}list}{27}{subsubsection.6.14.1.1}
+\contentsline {subsection}{\numberline {6.14.2}Member Function Documentation}{28}{subsection.6.14.2}
+\contentsline {subsubsection}{\numberline {6.14.2.1}verify}{28}{subsubsection.6.14.2.1}
+\contentsline {section}{\numberline {6.15}nick Class Reference}{28}{section.6.15}
+\contentsline {subsection}{\numberline {6.15.1}Constructor \& Destructor Documentation}{28}{subsection.6.15.1}
+\contentsline {subsubsection}{\numberline {6.15.1.1}nick}{28}{subsubsection.6.15.1.1}
+\contentsline {subsection}{\numberline {6.15.2}Member Function Documentation}{29}{subsection.6.15.2}
+\contentsline {subsubsection}{\numberline {6.15.2.1}verify}{29}{subsubsection.6.15.2.1}
+\contentsline {section}{\numberline {6.16}op Class Reference}{29}{section.6.16}
+\contentsline {subsection}{\numberline {6.16.1}Constructor \& Destructor Documentation}{29}{subsection.6.16.1}
+\contentsline {subsubsection}{\numberline {6.16.1.1}op}{29}{subsubsection.6.16.1.1}
+\contentsline {subsection}{\numberline {6.16.2}Member Function Documentation}{29}{subsection.6.16.2}
+\contentsline {subsubsection}{\numberline {6.16.2.1}verify}{30}{subsubsection.6.16.2.1}
+\contentsline {section}{\numberline {6.17}privmsg Class Reference}{30}{section.6.17}
+\contentsline {subsection}{\numberline {6.17.1}Constructor \& Destructor Documentation}{30}{subsection.6.17.1}
+\contentsline {subsubsection}{\numberline {6.17.1.1}privmsg}{30}{subsubsection.6.17.1.1}
+\contentsline {subsection}{\numberline {6.17.2}Member Function Documentation}{30}{subsection.6.17.2}
+\contentsline {subsubsection}{\numberline {6.17.2.1}verify}{30}{subsubsection.6.17.2.1}
+\contentsline {section}{\numberline {6.18}pubmsg Class Reference}{31}{section.6.18}
+\contentsline {subsection}{\numberline {6.18.1}Constructor \& Destructor Documentation}{31}{subsection.6.18.1}
+\contentsline {subsubsection}{\numberline {6.18.1.1}pubmsg}{31}{subsubsection.6.18.1.1}
+\contentsline {subsection}{\numberline {6.18.2}Member Function Documentation}{31}{subsection.6.18.2}
+\contentsline {subsubsection}{\numberline {6.18.2.1}verify}{31}{subsubsection.6.18.2.1}
+\contentsline {section}{\numberline {6.19}Server Class Reference}{32}{section.6.19}
+\contentsline {subsection}{\numberline {6.19.1}Detailed Description}{33}{subsection.6.19.1}
+\contentsline {section}{\numberline {6.20}topic Class Reference}{33}{section.6.20}
+\contentsline {subsection}{\numberline {6.20.1}Constructor \& Destructor Documentation}{33}{subsection.6.20.1}
+\contentsline {subsubsection}{\numberline {6.20.1.1}topic}{33}{subsubsection.6.20.1.1}
+\contentsline {subsection}{\numberline {6.20.2}Member Function Documentation}{33}{subsection.6.20.2}
+\contentsline {subsubsection}{\numberline {6.20.2.1}verify}{33}{subsubsection.6.20.2.1}
+\contentsline {section}{\numberline {6.21}unban Class Reference}{34}{section.6.21}
+\contentsline {subsection}{\numberline {6.21.1}Constructor \& Destructor Documentation}{34}{subsection.6.21.1}
+\contentsline {subsubsection}{\numberline {6.21.1.1}unban}{34}{subsubsection.6.21.1.1}
+\contentsline {subsection}{\numberline {6.21.2}Member Function Documentation}{34}{subsection.6.21.2}
+\contentsline {subsubsection}{\numberline {6.21.2.1}verify}{34}{subsubsection.6.21.2.1}
+\contentsline {chapter}{\numberline {7}File Documentation}{37}{chapter.7}
+\contentsline {section}{\numberline {7.1}bd\discretionary {-}{}{}Platform\discretionary {-}{}{}Log.\discretionary {-}{}{}h File Reference}{37}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Detailed Description}{37}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Enumeration Type Documentation}{37}{subsection.7.1.2}
+\contentsline {subsubsection}{\numberline {7.1.2.1}\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Log\discretionary {-}{}{}Level}{37}{subsubsection.7.1.2.1}
+\contentsline {section}{\numberline {7.2}channel.\discretionary {-}{}{}h File Reference}{38}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Detailed Description}{38}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Enumeration Type Documentation}{38}{subsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.2.1}status}{38}{subsubsection.7.2.2.1}
+\contentsline {section}{\numberline {7.3}client.\discretionary {-}{}{}h File Reference}{38}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{39}{subsection.7.3.1}
+\contentsline {section}{\numberline {7.4}command.\discretionary {-}{}{}h File Reference}{39}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{40}{subsection.7.4.1}
+\contentsline {section}{\numberline {7.5}server.\discretionary {-}{}{}h File Reference}{40}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{40}{subsection.7.5.1}
+\contentsline {part}{Index}{40}{subsection.7.5.1}

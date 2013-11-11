@@ -1,0 +1,71 @@
+\hypertarget{classop}{\section{op Class Reference}
+\label{classop}\index{op@{op}}
+}
+Inheritance diagram for op\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classop}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classop_a8bd0a0f8f907f9cfef9075bee5a63fc7}{op} (\hyperlink{class_client}{Client} $\ast$sender, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual quint8 \hyperlink{classop_a4ee201491ef5db3c0f527748c39a17d0}{verify} ()
+\begin{DoxyCompactList}\small\item\em Check the validity of the command according to the parameters contained in the frame given to the construcor. \end{DoxyCompactList}\item 
+\hypertarget{classop_a27998007c32f82373e5a26e94c69444b}{virtual quint8 {\bfseries execute} ()}\label{classop_a27998007c32f82373e5a26e94c69444b}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classop_a8bd0a0f8f907f9cfef9075bee5a63fc7}{\index{op@{op}!op@{op}}
+\index{op@{op}!op@{op}}
+\subsubsection[{op}]{\setlength{\rightskip}{0pt plus 5cm}op\-::op (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{sender, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)}}\label{classop_a8bd0a0f8f907f9cfef9075bee5a63fc7}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \-: A pointer on the client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to parameterized the command. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classop_a4ee201491ef5db3c0f527748c39a17d0}{\index{op@{op}!verify@{verify}}
+\index{verify@{verify}!op@{op}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}quint8 op\-::verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classop_a4ee201491ef5db3c0f527748c39a17d0}
+
+
+Check the validity of the command according to the parameters contained in the frame given to the construcor. 
+
+The method check wether one argument is missing or not.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg} if an argument is missing, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} if the command is valid. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_command}{Command}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}

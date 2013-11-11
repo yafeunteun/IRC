@@ -1,0 +1,105 @@
+\hypertarget{class_server}{\section{Server Class Reference}
+\label{class_server}\index{Server@{Server}}
+}
+
+
+Class defining the \hyperlink{class_server}{Server}. This class inherits from Q\-Objet to use slots and signals. This class uses the pattern Singleton.  
+
+
+
+
+{\ttfamily \#include $<$server.\-h$>$}
+
+Inheritance diagram for Server\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_server}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_server_a2516adb58a24405e545f1750e8262a95}{void {\bfseries on\-New\-Connection} (void)}\label{class_server_a2516adb58a24405e545f1750e8262a95}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_server_a41439069e542281267592615814c8567}{void {\bfseries del\-Client} (\hyperlink{class_client}{Client} $\ast$c)}\label{class_server_a41439069e542281267592615814c8567}
+
+\item 
+\hypertarget{class_server_a1b6b3b2c620394e09c76cac09f25d42c}{\hyperlink{class_channel}{Channel} $\ast$ {\bfseries get\-Channel\-From\-Name} (Q\-String \&name)}\label{class_server_a1b6b3b2c620394e09c76cac09f25d42c}
+
+\item 
+\hypertarget{class_server_af1d077654e4ae963ead3d188946b1ec8}{\hyperlink{class_client}{Client} $\ast$ {\bfseries get\-Client\-From\-Name} (Q\-String \&name)}\label{class_server_af1d077654e4ae963ead3d188946b1ec8}
+
+\item 
+\hypertarget{class_server_a71ae8b02449d7322528500584c4ebe6c}{quint8 {\bfseries nick} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&nickname)}\label{class_server_a71ae8b02449d7322528500584c4ebe6c}
+
+\item 
+\hypertarget{class_server_aaeb34212af60bac0d2901abcf88d000e}{quint8 {\bfseries privmsg} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest, Q\-String \&message)}\label{class_server_aaeb34212af60bac0d2901abcf88d000e}
+
+\item 
+\hypertarget{class_server_a32c38ccc35ed3a501f64e7ddf74bfef9}{quint8 {\bfseries pubmsg} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest, Q\-String \&message)}\label{class_server_a32c38ccc35ed3a501f64e7ddf74bfef9}
+
+\item 
+\hypertarget{class_server_a561cd772e1d1484711b45cd884072db6}{quint8 {\bfseries join} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest)}\label{class_server_a561cd772e1d1484711b45cd884072db6}
+
+\item 
+\hypertarget{class_server_aa4b10e994e7685a5d74ec56bbd9923b5}{quint8 {\bfseries leave} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest)}\label{class_server_aa4b10e994e7685a5d74ec56bbd9923b5}
+
+\item 
+\hypertarget{class_server_a930fafaa2dd67c9ec396fcc0d4f90f23}{quint8 {\bfseries list} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&filter)}\label{class_server_a930fafaa2dd67c9ec396fcc0d4f90f23}
+
+\item 
+\hypertarget{class_server_a5871d3b0bba590d2d4d5e2b4f658e97f}{quint8 {\bfseries topic} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest, Q\-String \&\hyperlink{classtopic}{topic})}\label{class_server_a5871d3b0bba590d2d4d5e2b4f658e97f}
+
+\item 
+\hypertarget{class_server_aa169501040e47da0c402e945d6ed2658}{quint8 {\bfseries gwho} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&filter)}\label{class_server_aa169501040e47da0c402e945d6ed2658}
+
+\item 
+\hypertarget{class_server_a7eeab62acbd32844092b8ebde87b1f59}{quint8 {\bfseries cwho} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest)}\label{class_server_a7eeab62acbd32844092b8ebde87b1f59}
+
+\item 
+\hypertarget{class_server_a582b1c43b2203842556f027e24c5ab14}{quint8 {\bfseries kick} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel, Q\-String \&dest\-\_\-client)}\label{class_server_a582b1c43b2203842556f027e24c5ab14}
+
+\item 
+\hypertarget{class_server_ac535983e5b7385000dc393c39d14858d}{quint8 {\bfseries ban} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel, Q\-String \&dest\-\_\-client)}\label{class_server_ac535983e5b7385000dc393c39d14858d}
+
+\item 
+\hypertarget{class_server_a7c71f99bf244c49033fe900e03ad63e0}{quint8 {\bfseries unban} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel, Q\-String \&dest\-\_\-client)}\label{class_server_a7c71f99bf244c49033fe900e03ad63e0}
+
+\item 
+\hypertarget{class_server_ac62912fe43e8a654577b966968cdfce2}{quint8 {\bfseries banlist} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel)}\label{class_server_ac62912fe43e8a654577b966968cdfce2}
+
+\item 
+\hypertarget{class_server_a7b1d97bd8e92e8304dcd97087784adf6}{quint8 {\bfseries op} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel, Q\-String \&dest\-\_\-client)}\label{class_server_a7b1d97bd8e92e8304dcd97087784adf6}
+
+\item 
+\hypertarget{class_server_a19104090a1379769df2cb2d15ba7b583}{quint8 {\bfseries deop} (\hyperlink{class_client}{Client} $\ast$c, Q\-String \&dest\-\_\-channel, Q\-String \&dest\-\_\-client)}\label{class_server_a19104090a1379769df2cb2d15ba7b583}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_server_a319f8da4a27ca0b79f37c3d741336464}{static \hyperlink{class_server}{Server} $\ast$ {\bfseries Instance} ()}\label{class_server_a319f8da4a27ca0b79f37c3d741336464}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_server_a1950ac036d86af898428d7ba39bbf048}{{\bfseries Server} (Q\-Object $\ast$parent=0)}\label{class_server_a1950ac036d86af898428d7ba39bbf048}
+
+\item 
+\hypertarget{class_server_a1eb8da7c7b488255612584a4442d09fe}{void {\bfseries broad\-Cast} (Q\-String \&message, quint16 id, quint8 code, \hyperlink{class_channel}{Channel} $\ast$chan=N\-U\-L\-L, \hyperlink{class_client}{Client} $\ast$sender=N\-U\-L\-L)}\label{class_server_a1eb8da7c7b488255612584a4442d09fe}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class defining the \hyperlink{class_server}{Server}. This class inherits from Q\-Objet to use slots and signals. This class uses the pattern Singleton. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{server_8h}{server.\-h}\item 
+server.\-cpp\end{DoxyCompactItemize}

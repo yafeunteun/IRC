@@ -1,0 +1,71 @@
+\hypertarget{classcwho}{\section{cwho Class Reference}
+\label{classcwho}\index{cwho@{cwho}}
+}
+Inheritance diagram for cwho\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcwho}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcwho_a888e4aea47c9c168e45458f051d73a54}{cwho} (\hyperlink{class_client}{Client} $\ast$sender, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual quint8 \hyperlink{classcwho_a9d7adbd6f0f0ef4f767dde1fec3f362b}{verify} ()
+\begin{DoxyCompactList}\small\item\em Check the validity of the command according to the parameters contained in the frame given to the construcor. \end{DoxyCompactList}\item 
+\hypertarget{classcwho_a56c315c0bc6fb216a20601ab80fa3651}{virtual quint8 {\bfseries execute} ()}\label{classcwho_a56c315c0bc6fb216a20601ab80fa3651}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcwho_a888e4aea47c9c168e45458f051d73a54}{\index{cwho@{cwho}!cwho@{cwho}}
+\index{cwho@{cwho}!cwho@{cwho}}
+\subsubsection[{cwho}]{\setlength{\rightskip}{0pt plus 5cm}cwho\-::cwho (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{sender, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)}}\label{classcwho_a888e4aea47c9c168e45458f051d73a54}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \-: A pointer on the client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to parameterized the command. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcwho_a9d7adbd6f0f0ef4f767dde1fec3f362b}{\index{cwho@{cwho}!verify@{verify}}
+\index{verify@{verify}!cwho@{cwho}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}quint8 cwho\-::verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcwho_a9d7adbd6f0f0ef4f767dde1fec3f362b}
+
+
+Check the validity of the command according to the parameters contained in the frame given to the construcor. 
+
+The method check wether one argument is missing or not.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg} if an argument is missing, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} if the command is valid. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_command}{Command}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}

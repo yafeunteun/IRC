@@ -1,0 +1,71 @@
+\hypertarget{classleave}{\section{leave Class Reference}
+\label{classleave}\index{leave@{leave}}
+}
+Inheritance diagram for leave\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classleave}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classleave_a9206f31570d8280baa0afa0f9ce416e7}{leave} (\hyperlink{class_client}{Client} $\ast$sender, \hyperlink{class_frame}{Frame} \&frame)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual quint8 \hyperlink{classleave_a92528ea9c7830dc48df1e7e6b39b7175}{verify} ()
+\begin{DoxyCompactList}\small\item\em Check the validity of the command according to the parameters contained in the frame given to the construcor. \end{DoxyCompactList}\item 
+\hypertarget{classleave_a4b6b2c568d8b522624924780953423f5}{virtual quint8 {\bfseries execute} ()}\label{classleave_a4b6b2c568d8b522624924780953423f5}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classleave_a9206f31570d8280baa0afa0f9ce416e7}{\index{leave@{leave}!leave@{leave}}
+\index{leave@{leave}!leave@{leave}}
+\subsubsection[{leave}]{\setlength{\rightskip}{0pt plus 5cm}leave\-::leave (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} $\ast$}]{sender, }
+\item[{{\bf Frame} \&}]{frame}
+\end{DoxyParamCaption}
+)}}\label{classleave_a9206f31570d8280baa0afa0f9ce416e7}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \-: A pointer on the client who requests the \hyperlink{class_command}{Command} object. \\
+\hline
+{\em frame} & \-: The frame providing all the informations to parameterized the command. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classleave_a92528ea9c7830dc48df1e7e6b39b7175}{\index{leave@{leave}!verify@{verify}}
+\index{verify@{verify}!leave@{leave}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}quint8 leave\-::verify (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classleave_a92528ea9c7830dc48df1e7e6b39b7175}
+
+
+Check the validity of the command according to the parameters contained in the frame given to the construcor. 
+
+The method check wether one argument is missing or not.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cab1afee56c1edb2f0cb40b6bc0e456e7e}{E\-R\-R\-O\-R\-::e\-Missing\-Arg} if an argument is missing, \hyperlink{namespace_e_r_r_o_r_aed14e4eb7f2fd1cd45a3d6fdf5fb974cad05fc784bcbbf72d78d73aa517f0f347}{E\-R\-R\-O\-R\-::esuccess} if the command is valid. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_command}{Command}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{command_8h}{command.\-h}\item 
+command.\-cpp\end{DoxyCompactItemize}
