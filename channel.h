@@ -57,6 +57,8 @@ public:
     void removeClient(Client *c);
     void unbanClient(Client *c);
     bool isStatus(Client * c, status s = REGULAR);
+    void setOperator(Client* c);
+    void unsetOperator(Client* c);
 };
 
 #endif // CHANNEL_H

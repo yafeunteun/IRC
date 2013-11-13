@@ -133,6 +133,36 @@ void Channel::removeClient(Client *c)
 
 
 /*!
+*  \brief Set a client operator
+*
+*  \param c : The address of the client you want to set operator.
+*  \return void.
+*/
+void Channel::setOperator(Client* c)
+{
+    if(this->isStatus(c, REGULAR))
+    {
+        m_operatorList.push_back(c);
+    }
+}
+
+/*!
+*  \brief Unset operator a client
+*
+*  \param c : The address of the client you want to unset operator.
+*  \return void.
+*/
+void Channel::unsetOperator(Client* c)
+{
+    if(this->isStatus(c, REGULAR))
+    {
+        m_operatorList.remove(c);
+    }
+}
+
+
+
+/*!
 *  \brief Check the status of a client on a channel.
 *
 *  \param c : The address of the client you want to check the status.
