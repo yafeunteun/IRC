@@ -493,105 +493,90 @@ quint8 Server::banlist(Client* c, QString& dest_channel)
     return ERROR::eNotExist;
 }
 
+
 quint8 Server::op(Client* c, QString& dest_channel, QString& dest_client)
 {
-    bool destClientFound = false;
+    QString response("");
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* chan = getChannelFromName(dest_channel);
+    if(chan == NULL)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0) //Channel found
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
-
-            if ((*it)->isStatus(c, OPERATOR) != true)
-            {
-                c->getSocket()->write(Frame::getReadyToSendFrame("You don't have enough permissions to invoke this command.", 255, 129));
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-            {
-                if((*_it)->getNickname().compare(dest_client) == 0) //Target client found
-                {
-                    if ((*it)->isStatus(*_it, OPERATOR) == true)
-                    {
-                        c->getSocket()->write(Frame::getReadyToSendFrame("The specified client is already an operator of this channel.", 255, 129));
-                        return ERROR::esuccess;
-                    }
-
-                    (*it)->getClientList(OPERATOR).push_front(*_it);
-                    destClientFound = true;
-                    break;
-                }
-            }
-
-            if (!destClientFound)
-            {
-                bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __FUNCTION__, __LINE__, "The target client was not found.");
-                return ERROR::eNotExist;
-            }
-
-            QString response = c->getNickname() + " gives operator status to " + dest_client + ".";
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            //Send to the whole channel
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-
-            return ERROR::esuccess;
-        }
+        response = "Unknown channel";
+        c->setMsg(response);
+        return ERROR::eNotExist;
     }
-    return ERROR::eNotExist;
+
+    Client* cli = getClientFromName(dest_client);
+    if(cli == NULL)
+    {
+        response = "Unknown client";
+        c->setMsg(response);
+        return ERROR::eNotExist;
+    }
+
+    if (chan->isStatus(c, OPERATOR) != true)
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+    if(!chan->isStatus(cli))
+    {
+        response = "Client " + dest_client + " is not on channel " + dest_channel + "." ;
+        c->setMsg(response);
+        return ERROR::eNotExist;
+    }
+
+    chan->setOperator(cli);
+    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "op";
+    broadCast(response, 255, 130, chan, c);
+
+    return ERROR::esuccess;
 }
+
 
 quint8 Server::deop(Client* c, QString& dest_channel, QString& dest_client)
 {
-    bool destClientFound = false;
+    QString response("");
 
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
+    Channel* chan = getChannelFromName(dest_channel);
+    if(chan == NULL)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0) //Channel found
-        {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
-
-            if ((*it)->isStatus(c, OPERATOR) != true)
-            {
-                c->getSocket()->write(Frame::getReadyToSendFrame("You don't have enough permissions to invoke this command.", 255, 129));
-                return ERROR::eNotAuthorised;
-            }
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-            {
-                if((*_it)->getNickname().compare(dest_client) == 0) //Target client found
-                {
-
-                    (*it)->getClientList(OPERATOR).remove(*_it);
-                    destClientFound = true;
-                    break;
-                }
-            }
-
-            if (!destClientFound)
-            {
-                bdPlatformLog::bdLogMessage(_WARNING, "warn/", "server", __FILE__, __FUNCTION__, __LINE__, "The target client was not found.");
-                return ERROR::eNotExist;
-            }
-
-            QString response = c->getNickname() + " removed operator status to " + dest_client + ".";
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            //Send to the whole channel
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(REGULAR).begin(); _it != (*it)->getClientList(REGULAR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(OPERATOR).begin(); _it != (*it)->getClientList(OPERATOR).end(); ++_it)
-                (*_it)->getSocket()->write(ret_frame);
-
-            return ERROR::esuccess;
-        }
+        response = "Unknown channel";
+        c->setMsg(response);
+        return ERROR::eNotExist;
     }
-    return ERROR::eNotExist;
+
+    Client* cli = getClientFromName(dest_client);
+    if(cli == NULL)
+    {
+        response = "Unknown client";
+        c->setMsg(response);
+        return ERROR::eNotExist;
+    }
+
+    if (chan->isStatus(c, OPERATOR) != true)
+    {
+        return ERROR::eNotAuthorised;
+    }
+
+
+    if(!chan->isStatus(cli))
+    {
+        response = "Client " + dest_client + " is not on channel " + dest_channel + "." ;
+        c->setMsg(response);
+        return ERROR::eNotExist;
+    }
+
+    if(!(chan->isStatus(cli, OPERATOR)))
+    {
+        response = "Client " + dest_client + " is not operator on channel " + dest_channel + ".";
+        c->setMsg(response);
+        return ERROR::error;
+    }
+
+    chan->unsetOperator(cli);
+    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "deop";
+    broadCast(response, 255, 130, chan, c);
+
+    return ERROR::esuccess;
 }

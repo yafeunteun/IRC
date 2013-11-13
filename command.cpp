@@ -38,8 +38,8 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_TOPIC): return new topic(c, frame); break;
         case(C_KICK): return new kick(c, frame); break;
         case(C_BAN): return new ban(c, frame); break;
-        //case(C_OP): return new op(c, frame); break;
-        //case(C_DEOP): return new deop(c, frame); break;
+        case(C_OP): return new op(c, frame); break;
+        case(C_DEOP): return new deop(c, frame); break;
         case(C_JOIN): return new join(c, frame); break;
         case(C_NICK): return new nick(c, frame); break;
         case(C_LEAVE): return new leave(c, frame); break;
