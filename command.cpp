@@ -1,5 +1,6 @@
 #include "command.h"
 #include <QRegularExpression>
+#include "unixregexp.h"
 
 using namespace CMD;
 
@@ -281,10 +282,7 @@ quint8 gwho::verify()
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
-    if(m_filter == "*")         //  A "*" argument will be interpreted as a ".*" regex
-        m_filter = ".*";
-
-    QRegularExpression regex(m_filter);
+    UnixRegExp regex(m_filter);
     if(!regex.isValid())
         return ERROR::eBadArg;
 
@@ -321,10 +319,7 @@ quint8 list::verify()
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
-    if(m_filter == "*")
-        m_filter = ".*";                //  A "*" argument will be interpreted as a ".*" regex
-
-    QRegularExpression regex(m_filter);
+    UnixRegExp regex(m_filter);
     if(!regex.isValid())
         return ERROR::eBadArg;
 

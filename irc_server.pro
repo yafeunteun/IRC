@@ -5,7 +5,8 @@ SOURCES += \
     channel.cpp \
     bdPlatformLog.cpp \
     command.cpp \
-    frame.cpp
+    frame.cpp \
+    unixregexp.cpp
 
 QT = network widgets
 QT += gui
@@ -17,4 +18,5 @@ HEADERS += \
     channel.h \
     bdPlatformLog.h \
     command.h \
-    frame.h
+    frame.h \
+    unixregexp.h

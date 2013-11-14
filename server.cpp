@@ -1,7 +1,8 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include <iostream>
-#include <QRegularExpression>
+//#include <QRegularExpression>
+#include "unixregexp.h"
 
 /* remove the following includes when the project is closed (they are here for debugging) */
 // strings and c-strings
@@ -65,7 +66,7 @@ void Server::onNewConnection(void)
 
 
 /********************
- *    MEMBER         *
+ *    METHODS       *
  ********************/
 
 // returns the channel corresponding to the name given or null if channel doesn't exist.
@@ -137,8 +138,10 @@ void Server::broadCast(QString& message, quint16 id, quint8 code, Channel* chan,
 }
 
 
+
+
 /*********************************************
- *    IMPLEMENTATION OF THE COMMANDS         *
+ *                  NICK                     *
  *********************************************/
 quint8 Server::nick(Client* c, QString& nickname)
 {
@@ -169,6 +172,10 @@ quint8 Server::nick(Client* c, QString& nickname)
 }
 
 
+
+/*********************************************
+ *                  PRIVMSG                  *
+ *********************************************/
 quint8 Server::privmsg(Client* c, QString& dest, QString& message)
 {
 
@@ -190,7 +197,9 @@ quint8 Server::privmsg(Client* c, QString& dest, QString& message)
     }
 }
 
-
+/*********************************************
+ *                  JOIN                     *
+ *********************************************/
 quint8 Server::join(Client* c, QString& dest)
 {
 
@@ -225,6 +234,9 @@ quint8 Server::join(Client* c, QString& dest)
 
 
 
+/*********************************************
+ *                  PUBMSG                   *
+ *********************************************/
 quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 {
     Channel* dest_channel = getChannelFromName(dest);
@@ -244,7 +256,9 @@ quint8 Server::pubmsg(Client* c, QString& dest, QString& message)
 }
 
 
-
+/*********************************************
+ *                  LEAVE                    *
+ *********************************************/
 quint8 Server::leave(Client* c, QString& dest)
 {
 
@@ -266,15 +280,18 @@ quint8 Server::leave(Client* c, QString& dest)
 
 }
 
+
+/*********************************************
+ *                  LIST                     *
+ *********************************************/
 quint8 Server::list(Client* c, QString& filter)
 {
     QString response("");
-    QRegularExpression reg;
-    reg.setPattern(filter);
+    UnixRegExp reg(filter);
 
     for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
-        if(reg.match((*it)->getChannelName()).hasMatch())
+        if(reg.exactMatch((*it)->getChannelName()))
         {
             response += "#" + (*it)->getChannelName() + " " + (*it)->getTopic() + "\n";
         }
@@ -287,6 +304,10 @@ quint8 Server::list(Client* c, QString& filter)
 }
 
 
+
+/*********************************************
+ *                  TOPIC                    *
+ *********************************************/
 quint8 Server::topic(Client* c, QString& dest, QString& topic)
 {
 
@@ -308,15 +329,18 @@ quint8 Server::topic(Client* c, QString& dest, QString& topic)
     return ERROR::esuccess;
 }
 
+
+/*********************************************
+ *                  GWHO                     *
+ *********************************************/
 quint8 Server::gwho(Client* c, QString& filter)
 {
     QString response("");
-    QRegularExpression reg;
-    reg.setPattern(filter);
+    UnixRegExp reg(filter);
 
     for (std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
-        if(reg.match((*it)->getNickname()).hasMatch() && (*it)->getNickname() != c->getNickname() )
+        if(reg.exactMatch((*it)->getNickname()))
             response += (*it)->getNickname() + "\n";
     }
 
@@ -326,6 +350,10 @@ quint8 Server::gwho(Client* c, QString& filter)
     return ERROR::esuccess;
 }
 
+
+/*********************************************
+ *                  CWHO                     *
+ *********************************************/
 quint8 Server::cwho(Client* c, QString& dest)
 {
     QString response("");
@@ -347,8 +375,7 @@ quint8 Server::cwho(Client* c, QString& dest)
 
     for (std::list<Client*>::iterator _it = dest_channel->getClientList(REGULAR).begin(); _it != dest_channel->getClientList(REGULAR).end(); ++_it)
     {
-        if((*_it)->getNickname() != c->getNickname())   // remove this line if you want to display your nick if you're in the channel
-            response += (*_it)->getNickname() + "\n";
+        response += (*_it)->getNickname() + "\n";
     }
 
     response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
@@ -359,6 +386,9 @@ quint8 Server::cwho(Client* c, QString& dest)
 }
 
 
+/*********************************************
+ *                  KICK                     *
+ *********************************************/
 quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
 {
     QString response("");
@@ -402,6 +432,11 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
 
 }
 
+
+
+/*********************************************
+ *                  BAN                      *
+ *********************************************/
 quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
 {
     QString response("");
@@ -413,7 +448,7 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
     }
 
     Client* cli = getClientFromName(dest_client);
-    if(cli == NULL || !(chan->isStatus(cli, REGULAR)))
+    if(cli == NULL)
     {
         return ERROR::eNotExist;
     }
@@ -438,6 +473,9 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& dest_client)
 }
 
 
+/*********************************************
+ *                  UNBAN                    *
+ *********************************************/
 quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
 {
     QString response("");
@@ -467,6 +505,10 @@ quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
     return ERROR::esuccess;
 }
 
+
+/*********************************************
+ *                  BANLIST                  *
+ *********************************************/
 quint8 Server::banlist(Client* c, QString& dest_channel)
 {
     {
@@ -494,6 +536,9 @@ quint8 Server::banlist(Client* c, QString& dest_channel)
 }
 
 
+/*********************************************
+ *                  OP                       *
+ *********************************************/
 quint8 Server::op(Client* c, QString& dest_channel, QString& dest_client)
 {
     QString response("");
@@ -534,6 +579,9 @@ quint8 Server::op(Client* c, QString& dest_channel, QString& dest_client)
 }
 
 
+/*********************************************
+ *                  DEOP                     *
+ *********************************************/
 quint8 Server::deop(Client* c, QString& dest_channel, QString& dest_client)
 {
     QString response("");
