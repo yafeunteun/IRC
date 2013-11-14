@@ -196,11 +196,11 @@ class kick : public Command
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString m_dest_channel, m_dest_client;
+    QString m_dest_channel, m_filter;
 public:
     kick(Client* sender, Frame& frame);
     virtual quint8 verify();
-    virtual quint8 execute() { return m_receiver->kick(m_sender, m_dest_channel, m_dest_client); }
+    virtual quint8 execute() { return m_receiver->kick(m_sender, m_dest_channel, m_filter); }
 };
 
 class ban : public Command

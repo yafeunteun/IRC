@@ -1,14 +1,13 @@
 #include "server.h"
 #include "bdPlatformLog.h"
 #include <iostream>
-//#include <QRegularExpression>
 #include "unixregexp.h"
 
 /* remove the following includes when the project is closed (they are here for debugging) */
 // strings and c-strings
-#include <iostream>
-#include <cstring>
-#include <string>
+//#include <iostream>
+//#include <cstring>
+//#include <string>
 #include "command.h"
 
 
@@ -389,9 +388,13 @@ quint8 Server::cwho(Client* c, QString& dest)
 /*********************************************
  *                  KICK                     *
  *********************************************/
-quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
+
+quint8 Server::kick(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
+    QString name;                           // a nickname found corresponding to the filter
+    UnixRegExp reg(filter);
+    bool match = false;                     // true if one client correponding to the filter is found (used for the returned value)
 
     Channel* chan = getChannelFromName(dest_channel);
     if(chan == NULL)
@@ -399,36 +402,29 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& dest_client)
         return ERROR::eNotExist;
     }
 
-    Client* cli = getClientFromName(dest_client);
-    if(cli == NULL)
-    {
-        return ERROR::eNotExist;
-    }
 
     if (chan->isStatus(c, OPERATOR) != true)
     {
         return ERROR::eNotAuthorised;
     }
 
-    if(!chan->isStatus(cli, REGULAR))
+
+    for (std::list<Client*>::iterator it = chan->getClientList(REGULAR).begin(); it != chan->getClientList(REGULAR).end(); ++it)
     {
-        response = "Target client is not on this channel.";
-        c->setMsg(response);
+        if(reg.exactMatch((*it)->getNickname()) &&  !(chan->isStatus((*it), OPERATOR)))
+        {
+            name = (*it)->getNickname();
+            response = "#" + dest_channel + "\n" + name + "\n" + c->getNickname();
+            chan->removeClient(*it--);
+            broadCast(response, 255, 134, chan, c);
+            match = true;
+        }
+    }
+
+    if(match)
+        return ERROR::esuccess;
+    else
         return ERROR::eNotExist;
-    }
-
-    if(chan->isStatus(cli, OPERATOR))
-    {
-        return ERROR::eNotAuthorised;
-    }
-
-    chan->removeClient(cli);
-
-    response = "#" + dest_channel + "\n" + dest_client + "\n" + c->getNickname();
-    broadCast(response, 255, 134, chan, c);
-
-    return ERROR::esuccess;
-
 
 }
 
