@@ -469,28 +469,28 @@ quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
 
 quint8 Server::banlist(Client* c, QString& dest_channel)
 {
-    QString response("");
-
-    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
-        if((*it)->getChannelName().compare(dest_channel) == 0)
+        QString response("");
+        Channel* chan = getChannelFromName(dest_channel);
+
+        if(chan == NULL)
         {
-            if((*it)->isStatus(c, BANNED) == true)
-                return ERROR::eNotAuthorised;
-
-            for (std::list<Client*>::iterator _it = (*it)->getClientList(BANNED).begin(); _it != (*it)->getClientList(BANNED).end(); ++_it)
-                response += (*_it)->getNickname() + "\n";
-
-            response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
-            QTcpSocket *sock = c->getSocket();
-            // 129 is used but we should ask M.De... what he expects, the code isn't precised in the subject...
-            QByteArray ret_frame = Frame::getReadyToSendFrame(response, 255, 129);
-            sock->write(ret_frame);
-            return ERROR::esuccess;
+            response = "Channel doesn't exist !";
+            c->setMsg(response);
+            return ERROR::eNotExist;
         }
-    }
 
-    return ERROR::eNotExist;
+        for (std::list<Client*>::iterator _it = chan->getClientList(BANNED).begin(); _it != chan->getClientList(BANNED).end(); ++_it)
+        {
+            response += (*_it)->getNickname() + "\n";
+        }
+
+        response = response.trimmed();       // the last client doesn't need a separator, indeed he's the last one.
+
+        c->setMsg(response);
+        return ERROR::esuccess;
+
+    }
 }
 
 

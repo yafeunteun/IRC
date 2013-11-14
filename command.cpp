@@ -44,7 +44,7 @@ Command* Command::getCommand(Client *c, Frame &frame)
         case(C_NICK): return new nick(c, frame); break;
         case(C_LEAVE): return new leave(c, frame); break;
         case(C_UNBAN): return new unban(c, frame); break;
-        //case(C_BANLIST): return new banlist(c, frame); break;
+        case(C_BANLIST): return new banlist(c, frame); break;
         default: /* error */; return NULL;
    }
 
