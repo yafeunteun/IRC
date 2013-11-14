@@ -436,9 +436,7 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& filter)
 quint8 Server::ban(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
-    QString name;                           // a nickname found corresponding to the filter
     UnixRegExp reg(filter);
-    bool match = false;                     // true if one client correponding to the filter is found (used for the returned value)
 
     Channel* chan = getChannelFromName(dest_channel);
     if(chan == NULL)
@@ -457,28 +455,25 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& filter)
     {
         if(reg.exactMatch((*it)->getNickname()) &&  !(chan->isStatus((*it), OPERATOR)))
         {
-            name = (*it)->getNickname();
-            response = "#" + dest_channel + "\n" + name + "\n" + c->getNickname();
             chan->addClient(*it, BANNED);
             chan->removeClient(*it--);
-            broadCast(response, 255, 134, chan, c);
-            match = true;
         }
     }
 
-    if(match)
-        return ERROR::esuccess;
-    else
-        return ERROR::eNotExist;
+    response = "#" + dest_channel + "\n" + "-" + "\n" + filter;
+    broadCast(response, 255, 135, chan, c);
+    return ERROR::esuccess;
+
 }
 
 
 /*********************************************
  *                  UNBAN                    *
  *********************************************/
-quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
+quint8 Server::unban(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
+    UnixRegExp reg(filter);
 
     Channel* chan = getChannelFromName(dest_channel);
     if(chan == NULL)
@@ -486,25 +481,26 @@ quint8 Server::unban(Client* c, QString& dest_channel, QString& dest_client)
         return ERROR::eNotExist;
     }
 
-    Client* cli = getClientFromName(dest_client);
-    if(cli == NULL || !(chan->isStatus(cli, BANNED)))
-    {
-        return ERROR::eNotExist;
-    }
 
     if (chan->isStatus(c, OPERATOR) != true)
     {
         return ERROR::eNotAuthorised;
     }
 
-    chan->unbanClient(cli);
 
-    response = "#" + dest_channel + "\n" + "-" + "\n" + dest_client;
+    for (std::list<Client*>::iterator it = chan->getClientList(BANNED).begin(); it != chan->getClientList(BANNED).end(); ++it)
+    {
+        if( reg.exactMatch((*it)->getNickname()) )
+        {
+            chan->unbanClient(*it--);
+        }
+    }
+
+    response = "#" + dest_channel + "\n" + "-" + "\n" + filter;
     broadCast(response, 255, 135, chan, c);
-
     return ERROR::esuccess;
-}
 
+}
 
 /*********************************************
  *                  BANLIST                  *

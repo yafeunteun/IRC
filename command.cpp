@@ -499,14 +499,14 @@ unban::unban(Client *sender, Frame &frame)
     else
     {
         m_dest_channel = frame.getArgList()[0];
-        m_dest_client = frame.getArgList()[1];
+        m_filter = frame.getArgList()[1];
     }
 }
 
 /*!
 *  \brief Check the validity of the command according to the parameters contained in the frame given to the construcor.
 *
-*  The method check wether one argument is missing or not.
+*  The method check wether one argument is missing or not and then check wether the regex given is valid or not.
 *
 *  \return ERROR::eMissingArg if an argument is missing, ERROR::esuccess if
 *   the command is valid.
@@ -515,6 +515,11 @@ quint8 unban::verify()
 {
     if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
+
+    UnixRegExp regex(m_filter);
+    if(!regex.isValid())
+    return ERROR::eBadArg;
+
     return ERROR::esuccess;
 }
 

@@ -215,16 +215,16 @@ public:
     virtual quint8 execute() { return m_receiver->ban(m_sender, m_dest_channel, m_filter); }
 };
 
-class unban : public Command //We don't support multi-unban as purposed on the subject.
+class unban : public Command
 {
 private:
     Client* m_sender;
     Server* m_receiver;
-    QString m_dest_channel, m_dest_client;
+    QString m_dest_channel, m_filter;
 public:
     unban(Client* sender, Frame& frame);
     virtual quint8 verify();
-    virtual quint8 execute() { return m_receiver->unban(m_sender, m_dest_channel, m_dest_client); }
+    virtual quint8 execute() { return m_receiver->unban(m_sender, m_dest_channel, m_filter); }
 };
 
 class banlist : public Command
