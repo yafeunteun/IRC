@@ -51,7 +51,7 @@ public:
     quint8 gwho(Client* c, QString& filter);
     quint8 cwho(Client* c, QString& dest);
     quint8 kick(Client* c, QString& dest_channel, QString& filter);
-    quint8 ban(Client* c, QString& dest_channel, QString& dest_client);
+    quint8 ban(Client* c, QString& dest_channel, QString& filter);
     quint8 unban(Client* c, QString& dest_channel, QString& dest_client);
     quint8 banlist(Client* c, QString& dest_channel);
     quint8 op(Client* c, QString& dest_channel, QString& dest_client);
