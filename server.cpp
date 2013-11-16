@@ -533,14 +533,16 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& filter)
     }
 
 
-    for (std::list<Client*>::iterator it = chan->getClientList(REGULAR).begin(); it != chan->getClientList(REGULAR).end(); ++it)
+    for (std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
         if(reg.exactMatch((*it)->getNickname()) &&  !(chan->isStatus((*it), OPERATOR)))
         {
             chan->addClient(*it, BANNED);
-            chan->removeClient(*it--);
+            if(chan->isStatus((*it), REGULAR))
+                chan->removeClient(*it);
         }
     }
+
 
     response = "#" + dest_channel + "\n" + "-" + "\n" + filter;
     broadCast(response, 255, 135, chan, c);

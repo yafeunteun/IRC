@@ -3,10 +3,8 @@ SOURCES += \
     server.cpp \
     client.cpp \
     channel.cpp \
-    bdPlatformLog.cpp \
     command.cpp \
-    frame.cpp \
-    unixregexp.cpp
+    frame.cpp
 
 QT = network widgets
 QT += gui
@@ -16,7 +14,5 @@ HEADERS += \
     server.h \
     client.h \
     channel.h \
-    bdPlatformLog.h \
     command.h \
-    frame.h \
-    unixregexp.h
+    frame.h
