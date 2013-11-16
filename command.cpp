@@ -1,6 +1,6 @@
 #include "command.h"
 #include <QRegularExpression>
-#include "unixregexp.h"
+#include <QRegExp>
 
 using namespace CMD;
 
@@ -282,7 +282,7 @@ quint8 gwho::verify()
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
-    UnixRegExp regex(m_filter);
+    QRegExp regex(m_filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     if(!regex.isValid())
         return ERROR::eBadArg;
 
@@ -319,7 +319,7 @@ quint8 list::verify()
     if(m_filter.isEmpty())
         return ERROR::eMissingArg;
 
-    UnixRegExp regex(m_filter);
+    QRegExp regex(m_filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     if(!regex.isValid())
         return ERROR::eBadArg;
 
@@ -432,7 +432,7 @@ quint8 kick::verify()
     if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
 
-    UnixRegExp regex(m_filter);
+    QRegExp regex(m_filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     if(!regex.isValid())
     return ERROR::eBadArg;
 
@@ -474,7 +474,7 @@ quint8 ban::verify()
     if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
 
-    UnixRegExp regex(m_filter);
+    QRegExp regex(m_filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     if(!regex.isValid())
     return ERROR::eBadArg;
 
@@ -516,7 +516,7 @@ quint8 unban::verify()
     if(m_dest_channel.isEmpty())
         return ERROR::eMissingArg;
 
-    UnixRegExp regex(m_filter);
+    QRegExp regex(m_filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     if(!regex.isValid())
     return ERROR::eBadArg;
 

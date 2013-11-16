@@ -1,6 +1,5 @@
 #include <QApplication>
 #include "server.h"
-#include "bdPlatformLog.h"
 
 
 int main(int argc, char* argv[])

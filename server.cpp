@@ -1,19 +1,14 @@
-#include "server.h"
-#include "bdPlatformLog.h"
 #include <iostream>
-#include "unixregexp.h"
-
-/* remove the following includes when the project is closed (they are here for debugging) */
-// strings and c-strings
-//#include <iostream>
-//#include <cstring>
-//#include <string>
+#include <QRegExp>
+#include <QFile>
+#include <QTextStream>
 #include "command.h"
+#include "server.h"
 
 
-/********************
- *  STATIC MEMBERS  *
- ********************/
+/*********************
+ *    SINGLETON      *
+ *********************/
 Server* Server::_instance = 0;
 
 Server* Server::Instance() {
@@ -25,33 +20,98 @@ Server* Server::Instance() {
 }
 
 /********************
+ *    init          *
+ ********************/
+
+/*!
+ *  \brief Initialize the server from the server.conf file.
+ *
+ *  The file server.conf must be placed in the folder of the executable program.
+ */
+void Server::init(void)
+{
+    QFile conf("./server.conf");
+    if( conf.open(QFile::ReadOnly) )
+    {
+        QTextStream in(&conf);
+
+        QStringList args;
+
+        while(!in.atEnd())
+        {
+            QString data;
+            data = in.read(1);
+            if(data == ">")
+            {
+                data = in.readLine();
+                data.simplified();
+                args.append(data);
+            }
+            else
+                in.readLine();
+        }
+
+        qint16 port, numConnections;
+        port = args[0].toInt();
+        if(port == 0)
+            port = 3074;
+        QHostAddress addr(args[1]);
+        numConnections = args[2].toInt();
+        m_tcpServer = new QTcpServer(this);
+        m_tcpServer->setMaxPendingConnections(numConnections);
+        m_tcpServer->listen(addr, port);
+
+        conf.close();
+        return;
+
+    }
+    else
+    {
+        std::cout<<"[CRITICAL] "<<conf.fileName().toStdString()<<" : "<<conf.errorString().toStdString()<<std::endl;
+        exit(-1);
+    }
+
+}
+
+
+/********************
  *    CONSTRUCTOR   *
  ********************/
+/*!
+*  \brief Constructor
+*/
 Server::Server(QObject* parent) : QObject(parent)
 {
-    qint16 port = 3074;
-    int numConnections = 50;
-    m_tcpServer = new QTcpServer(this);
+    this->init();
 
-    m_tcpServer->listen(QHostAddress::Any, port);
-    m_tcpServer->setMaxPendingConnections(numConnections);
-
-    QObject::connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
-
-    bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __FUNCTION__, __LINE__, "Sole instance of server has been created successfully !");
-
+    if(m_tcpServer->isListening()){
+        QObject::connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+    }
+    else{
+        std::cout<<"[CRITICAL] "<<m_tcpServer->errorString().toStdString()<<std::endl;
+        exit(-1);
+    }
 }
 
 /********************
  *    DESTRUCTOR    *
  ********************/
+/*!
+*  \brief Destructor
+*/
 Server::~Server()
 {
+    while(!m_listClients.empty()) delete m_listClients.front(), m_listClients.pop_front();
+    while(!m_listChannels.empty()) delete m_listChannels.front(), m_listChannels.pop_front();
+    delete(m_tcpServer);
 }
 
 /********************
  *    SLOTS         *
  ********************/
+/*!
+*  \brief Create and add a client to the server
+*/
 void Server::onNewConnection(void)
 {
 
@@ -59,16 +119,15 @@ void Server::onNewConnection(void)
 
      Client* c = new Client(socket, this);
      m_listClients.push_back(c);
-
-     bdPlatformLog::bdLogMessage(_DEBUG, "debug/", "server", __FILE__, __FUNCTION__, __LINE__, "new client [%d] added successfully !", c->getSocket()->socketDescriptor());
 }
 
 
 /********************
  *    METHODS       *
  ********************/
-
-// returns the channel corresponding to the name given or null if channel doesn't exist.
+/*!
+*  \return the channel corresponding to the name given or null if channel doesn't exist.
+*/
 Channel* Server::getChannelFromName(QString& name)
 {
     for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
@@ -80,6 +139,9 @@ Channel* Server::getChannelFromName(QString& name)
     return NULL;
 }
 
+/*!
+*  \return the client corresponding to the name given or null if channel doesn't exist.
+*/
 Client* Server::getClientFromName(QString& name)
 {
     for(std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
@@ -92,15 +154,33 @@ Client* Server::getClientFromName(QString& name)
 }
 
 
-
+/*!
+*  \brief Remove a client from the server list of clients.
+*/
 void Server::delClient(Client* c)
 {
+    for(std::list<Channel*>::iterator it = m_listChannels.begin(); it !=m_listChannels.end(); ++it)
+    {
+        if((*it)->isStatus(c, REGULAR))
+        {
+            (*it)->removeClient(c);
+            if((*it)->isEmpty())
+                m_listChannels.remove(*it--);
+        }
+    }
     m_listClients.remove(c);
 }
-
-
-// if chan is not specified, message will be sent to all clients connected to the server
-// if a sender is specified, message will not be sent to him
+/*!
+*  \brief Broadcast a message on several channels/to several clients.
+*
+*  \param message : The message to broadcast.
+*  \param id : the id of the message (in our protocol, always 255).
+*  \param code : see protocol description document.
+*  \param chan : if chan is not specified, message will be sent to all clients connected to the server else,
+*    the message will be sent to all the clients connected to the channel.
+*  \param sender : if a sender is specified, message will not be sent to him.
+*  false sinon
+*/
 void Server::broadCast(QString& message, quint16 id, quint8 code, Channel* chan, Client* sender)
 {
     QByteArray response = Frame::getReadyToSendFrame(message, id, code);
@@ -190,7 +270,8 @@ quint8 Server::privmsg(Client* c, QString& dest, QString& message)
     else
     {
         QTcpSocket *sock = dest_client->getSocket();
-        QByteArray response = Frame::getReadyToSendFrame(c->getNickname() + "\n" + message, 255, 129);
+        QString data = c->getNickname() + "\n" + message;
+        QByteArray response = Frame::getReadyToSendFrame(data, 255, 129);
         sock->write(response);
         return ERROR::esuccess;
     }
@@ -271,11 +352,12 @@ quint8 Server::leave(Client* c, QString& dest)
     else
     {
         dest_channel->removeClient(c);
+        if(dest_channel->isEmpty())
+            this->m_listChannels.remove(dest_channel);
         QString msg = "#" + dest + "\n" + c->getNickname();
         broadCast(msg, 255, 133, dest_channel, c);
         return ERROR::esuccess;
     }
-
 
 }
 
@@ -286,7 +368,7 @@ quint8 Server::leave(Client* c, QString& dest)
 quint8 Server::list(Client* c, QString& filter)
 {
     QString response("");
-    UnixRegExp reg(filter);
+    QRegExp reg(filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
 
     for(std::list<Channel*>::iterator it = m_listChannels.begin(); it != m_listChannels.end(); ++it)
     {
@@ -335,7 +417,7 @@ quint8 Server::topic(Client* c, QString& dest, QString& topic)
 quint8 Server::gwho(Client* c, QString& filter)
 {
     QString response("");
-    UnixRegExp reg(filter);
+    QRegExp reg(filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
 
     for (std::list<Client*>::iterator it = m_listClients.begin(); it != m_listClients.end(); ++it)
     {
@@ -393,7 +475,7 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
     QString name;                           // a nickname found corresponding to the filter
-    UnixRegExp reg(filter);
+    QRegExp reg(filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
     bool match = false;                     // true if one client correponding to the filter is found (used for the returned value)
 
     Channel* chan = getChannelFromName(dest_channel);
@@ -436,7 +518,7 @@ quint8 Server::kick(Client* c, QString& dest_channel, QString& filter)
 quint8 Server::ban(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
-    UnixRegExp reg(filter);
+    QRegExp reg(filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
 
     Channel* chan = getChannelFromName(dest_channel);
     if(chan == NULL)
@@ -473,7 +555,7 @@ quint8 Server::ban(Client* c, QString& dest_channel, QString& filter)
 quint8 Server::unban(Client* c, QString& dest_channel, QString& filter)
 {
     QString response("");
-    UnixRegExp reg(filter);
+    QRegExp reg(filter, Qt::CaseSensitive, QRegExp::WildcardUnix);
 
     Channel* chan = getChannelFromName(dest_channel);
     if(chan == NULL)
@@ -568,7 +650,7 @@ quint8 Server::op(Client* c, QString& dest_channel, QString& dest_client)
     }
 
     chan->setOperator(cli);
-    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "op";
+    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "op : " + cli->getNickname() ;
     broadCast(response, 255, 130, chan, c);
 
     return ERROR::esuccess;
@@ -619,7 +701,7 @@ quint8 Server::deop(Client* c, QString& dest_channel, QString& dest_client)
     }
 
     chan->unsetOperator(cli);
-    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "deop";
+    response = c->getNickname() + "\n" + chan->getChannelName() + "\n" + "deop : " + cli->getNickname();
     broadCast(response, 255, 130, chan, c);
 
     return ERROR::esuccess;

@@ -1,17 +1,19 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+
+
 /*!
  * \file server.h
  * \brief IRC Server
  *  Near-IRC server : A simplified IRC server not in accordance with RFC 1459
- * \author yann feunteun
  */
 
 #include <QTcpServer>
 #include <list>
-#include "client.h"
 #include "channel.h"
+
+class QString;
 
 
 
@@ -25,22 +27,25 @@ class Server : public QObject
     Q_OBJECT
 private:
     static Server* _instance;
-    QTcpServer *m_tcpServer;
-    std::list<Client*> m_listClients;
-    std::list<Channel*> m_listChannels;
+    QTcpServer *m_tcpServer;                /*! Provides a TCP-based server */
+    std::list<Client*> m_listClients;       /*! The list of the clients connected to the server */
+    std::list<Channel*> m_listChannels;     /*! The list of the channel of the server */
+
 protected:
     Server(QObject *parent = 0);
+    void init(); // initialize the server with the file server.conf
     void broadCast(QString& message, quint16 id, quint8 code, Channel *chan = NULL, Client *sender = NULL);
 public:
     ~Server();
     static Server* Instance();
-
     void delClient(Client* c);
-
     Channel* getChannelFromName(QString& name);
     Client* getClientFromName(QString& name);
 
 
+    /*************
+     *  COMMANDS *
+     *************/
     quint8 nick(Client* c, QString& nickname);
     quint8 privmsg(Client* c, QString& dest, QString& message);
     quint8 pubmsg(Client* c, QString& dest, QString& message);

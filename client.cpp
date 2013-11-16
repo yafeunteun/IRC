@@ -45,7 +45,7 @@ Client::~Client()
 void Client::onDisconnection()
 {
     Server* s = Server::Instance();
-    s->delClient(this);
+    s->delClient(this); 
 }
 
 /*!
@@ -64,7 +64,8 @@ void Client::onDataReady()
     if(frame.getCode() != CMD::C_NICK && this->getState() == 0)
     {
         this->m_msg = "You must have a nickname before ! Please use /nick <your nickname> without the '<>'";
-        QByteArray response = Frame::getReadyToSendFrame(this->getMsg(), frame.getId(), ERROR::error);
+        QString data = this->getMsg();
+        QByteArray response = Frame::getReadyToSendFrame(data, frame.getId(), ERROR::error);
         this->getSocket()->write(response);
         this->m_msg = "";                       // reset the message held by the client
         return;
@@ -84,7 +85,8 @@ void Client::onDataReady()
         ret_val = command->execute();
     }
 
-    QByteArray response = Frame::getReadyToSendFrame(this->getMsg(), frame.getId(), ret_val);
+    QString msg = this->getMsg();
+    QByteArray response = Frame::getReadyToSendFrame(msg, frame.getId(), ret_val);
     this->getSocket()->write(response);
 
     this->m_msg = "";           // reset the message held by the client

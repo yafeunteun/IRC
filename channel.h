@@ -5,7 +5,6 @@
 /*!
  * \file channel.h
  * \brief This file gathers tools to manage clients inside channels.
- * \author yann feunteun
  */
 
 
@@ -47,7 +46,7 @@ private:
 
 public:
     Channel( const QString& name );
-    ~Channel();
+    ~Channel() {}
 
     void setTopic(const QString &topic );
     QString& getTopic( void );
@@ -59,6 +58,7 @@ public:
     bool isStatus(Client * c, status s = REGULAR);
     void setOperator(Client* c);
     void unsetOperator(Client* c);
+    bool isEmpty(void);
 };
 
 #endif // CHANNEL_H

@@ -4,7 +4,6 @@
 /*!
  * \file client.h
  * \brief This file gathers informations on a client connected to the server using a TCP connection.
- * \author yann feunteun
  */
 
 #include <QTcpSocket>

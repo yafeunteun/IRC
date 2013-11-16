@@ -4,7 +4,6 @@
 /*!
 * \file command.h
 * \brief File containing the declaration of the commands
-* \author yann feunteun
 */
 
 #include "server.h"

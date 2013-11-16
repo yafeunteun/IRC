@@ -1,5 +1,4 @@
 #include "channel.h"
-#include "bdPlatformLog.h"
 
 
 
@@ -69,7 +68,7 @@ std::list<Client*>& Channel::getClientList( status s )
         return m_operatorList;
         break;
     default:
-        bdPlatformLog::bdLogMessage(_ERROR, "fatal_error/", "channel", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Couldn't evaluate second argument wich must be of type status (see channel.h)");
+        std::cout<<"[CRITICAL] : in channel.cpp, getClientList() : "<<"Couldn't evaluate second argument wich must be of type status (see documentation on class channel)"<<std::endl;
         exit(-1);
     }
 }
@@ -97,7 +96,7 @@ void Channel::addClient(Client *c , status s)
         m_operatorList.push_front(c);
         break;
     default:
-        bdPlatformLog::bdLogMessage(_ERROR, "fatal_error/", "channel", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Couldn't evaluate second argument wich must be of type status (see channel.h)");
+        std::cout<<"[CRITICAL]"<<"Couldn't evaluate second argument wich must be of type status (see documentation on class channel)"<<std::endl;
         exit(-1);
     }
 }
@@ -197,7 +196,17 @@ bool Channel::isStatus(Client * c, status s)
          return false;
          break;
      default:
-         bdPlatformLog::bdLogMessage(_ERROR, "fatal_error/", "channel", __FILE__, __PRETTY_FUNCTION__, __LINE__, "Couldn't evaluate second argument wich must be of type status (see channel.h)");
+         std::cout<<"[CRITICAL]"<<"Couldn't evaluate second argument wich must be of type status (see documentation on class channel)"<<std::endl;
          exit(-1);
      }
+}
+
+/*!
+*  \return True if the channel is empty, false either.
+*/
+bool Channel::isEmpty(void)
+{
+    if(m_clientList.size() == 0)
+        return true;
+    return false;
 }
